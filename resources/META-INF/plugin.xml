@@ -1,0 +1,51 @@
+<idea-plugin version="2">
+  <id>org.majki.intellij.ldapbrowser</id>
+  <name>LDAP browser</name>
+  <version>1.0</version>
+  <vendor email="support@majki.org" url="http://majki.org">Majki</vendor>
+
+  <description><![CDATA[
+      Plugin to browser LDAP
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Initial release<br>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="141.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <toolWindow id="LDAP" anchor="left" factoryClass="org.majki.intellij.ldapbrowser.toolwindow.LdapToolWindowFactory" icon="/images/ldap.png"/>
+    <fileEditorProvider id="PersonEditorProvider" implementation="org.majki.intellij.ldapbrowser.editor.PersonEditorProvider"/>
+  </extensions>
+
+  <actions>
+    <group id="ldapbrowser.actionGroup" text="LDAP actions" popup="true"/>
+
+    <action id="ldapbrowser.openConnections" class="org.majki.intellij.ldapbrowser.actions.OpenConnectionsAction" text="Open Connections" icon="/general/settings.png">
+      <add-to-group group-id="ldapbrowser.actionGroup"/>
+    </action>
+
+    <action id="ldapbrowser.refresh" class="org.majki.intellij.ldapbrowser.actions.RefreshAction" text="Refresh" icon="/actions/refresh.png">
+      <add-to-group group-id="ldapbrowser.actionGroup"/>
+    </action>
+  </actions>
+
+  <application-components>
+    <component>
+      <implementation-class>org.majki.intellij.ldapbrowser.config.LdapConnectionsService</implementation-class>
+    </component>
+    <component>
+      <implementation-class>org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel</implementation-class>
+    </component>
+  </application-components>
+
+</idea-plugin>
