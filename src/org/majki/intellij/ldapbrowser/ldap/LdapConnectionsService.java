@@ -1,4 +1,4 @@
-package org.majki.intellij.ldapbrowser.config;
+package org.majki.intellij.ldapbrowser.ldap;
 
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.PersistentStateComponent;

@@ -5,7 +5,7 @@ import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.ui.*;
 import com.intellij.ui.components.*;
 import org.jetbrains.annotations.Nullable;
-import org.majki.intellij.ldapbrowser.config.LdapConnectionInfo;
+import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

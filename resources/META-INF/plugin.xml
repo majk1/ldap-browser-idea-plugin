@@ -24,7 +24,10 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="LDAP" anchor="left" factoryClass="org.majki.intellij.ldapbrowser.toolwindow.LdapToolWindowFactory" icon="/images/ldap.png"/>
-    <fileEditorProvider id="PersonEditorProvider" implementation="org.majki.intellij.ldapbrowser.editor.PersonEditorProvider"/>
+    <fileIconProvider implementation="org.majki.intellij.ldapbrowser.editor.LdapFileIconProvider"/>
+    <editorTabTitleProvider implementation="org.majki.intellij.ldapbrowser.editor.LdapFileIconProvider"/>
+    <fileEditorProvider implementation="org.majki.intellij.ldapbrowser.editor.LdapNodeEditorProvider"/>
+    <fileTypeFactory implementation="org.majki.intellij.ldapbrowser.editor.LdapNodeFileTypeFactory"/>
   </extensions>
 
   <actions>
@@ -41,7 +44,7 @@
 
   <application-components>
     <component>
-      <implementation-class>org.majki.intellij.ldapbrowser.config.LdapConnectionsService</implementation-class>
+      <implementation-class>org.majki.intellij.ldapbrowser.ldap.LdapConnectionsService</implementation-class>
     </component>
     <component>
       <implementation-class>org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel</implementation-class>

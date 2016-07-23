@@ -11,23 +11,25 @@ import org.jetbrains.annotations.NotNull;
  * @author Attila Majoros
  */
 
-public class PersonEditorProvider implements FileEditorProvider {
+public class LdapNodeEditorProvider implements FileEditorProvider {
+
+    private static final String TYPE = "LDAP";
 
     @Override
     public boolean accept(@NotNull Project project, @NotNull VirtualFile virtualFile) {
-        return virtualFile instanceof PersonVirtualFile;
+        return virtualFile instanceof LdapNodeVirtualFile;
     }
 
     @NotNull
     @Override
     public FileEditor createEditor(@NotNull Project project, @NotNull VirtualFile virtualFile) {
-        return new PersonEditor(virtualFile);
+        return new LdapNodeEditor(project, virtualFile);
     }
 
     @NotNull
     @Override
     public String getEditorTypeId() {
-        return "ldapbrowser.personEditor";
+        return TYPE;
     }
 
     @NotNull
@@ -35,5 +37,4 @@ public class PersonEditorProvider implements FileEditorProvider {
     public FileEditorPolicy getPolicy() {
         return FileEditorPolicy.HIDE_DEFAULT_EDITOR;
     }
-
 }
