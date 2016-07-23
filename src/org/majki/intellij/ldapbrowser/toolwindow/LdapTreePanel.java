@@ -179,6 +179,10 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
 
     }
 
+    public Tree getTree() {
+        return tree;
+    }
+
     public void reloadTree() {
         tree.setModel(new DefaultTreeModel(generateTree()));
     }
