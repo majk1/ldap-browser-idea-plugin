@@ -1,6 +1,9 @@
 package org.majki.intellij.ldapbrowser.editor;
 
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
+import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorLocation;
 import com.intellij.openapi.fileEditor.FileEditorState;
@@ -8,6 +11,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.components.JBLabel;
+import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +39,7 @@ public class LdapNodeEditor implements FileEditor {
 
     private JPanel content;
     private JBTable table;
+    private JBPanel toolbarPanel;
 
     public LdapNodeEditor(@NotNull Project project, @NotNull VirtualFile virtualFile) {
         this.project = project;
@@ -46,8 +51,25 @@ public class LdapNodeEditor implements FileEditor {
         this.initialized = false;
     }
 
+    private void createToolbar() {
+
+        ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("ldapbrowser.editorActionGroup");
+        ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar("editorActionToolbar", actionGroup, false);
+        //actionToolbar.setTargetComponent(content);
+        actionToolbar.setOrientation(JToolBar.HORIZONTAL);
+        Box toolbarBox = Box.createHorizontalBox();
+        toolbarBox.add(actionToolbar.getComponent());
+
+        toolbarPanel.setLayout(new BorderLayout());
+        toolbarPanel.add(toolbarBox, BorderLayout.PAGE_START);
+        actionToolbar.getComponent().setVisible(true);
+        //super.setToolbar(toolbarBox);
+    }
+
     private void initialize() {
         if (!initialized) {
+
+            createToolbar();
 
             table.getEmptyText().setText("No attributes");
 

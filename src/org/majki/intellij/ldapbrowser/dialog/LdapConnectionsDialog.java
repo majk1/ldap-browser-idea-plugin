@@ -1,4 +1,4 @@
-package org.majki.intellij.ldapbrowser.toolwindow;
+package org.majki.intellij.ldapbrowser.dialog;
 
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
@@ -63,7 +63,8 @@ public class LdapConnectionsDialog extends DialogWrapper {
             return true;
         };
         connectionListModel = createInfoListModel(ldapConnectionInfos, uniqueNameListener);
-        detailPanel = new JBPanelWithEmptyText(new BorderLayout()).withEmptyText("No connection selected");
+        detailPanel = new JBPanelWithEmptyText(new BorderLayout());
+        detailPanel.getEmptyText().setText("No connection selected");
 
         setTitle("LDAP Connections");
         getContentPane().setPreferredSize(new Dimension(800, 700));

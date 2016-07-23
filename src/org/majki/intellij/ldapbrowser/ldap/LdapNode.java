@@ -46,11 +46,14 @@ public class LdapNode implements Serializable {
 
     private List<String> objectClassValues;
 
-    private LdapNode(LdapConnection connection, LdapNode parent, String dn, String rdn, List<LdapAttribute> attributes) throws LdapException {
+    private LdapObjectClass topObjectClass;
+
+    private LdapNode(LdapConnection connection, LdapNode parent, LdapObjectClass topObjectClass, String dn, String rdn, List<LdapAttribute> attributes) throws LdapException {
         this.connection = connection;
         this.dn = dn;
         this.rdn = rdn;
         this.parent = parent;
+        this.topObjectClass = topObjectClass;
         this.attributes = attributes;
         this.children = null;
         this.objectClassValues = null;
@@ -71,7 +74,7 @@ public class LdapNode implements Serializable {
                     int index = OBJECTCLASS_ATTRIBUTE_NAME.equals(attribute.getId()) ? 0 : attributes.size();
                     attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
                 }
-                children.add(new LdapNode(connection, this, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
+                children.add(new LdapNode(connection, this, topObjectClass, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
             }
         } catch (CursorException e) {
             throw new LdapException("Cursor error", e);
@@ -102,6 +105,10 @@ public class LdapNode implements Serializable {
 
     public LdapNode getParent() {
         return parent;
+    }
+
+    public LdapObjectClass getTopObjectClass() {
+        return topObjectClass;
     }
 
     public boolean hasChildrent() throws LdapException {
@@ -147,7 +154,8 @@ public class LdapNode implements Serializable {
     }
 
     public static LdapNode createRoot(LdapConnection connection, String baseDn) throws LdapException {
-        return new LdapNode(connection, null, baseDn, getRDN(baseDn), Collections.<LdapAttribute>emptyList());
+        LdapObjectClass topObjectClass = LdapObjectClass.getTop(connection);
+        return new LdapNode(connection, null, topObjectClass, baseDn, getRDN(baseDn), Collections.emptyList());
     }
 
     public static String getRDN(String dn) {

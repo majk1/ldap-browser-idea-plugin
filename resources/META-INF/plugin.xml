@@ -32,13 +32,18 @@
 
   <actions>
     <group id="ldapbrowser.actionGroup" text="LDAP actions" popup="true"/>
+    <group id="ldapbrowser.editorActionGroup" text="LDAP editor actions" popup="true"/>
 
-    <action id="ldapbrowser.openConnections" class="org.majki.intellij.ldapbrowser.actions.OpenConnectionsAction" text="Open Connections" icon="/general/settings.png">
+    <action id="ldapbrowser.openConnections" class="org.majki.intellij.ldapbrowser.actions.OpenConnectionsAction" text="Open Connections">
       <add-to-group group-id="ldapbrowser.actionGroup"/>
     </action>
 
-    <action id="ldapbrowser.refresh" class="org.majki.intellij.ldapbrowser.actions.RefreshAction" text="Refresh" icon="/actions/refresh.png">
+    <action id="ldapbrowser.refresh" class="org.majki.intellij.ldapbrowser.actions.RefreshAction" text="Refresh">
       <add-to-group group-id="ldapbrowser.actionGroup"/>
+    </action>
+
+    <action id="ldapbrowser.addAttribute" class="org.majki.intellij.ldapbrowser.actions.AddAttribute" text="Add attribute" description="Adds an attribute to the entry">
+      <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>
   </actions>
 
