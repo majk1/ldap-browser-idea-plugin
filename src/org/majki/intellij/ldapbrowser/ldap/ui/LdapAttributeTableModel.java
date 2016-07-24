@@ -3,6 +3,7 @@ package org.majki.intellij.ldapbrowser.ldap.ui;
 import org.majki.intellij.ldapbrowser.ldap.LdapAttribute;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 
+import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
  * @author Attila Majoros
  */
 
-public class LdapAttributesTableModel implements TableModel {
+public class LdapAttributeTableModel implements TableModel {
 
     public static final String[] COLUMN_NAMES = new String[] {"Attribute", "Value"};
     public static final Class<?>[] COLUMN_CLASSES = new Class<?>[] {String.class, String.class};
@@ -39,10 +40,12 @@ public class LdapAttributesTableModel implements TableModel {
 
     private LdapNode ldapNode;
     private List<Item> items;
+    private List<TableModelListener> listeners;
 
-    public LdapAttributesTableModel(LdapNode ldapNode) {
+    public LdapAttributeTableModel(LdapNode ldapNode) {
         this.ldapNode = ldapNode;
         this.items = createItems();
+        this.listeners = new ArrayList<>();
     }
 
     private List<Item> createItems() {
@@ -105,15 +108,26 @@ public class LdapAttributesTableModel implements TableModel {
 
     @Override
     public void addTableModelListener(TableModelListener l) {
-
+        listeners.add(l);
     }
 
     @Override
     public void removeTableModelListener(TableModelListener l) {
-
+        listeners.remove(l);
     }
 
     public void refresh() {
         items = createItems();
+        for (TableModelListener listener : listeners) {
+            listener.tableChanged(new TableModelEvent(this));
+        }
     }
+
+    public void refresh(int row) {
+        items = createItems();
+        for (TableModelListener listener : listeners) {
+            listener.tableChanged(new TableModelEvent(this, row));
+        }
+    }
+
 }

@@ -38,6 +38,16 @@ public class LdapAttribute implements Serializable {
         public byte[] asByteArray() {
             return byteArrayValue;
         }
+
+        protected void setValue(String value) {
+            stringValue = value;
+            byteArrayValue = value.getBytes();
+        }
+
+        protected void setValue(byte[] value) {
+            stringValue = new String(value);
+            byteArrayValue = value;
+        }
     }
 
     private String name;
@@ -70,6 +80,14 @@ public class LdapAttribute implements Serializable {
 
     public Value firstValue() {
         return values.get(0);
+    }
+
+    public String[] valuesAsString() {
+        String[] stringValues = new String[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            stringValues[i] = values().get(i).asString();
+        }
+        return stringValues;
     }
 
 }
