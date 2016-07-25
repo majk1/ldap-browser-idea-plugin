@@ -57,11 +57,15 @@ public class LdapAddAttributeDialog extends DialogWrapper {
     }
 
     private void revalidateAttribtueValueComponents() {
+        boolean first = true;
         Iterator<LdapAttributeValuePanel> attributeValuePanelIterator = attributeValuePanels.iterator();
         while (attributeValuePanelIterator.hasNext()) {
             LdapAttributeValuePanel attributeValuePanel = attributeValuePanelIterator.next();
+            attributeValuePanel.setLabelsVisible(first);
             attributeValuePanel.setRemoveButtonEnabled(attributeValuePanels.size() > 1);
-            attributeValuePanel.setSeparatorVisible(attributeValuePanelIterator.hasNext());
+            // attributeValuePanel.setSeparatorVisible(attributeValuePanelIterator.hasNext());
+            attributeValuePanel.setSeparatorVisible(false);
+            first = false;
         }
         scrollPanel.revalidate();
         scrollPanel.repaint();

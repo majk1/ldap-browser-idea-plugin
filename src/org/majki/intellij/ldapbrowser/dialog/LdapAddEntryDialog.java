@@ -21,6 +21,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -158,6 +160,15 @@ public class LdapAddEntryDialog extends DialogWrapper {
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        addSelectedObjectClass();
+                        rdnTextField.requestFocusInWindow();
+                    }
+                }
+            });
+            sourceClassList.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() > 1) {
                         addSelectedObjectClass();
                         rdnTextField.requestFocusInWindow();
                     }

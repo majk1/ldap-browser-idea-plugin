@@ -32,6 +32,8 @@ public class LdapAttributeValuePanel {
     private JSeparator separator;
     private JButton removeButton;
     private JBPanelWithEmptyText valuePanel;
+    private JLabel attributeLabel;
+    private JLabel valueLabel;
 
     private LdapNode ldapNode;
     private boolean initialized = false;
@@ -78,6 +80,7 @@ public class LdapAttributeValuePanel {
             });
 
             valuePanel.getEmptyText().setText("Select attribute");
+            valuePanel.add(valueTextField, BorderLayout.CENTER);
 
             List<LdapObjectClassAttribute> attributes = new ArrayList<>(ldapNode.getObjectClassAttributes());
             Collections.sort(attributes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
@@ -118,6 +121,13 @@ public class LdapAttributeValuePanel {
 
     public void setSeparatorVisible(boolean visible) {
         separator.setVisible(visible);
+        content.revalidate();
+        content.repaint();
+    }
+
+    public void setLabelsVisible(boolean visible) {
+        attributeLabel.setVisible(visible);
+        valueLabel.setVisible(visible);
         content.revalidate();
         content.repaint();
     }
