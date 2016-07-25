@@ -2,16 +2,19 @@ package org.majki.intellij.ldapbrowser.dialog;
 
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
-import com.intellij.ui.ComboboxSpeedSearch;
-import com.intellij.ui.MutableCollectionComboBoxModel;
+import com.intellij.ui.components.JBPanel;
+import com.intellij.ui.components.JBScrollPane;
+import com.intellij.ui.components.panels.VerticalLayout;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
-import org.majki.intellij.ldapbrowser.ldap.LdapObjectClassAttribute;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Attila Majoros
@@ -20,19 +23,19 @@ import java.util.Collections;
 public class LdapAddAttributeDialog extends DialogWrapper {
 
     private LdapNode ldapNode;
-    private JPanel content;
-    private JComboBox<LdapObjectClassAttribute> attributeComboBox;
-    private JTextField valueTextField;
-    private JPanel leftPanel;
-
     private boolean initialized;
+
+    private JBPanel content;
+    private JBPanel scrollPanel;
+    private List<LdapAttributeValuePanel> attributeValuePanels;
 
     public LdapAddAttributeDialog(LdapNode ldapNode) {
         super(null, true, true);
         this.ldapNode = ldapNode;
         this.initialized = false;
+        this.attributeValuePanels = new ArrayList<>();
 
-        setTitle("Add Attribute to Entry");
+        setTitle("Add Attributes to Entry");
         getContentPane().setPreferredSize(new Dimension(600, 300));
         init();
         validate();
@@ -40,15 +43,58 @@ public class LdapAddAttributeDialog extends DialogWrapper {
 
     private void initialize() {
         if (!initialized) {
-            ArrayList<LdapObjectClassAttribute> attributes = new ArrayList<>(ldapNode.getObjectClassAttributes());
-            Collections.sort(attributes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+            scrollPanel = new JBPanel(new VerticalLayout(0));
 
-            MutableCollectionComboBoxModel<LdapObjectClassAttribute> attributeComboBoxModel = new MutableCollectionComboBoxModel<>(attributes);
-            attributeComboBox.setModel(attributeComboBoxModel);
-            new ComboboxSpeedSearch(attributeComboBox);
+            JBScrollPane scrollPane = new JBScrollPane(scrollPanel);
+
+            content = new JBPanel(new BorderLayout());
+            content.add(scrollPane, BorderLayout.CENTER);
+
+            addAttributeValueComponent();
 
             initialized = true;
         }
+    }
+
+    private void revalidateAttribtueValueComponents() {
+        Iterator<LdapAttributeValuePanel> attributeValuePanelIterator = attributeValuePanels.iterator();
+        while (attributeValuePanelIterator.hasNext()) {
+            LdapAttributeValuePanel attributeValuePanel = attributeValuePanelIterator.next();
+            attributeValuePanel.setRemoveButtonEnabled(attributeValuePanels.size() > 1);
+            attributeValuePanel.setSeparatorVisible(attributeValuePanelIterator.hasNext());
+        }
+        scrollPanel.revalidate();
+        scrollPanel.repaint();
+    }
+
+    private void addAttributeValueComponent() {
+        LdapAttributeValuePanel attributeValuePanel = new LdapAttributeValuePanel(ldapNode);
+        attributeValuePanel.setRemoveButtonActionListener(e -> {
+            scrollPanel.remove(attributeValuePanel.getComponent());
+            attributeValuePanels.remove(attributeValuePanel);
+            LdapAddAttributeDialog.this.revalidateAttribtueValueComponents();
+        });
+        attributeValuePanels.add(attributeValuePanel);
+        scrollPanel.add(attributeValuePanel.getComponent());
+
+        revalidateAttribtueValueComponents();
+    }
+
+    @Override
+    protected void createDefaultActions() {
+        super.createDefaultActions();
+    }
+
+    @NotNull
+    @Override
+    protected Action[] createLeftSideActions() {
+        Action addAttributeValuePanelAction = new DialogWrapperAction("Add attribute") {
+            @Override
+            protected void doAction(ActionEvent actionEvent) {
+                addAttributeValueComponent();
+            }
+        };
+        return new Action[] {addAttributeValuePanelAction};
     }
 
     @Nullable
@@ -61,23 +107,18 @@ public class LdapAddAttributeDialog extends DialogWrapper {
     @Nullable
     @Override
     public JComponent getPreferredFocusedComponent() {
-        return attributeComboBox;
+        return attributeValuePanels.get(0).getComponent();
     }
 
     @Nullable
     @Override
     protected ValidationInfo doValidate() {
-
-        Object selectedItem = attributeComboBox.getSelectedItem();
-        if (!(selectedItem instanceof LdapObjectClassAttribute)) {
-            return new ValidationInfo("Attribute has to be set", attributeComboBox);
+        for (LdapAttributeValuePanel attributeValuePanel : attributeValuePanels) {
+            ValidationInfo validationInfo = attributeValuePanel.doValidate();
+            if (validationInfo != null) {
+                return validationInfo;
+            }
         }
-
-        String text = valueTextField.getText();
-        if (text == null || text.trim().isEmpty()) {
-            return new ValidationInfo("Value has to be set", valueTextField);
-        }
-
         return null;
     }
 
@@ -87,11 +128,7 @@ public class LdapAddAttributeDialog extends DialogWrapper {
         return "ldapbrowser.LdapAddAttributeDialog";
     }
 
-    public LdapObjectClassAttribute getSelectedLdapObjectClassAttribute() {
-        return (LdapObjectClassAttribute) attributeComboBox.getSelectedItem();
-    }
-
-    public String getValue() {
-        return valueTextField.getText();
+    public List<LdapAttributeValuePanel> getAttributeValuePanels() {
+        return attributeValuePanels;
     }
 }

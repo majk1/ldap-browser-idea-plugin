@@ -1,6 +1,7 @@
 package org.majki.intellij.ldapbrowser.dialog;
 
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
@@ -18,9 +19,12 @@ import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Attila Majoros
@@ -62,9 +66,72 @@ public class LdapAddEntryDialog extends DialogWrapper {
     }
 
     private void regenerateRdnComboBoxModel() {
+        LdapObjectClassAttribute selected = (LdapObjectClassAttribute) rdnComboBox.getSelectedItem();
+
         List<LdapObjectClassAttribute> attributes = new ArrayList<>(newLdapNode.getObjectClassAttributes());
         Collections.sort(attributes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
         rdnComboBox.setModel(new MutableCollectionComboBoxModel<>(attributes));
+
+        if (selected == null) {
+            setPreferredRDN(attributes);
+        }
+    }
+
+    private void setPreferredRDN(List<LdapObjectClassAttribute> attributes) {
+        LdapObjectClassAttribute autoRdn = null;
+        for (LdapObjectClassAttribute attribute : attributes) {
+            if (attribute.getName().equalsIgnoreCase("uid")) {
+                autoRdn = attribute;
+            } else if (autoRdn == null && attribute.getName().equalsIgnoreCase("ou")) {
+                autoRdn = attribute;
+            }
+        }
+        if (autoRdn != null) {
+            rdnComboBox.setSelectedItem(autoRdn);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void addSelectedObjectClass() {
+        List<LdapObjectClass> selectedObjectClasses = sourceClassList.getSelectedValuesList();
+        for (LdapObjectClass selectedObjectClass : selectedObjectClasses) {
+            Set<LdapObjectClass> removedObjectClasses = newLdapNode.addObjectClass(selectedObjectClass);
+            for (LdapObjectClass removedObjectClass : removedObjectClasses) {
+                ((CollectionListModel<LdapObjectClass>) sourceClassList.getModel()).remove(removedObjectClass);
+            }
+            attrValueTableWrapper.getModel().refresh();
+            regenerateRdnComboBoxModel();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void removeSelectedObjectClass() {
+        int selectedRow = attrValueTable.getSelectedRow();
+        if (selectedRow != -1) {
+            LdapAttributeTableModel.Item selectedItem = attrValueTableWrapper.getModel().getItems().get(selectedRow);
+            if (LdapNode.OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(selectedItem.getAttribute().name())) {
+                String objectClassName = selectedItem.getValue().asString();
+                LdapObjectClass selectedObjectClass = treeNode.getLdapNode().getTopObjectClass().getByName(objectClassName);
+                Set<LdapObjectClass> removedObjectClasses = newLdapNode.removeObjectClass(selectedObjectClass);
+                attrValueTableWrapper.getModel().refresh();
+
+                List<LdapObjectClass> objectClasses = new ArrayList<>();
+                if (objectClassName.equalsIgnoreCase("top")) {
+                    objectClasses.addAll(treeNode.getLdapNode().getTopObjectClass().getAllObjectClasses());
+                } else {
+                    objectClasses.addAll(((CollectionListModel<LdapObjectClass>) sourceClassList.getModel()).getItems());
+                    objectClasses.addAll(removedObjectClasses);
+                }
+                Collections.sort(objectClasses, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+
+                sourceClassList.setModel(new CollectionListModel<>(objectClasses));
+                attrValueTableWrapper.getModel().refresh();
+
+                regenerateRdnComboBoxModel();
+            } else {
+                Messages.showInfoMessage(content, "Required attribute cannot be removed", "Remove Attribute");
+            }
+        }
     }
 
     private void initialize() {
@@ -76,8 +143,26 @@ public class LdapAddEntryDialog extends DialogWrapper {
             ArrayList<LdapObjectClass> objectClasses = new ArrayList<>(treeNode.getLdapNode().getTopObjectClass().getAllObjectClasses());
             Collections.sort(objectClasses, (o1, o2) -> o1.getName().compareTo(o2.getName()));
 
+            rdnTextField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        attrValueTable.requestFocusInWindow();
+                    }
+                }
+            });
+
             sourceClassList = new JBList(new CollectionListModel<>(objectClasses));
             sourceClassList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+            sourceClassList.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        addSelectedObjectClass();
+                        rdnTextField.requestFocusInWindow();
+                    }
+                }
+            });
 
             attrValueTable = new JBTable();
             attrValueTableWrapper = new LdapAttributeTableWrapper(attrValueTable, newLdapNode, false);
@@ -87,46 +172,12 @@ public class LdapAddEntryDialog extends DialogWrapper {
             ToolbarDecorator sourceToolbar = ToolbarDecorator.createDecorator(sourceClassList);
             sourceToolbar.disableRemoveAction();
             sourceToolbar.disableUpDownActions();
-            sourceToolbar.setAddAction(new AnActionButtonRunnable() {
-                @Override
-                public void run(AnActionButton anActionButton) {
-                    java.util.List<LdapObjectClass> selectedObjectClasses = sourceClassList.getSelectedValuesList();
-                    for (LdapObjectClass selectedObjectClass : selectedObjectClasses) {
-                        newLdapNode.addObjectClass(selectedObjectClass);
-                        ((CollectionListModel<LdapObjectClass>) sourceClassList.getModel()).remove(selectedObjectClass);
-                        attrValueTableWrapper.getModel().refresh();
-                        regenerateRdnComboBoxModel();
-                    }
-                }
-            });
+            sourceToolbar.setAddAction(anActionButton -> addSelectedObjectClass());
 
             ToolbarDecorator attrValueToolbar = ToolbarDecorator.createDecorator(attrValueTable);
+            attrValueToolbar.disableAddAction();
             attrValueToolbar.disableUpDownActions();
-            attrValueToolbar.setAddAction(new AnActionButtonRunnable() {
-                @Override
-                public void run(AnActionButton anActionButton) {
-                    LdapAddAttributeDialog addAttributeDialog = new LdapAddAttributeDialog(newLdapNode);
-                    if (addAttributeDialog.showAndGet()) {
-                        LdapObjectClassAttribute selectedLdapObjectClassAttribute = addAttributeDialog.getSelectedLdapObjectClassAttribute();
-                        String value = addAttributeDialog.getValue();
-
-                        // TODO: add attribute
-                    }
-                }
-            });
-            attrValueToolbar.setRemoveAction(new AnActionButtonRunnable() {
-                @Override
-                public void run(AnActionButton anActionButton) {
-
-                    // TODO: implement
-
-                    int selectedRow = attrValueTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        LdapAttributeTableModel.Item selectedItem = attrValueTableWrapper.getModel().getItems().get(selectedRow);
-
-                    }
-                }
-            });
+            attrValueToolbar.setRemoveAction(anActionButton -> removeSelectedObjectClass());
 
             JBSplitter splitter = new JBSplitter(false, 0.4f);
             splitter.setFirstComponent(sourceToolbar.createPanel());
@@ -146,7 +197,7 @@ public class LdapAddEntryDialog extends DialogWrapper {
     @Nullable
     @Override
     public JComponent getPreferredFocusedComponent() {
-        return rdnComboBox;
+        return sourceClassList;
     }
 
     @Nullable

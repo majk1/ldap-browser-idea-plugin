@@ -238,7 +238,7 @@ public class LdapNode implements Serializable {
     }
 
     // TODO: data structure modification only
-    public void addObjectClass(LdapObjectClass objectClass) {
+    public Set<LdapObjectClass> addObjectClass(LdapObjectClass objectClass) {
         Set<LdapObjectClass> allObjectClasses = objectClass.getAllSuperObjectClasses();
         allObjectClasses.add(objectClass);
 
@@ -266,21 +266,35 @@ public class LdapNode implements Serializable {
                 collect(Collectors.toList()));
 
         extractObjectClassValues();
+
+        return allObjectClasses;
     }
 
     // TODO: data structure modification only
-    public void removeObjectClass(LdapObjectClass objectClass) {
+    public Set<LdapObjectClass> removeObjectClass(LdapObjectClass objectClass) {
+        Set<LdapObjectClass> removedObjectClasses = new HashSet<>();
         LdapAttribute objectClassAttribute = getAttributeByName(OBJECTCLASS_ATTRIBUTE_NAME);
-        if (objectClassAttribute != null) {
-            Iterator<LdapAttribute.Value> iterator = objectClassAttribute.values().iterator();
-            while (iterator.hasNext()) {
-                LdapAttribute.Value value = iterator.next();
-                if (value.asString().equals(objectClass.getName())) {
-                    iterator.remove();
-                }
-            }
-            extractObjectClassValues();
+        List<String> objectClassNames = new ArrayList<>();
+        for (LdapAttribute.Value value : objectClassAttribute.values()) {
+            objectClassNames.add(value.asString());
         }
+
+        removedObjectClasses.add(objectClass);
+        objectClassNames.remove(objectClass.getName());
+
+        for (LdapObjectClass subObjectClass : objectClass.getAllSubObjectClasses()) {
+            objectClassNames.remove(subObjectClass.getName());
+            removedObjectClasses.add(subObjectClass);
+        }
+
+        attributes.clear();
+        for (String objectClassName : objectClassNames) {
+            addObjectClass(getTopObjectClass().getByName(objectClassName));
+        }
+
+        extractObjectClassValues();
+
+        return removedObjectClasses;
     }
 
     public static LdapNode createRoot(LdapConnection connection) throws LdapException {

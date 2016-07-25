@@ -60,6 +60,21 @@ public class LdapObjectClass {
         return subObjectClasses;
     }
 
+    public Set<LdapObjectClass> getAllSubObjectClasses() {
+        return getSubObjectClasses(this);
+    }
+
+    private Set<LdapObjectClass> getSubObjectClasses(LdapObjectClass objectClass) {
+        Set<LdapObjectClass> subObjectClasses = new HashSet<>();
+        for (LdapObjectClass subObjectClass: objectClass.getSubObjectClasses()) {
+            subObjectClasses.add(subObjectClass);
+            if (!subObjectClass.getSubObjectClasses().isEmpty()) {
+                subObjectClasses.addAll(getSubObjectClasses(subObjectClass));
+            }
+        }
+        return subObjectClasses;
+    }
+
     public String getName() {
         return name;
     }

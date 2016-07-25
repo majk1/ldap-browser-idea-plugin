@@ -10,11 +10,14 @@ import org.apache.directory.api.ldap.model.entry.Modification;
 import org.apache.directory.api.ldap.model.entry.ModificationOperation;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.majki.intellij.ldapbrowser.dialog.LdapAddAttributeDialog;
+import org.majki.intellij.ldapbrowser.dialog.LdapAttributeValuePanel;
 import org.majki.intellij.ldapbrowser.editor.LdapNodeEditor;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
-import org.majki.intellij.ldapbrowser.ldap.LdapObjectClassAttribute;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Attila Majoros
@@ -32,13 +35,19 @@ public class AddAttributeAction extends AnAction {
             LdapAddAttributeDialog addAttributeDialog = new LdapAddAttributeDialog(ldapTreeNode.getLdapNode());
             if (addAttributeDialog.showAndGet()) {
                 LdapNode ldapNode = ldapTreeNode.getLdapNode();
-                LdapObjectClassAttribute attribute = addAttributeDialog.getSelectedLdapObjectClassAttribute();
-                String value = addAttributeDialog.getValue();
 
-                Modification modification = new DefaultModification(ModificationOperation.ADD_ATTRIBUTE, attribute.getName(), value);
+                List<Modification> modifications = new ArrayList<>();
+                for (LdapAttributeValuePanel attributeValuePanel : addAttributeDialog.getAttributeValuePanels()) {
+                    byte[] byteValue = attributeValuePanel.getByteValue();
+                    if (byteValue != null) {
+                        modifications.add(new DefaultModification(ModificationOperation.ADD_ATTRIBUTE, attributeValuePanel.getSelectedAttribute().getName(), byteValue));
+                    } else {
+                        modifications.add(new DefaultModification(ModificationOperation.ADD_ATTRIBUTE, attributeValuePanel.getSelectedAttribute().getName(), attributeValuePanel.getValue()));
+                    }
+                }
+
                 try {
-                    ldapNode.getConnection().modify(ldapNode.getDn(), modification);
-
+                    ldapNode.getConnection().modify(ldapNode.getDn(), modifications.toArray(new Modification[modifications.size()]));
                     ldapNode.refresh();
                     nodeEditor.getTableWrapper().getModel().refresh();
                     nodeEditor.getTableWrapper().getTable().repaint();

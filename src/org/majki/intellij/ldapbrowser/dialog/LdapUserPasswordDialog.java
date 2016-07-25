@@ -10,7 +10,6 @@ import org.apache.directory.api.ldap.model.constants.LdapSecurityConstants;
 import org.apache.directory.api.ldap.model.password.PasswordDetails;
 import org.apache.directory.api.ldap.model.password.PasswordUtil;
 import org.jetbrains.annotations.Nullable;
-import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +23,6 @@ import java.util.Arrays;
 
 public class LdapUserPasswordDialog extends DialogWrapper {
 
-    private LdapNode ldapNode;
     private byte[] currentPassword;
     private boolean initialized;
 
@@ -36,9 +34,8 @@ public class LdapUserPasswordDialog extends DialogWrapper {
     private JPasswordField newPasswordField;
     private JPasswordField newConfirmPasswordField;
 
-    public LdapUserPasswordDialog(LdapNode ldapNode, byte[] currentPassword) {
+    public LdapUserPasswordDialog(byte[] currentPassword) {
         super(null);
-        this.ldapNode = ldapNode;
         this.currentPassword = currentPassword;
         this.initialized = false;
 

@@ -65,38 +65,38 @@ public class LdapAttributeTableWrapper {
         attributeColumn.setWidth(300);
         attributeColumn.setMinWidth(120);
         attributeColumn.setMaxWidth(400);
-        TableCellRenderer objectClassBoldTableCellRenderer = new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JBLabel label = new JBLabel();
+        TableCellRenderer objectClassBoldTableCellRenderer = (table1, value, isSelected, hasFocus, row, column) -> {
+            JBLabel label = new JBLabel();
 
-                if (isSelected) {
-                    label.setBackground(table.getSelectionBackground());
-                    label.setForeground(table.getSelectionForeground());
-                } else {
-                    label.setBackground(table.getBackground());
-                    label.setForeground(table.getForeground());
-                }
-
-                UIUtil.addBorder(label, new EmptyBorder(1, 8, 1, 8));
-
-                LdapAttributeTableModel model = (LdapAttributeTableModel) table.getModel();
-                String attributeName = (String) model.getValueAt(row, 0);
-
-                if (value instanceof String) {
-                    // if (column != 0 && LdapNode.USERPASSWORD_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
-                    //     label.setText("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022");
-                    // } else {
-                    //     label.setText((String) value);
-                    // }
-                    label.setText((String) value);
-                    if (LdapNode.OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
-                        Font font = new Font(label.getFont().getName(), Font.BOLD, label.getFont().getSize());
-                        label.setFont(font);
-                    }
-                }
-                return label;
+            if (isSelected) {
+                label.setBackground(table1.getSelectionBackground());
+                label.setForeground(table1.getSelectionForeground());
+            } else {
+                label.setBackground(table1.getBackground());
+                label.setForeground(table1.getForeground());
             }
+
+            UIUtil.addBorder(label, new EmptyBorder(1, 8, 1, 8));
+
+            LdapAttributeTableModel model1 = (LdapAttributeTableModel) table1.getModel();
+            String attributeName = (String) model1.getValueAt(row, 0);
+
+            if (value instanceof String) {
+                // if (column != 0 && LdapNode.USERPASSWORD_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
+                //     label.setText("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022");
+                // } else {
+                //     label.setText((String) value);
+                // }
+                label.setText((String) value);
+                if (LdapNode.OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
+                    Font font = new Font(label.getFont().getName(), Font.BOLD, label.getFont().getSize());
+                    label.setFont(font);
+                }
+            } else {
+                label.setForeground(UIUtil.getInactiveTextColor());
+                label.setText("Empty value");
+            }
+            return label;
         };
         attributeColumn.setCellRenderer(objectClassBoldTableCellRenderer);
 
