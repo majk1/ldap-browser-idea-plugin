@@ -7,6 +7,7 @@ import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.table.JBTable;
 import org.apache.directory.api.ldap.model.exception.LdapException;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.majki.intellij.ldapbrowser.ldap.LdapAttribute;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
@@ -47,8 +48,8 @@ public class LdapAddEntryDialog extends DialogWrapper {
     private JBTable attrValueTable;
     private LdapAttributeTableWrapper attrValueTableWrapper;
 
-    public LdapAddEntryDialog(LdapTreeNode treeNode) {
-        super(null);
+    public LdapAddEntryDialog(@NotNull Component parent, LdapTreeNode treeNode) {
+        super(parent, true);
         this.treeNode = treeNode;
         this.initialized = false;
 

@@ -9,6 +9,7 @@ import com.intellij.ui.MutableCollectionComboBoxModel;
 import org.apache.directory.api.ldap.model.constants.LdapSecurityConstants;
 import org.apache.directory.api.ldap.model.password.PasswordDetails;
 import org.apache.directory.api.ldap.model.password.PasswordUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -34,8 +35,8 @@ public class LdapUserPasswordDialog extends DialogWrapper {
     private JPasswordField newPasswordField;
     private JPasswordField newConfirmPasswordField;
 
-    public LdapUserPasswordDialog(byte[] currentPassword) {
-        super(null);
+    public LdapUserPasswordDialog(@NotNull Component parent,  @Nullable byte[] currentPassword) {
+        super(parent, true);
         this.currentPassword = currentPassword;
         this.initialized = false;
 

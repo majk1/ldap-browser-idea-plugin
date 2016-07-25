@@ -51,7 +51,7 @@ public class LdapAttributeValuePanel {
     }
 
     private void openPasswordDialog() {
-        LdapUserPasswordDialog userPasswordDialog = new LdapUserPasswordDialog(passwordBytes);
+        LdapUserPasswordDialog userPasswordDialog = new LdapUserPasswordDialog(content, passwordBytes);
         if (userPasswordDialog.showAndGet()) {
             LdapSecurityConstants algorithm = userPasswordDialog.getAlgorithm();
             String newPassword = userPasswordDialog.getNewPassword();

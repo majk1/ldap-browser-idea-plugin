@@ -1,6 +1,7 @@
 package org.majki.intellij.ldapbrowser.ldap.ui;
 
 import com.intellij.ui.DocumentAdapter;
+import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBTextField;
 import org.apache.directory.api.ldap.model.entry.DefaultModification;
 import org.apache.directory.api.ldap.model.entry.Modification;
@@ -8,6 +9,7 @@ import org.apache.directory.api.ldap.model.entry.ModificationOperation;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.api.ldap.model.password.PasswordUtil;
 import org.majki.intellij.ldapbrowser.dialog.LdapUserPasswordDialog;
+import org.majki.intellij.ldapbrowser.dialog.LdapValueEditorDialog;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 
 import javax.swing.*;
@@ -17,9 +19,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
@@ -48,7 +48,7 @@ public class LdapTableCellEditor implements TableCellEditor {
         LdapAttributeTableModel.Item selectedItem = getSelectedItem();
         if (selectedItem != null) {
             if (isCellUserPassword()) {
-                LdapUserPasswordDialog userPasswordDialog = new LdapUserPasswordDialog(selectedItem.getValue().asByteArray());
+                LdapUserPasswordDialog userPasswordDialog = new LdapUserPasswordDialog(table, selectedItem.getValue().asByteArray());
                 if (userPasswordDialog.showAndGet()) {
                     byte[] newPassword = PasswordUtil.createStoragePassword(userPasswordDialog.getNewPassword(), userPasswordDialog.getAlgorithm());
                     Modification modification = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, selectedItem.getAttribute().upName(), newPassword);
@@ -162,7 +162,9 @@ public class LdapTableCellEditor implements TableCellEditor {
         }
     }
 
-    private JBTextField createTextFieldForEditing(String value) {
+    private Component createTextFieldForEditing(String value) {
+        JBPanel textEditPanel = new JBPanel(new BorderLayout());
+
         newEditorValue = value;
         currentEditorValue = value;
         final JBTextField textField = new JBTextField(value);
@@ -186,7 +188,25 @@ public class LdapTableCellEditor implements TableCellEditor {
                 newEditorValue = textField.getText();
             }
         });
-        return textField;
+
+        JButton editInTextArea = new JButton("..");
+        editInTextArea.addActionListener(e -> {
+            String attributeName = null;
+            LdapAttributeTableModel.Item selectedItem = getSelectedItem();
+            if (selectedItem != null) {
+                attributeName = selectedItem.getAttribute().upName();
+            }
+            LdapValueEditorDialog valueEditorDialog = new LdapValueEditorDialog(table, attributeName, (String) newEditorValue);
+            if (valueEditorDialog.showAndGet()) {
+                newEditorValue = valueEditorDialog.getValue();
+                stopCellEditing();
+            }
+        });
+
+        textEditPanel.add(textField, BorderLayout.CENTER);
+        textEditPanel.add(editInTextArea, BorderLayout.LINE_END);
+
+        return textEditPanel;
     }
 
 }

@@ -36,7 +36,7 @@ public class AddEntryAction extends AnAction {
         }
 
         if (treeNode != null) {
-            LdapAddEntryDialog addEntryDialog = new LdapAddEntryDialog(treeNode);
+            LdapAddEntryDialog addEntryDialog = new LdapAddEntryDialog(tree, treeNode);
             if (addEntryDialog.showAndGet()) {
                 if (addEntry(addEntryDialog, treeNode.getLdapNode().getConnection())) {
                     ActionManager.getInstance().getAction(RefreshAction.ID).actionPerformed(null);

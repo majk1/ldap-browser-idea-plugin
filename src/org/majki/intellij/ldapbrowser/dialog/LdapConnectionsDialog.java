@@ -7,11 +7,13 @@ import com.intellij.ui.JBSplitter;
 import com.intellij.ui.ListSpeedSearch;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.*;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -49,8 +51,8 @@ public class LdapConnectionsDialog extends DialogWrapper {
     private LdapConnectionDetailForm.UniqueNameListener uniqueNameListener;
     private JBPanelWithEmptyText detailPanel;
 
-    public LdapConnectionsDialog(java.util.List<LdapConnectionInfo> ldapConnectionInfos) {
-        super(null, true, true);
+    public LdapConnectionsDialog(@NotNull Component parent, List<LdapConnectionInfo> ldapConnectionInfos) {
+        super(parent, true);
         uniqueNameListener = name -> {
             int counter = 0;
             for (InfoWrapper infoWrapper : connectionListModel.getItems()) {
