@@ -35,6 +35,9 @@ public class LdapNode implements Serializable {
     public static final String USERPASSWORD_ATTRIBUTE_NAME = "userpassword";
     public static final String USERPASSWORD_ATTRIBUTE_NAME_UP = "userPassword";
 
+    public static final String NAMING_CONTEXT_ATTRIBUTE_NAME = "namingcontexts";
+    public static final String NAMING_CONTEXT_ATTRIBUTE_NAME_UP = "namingContexts";
+
     private static final String DEFAULT_FILTER = "(objectclass=*)";
     private static final String DEFAULT_SEARCH_ATTRIBUTE = "*";
 
@@ -103,24 +106,44 @@ public class LdapNode implements Serializable {
         }
     }
 
+    private void readRootDSN() throws LdapException {
+        Entry rootDse = connection.getRootDse(NAMING_CONTEXT_ATTRIBUTE_NAME_UP);
+        for (Attribute attribute : rootDse.getAttributes()) {
+            if (attribute.getId().equalsIgnoreCase(NAMING_CONTEXT_ATTRIBUTE_NAME)) {
+                for (Value<?> value : attribute) {
+                    LdapNode node = new LdapNode(connection, this, topObjectClass, value.getString(), value.getString(), new ArrayList<>());
+                    node.refresh();
+                    children.add(node);
+                }
+            }
+        }
+    }
+
     private void searchChildren() throws LdapException {
         children = new ArrayList<>();
-        EntryCursor cursor = connection.search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, DEFAULT_SEARCH_ATTRIBUTE);
-        try {
-            while (cursor.next()) {
-                Entry entry = cursor.get();
-                List<LdapAttribute> attributes = new ArrayList<>();
-                for (Attribute attribute : entry.getAttributes()) {
-                    List<LdapAttribute.Value> values = new ArrayList<>();
-                    addValuesFromAttribute(attribute, values);
-                    int index = OBJECTCLASS_ATTRIBUTE_NAME.equals(attribute.getId()) ? 0 : attributes.size();
-                    attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
+
+        if (dn == null || dn.trim().isEmpty()) {
+            readRootDSN();
+        } else {
+            EntryCursor cursor = connection.search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, DEFAULT_SEARCH_ATTRIBUTE);
+            try {
+                while (cursor.next()) {
+                    Entry entry = cursor.get();
+                    List<LdapAttribute> attributes = new ArrayList<>();
+                    for (Attribute attribute : entry.getAttributes()) {
+                        List<LdapAttribute.Value> values = new ArrayList<>();
+                        addValuesFromAttribute(attribute, values);
+                        int index = OBJECTCLASS_ATTRIBUTE_NAME.equals(attribute.getId()) ? 0 : attributes.size();
+                        attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
+                    }
+                    children.add(new LdapNode(connection, this, topObjectClass, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
                 }
-                children.add(new LdapNode(connection, this, topObjectClass, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
+            } catch (CursorException e) {
+                throw new LdapException("Cursor error", e);
             }
-        } catch (CursorException e) {
-            throw new LdapException("Cursor error", e);
         }
+
+        Collections.sort(children, (o1, o2) -> o1.getRdn().compareTo(o2.getRdn()));
     }
 
     private void extractObjectClassValues() {

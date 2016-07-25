@@ -175,7 +175,7 @@ public class LdapObjectClass {
     public static LdapObjectClass getTop(LdapConnection connection) throws LdapException {
         Map<String, LdapObjectClass> objectClassMap = new HashMap<>();
 
-        EntryCursor cursor = connection.search("", "(objectClass=metaObjectClass)", SearchScope.SUBTREE, "*");
+        EntryCursor cursor = connection.search("ou=schema", "(objectClass=metaObjectClass)", SearchScope.SUBTREE, "*");
         try {
             while (cursor.next()) {
                 Entry entry = cursor.get();
@@ -218,6 +218,6 @@ public class LdapObjectClass {
             }
         }
 
-        return objectClassMap.get("top");
+        return objectClassMap.get(TOP);
     }
 }
