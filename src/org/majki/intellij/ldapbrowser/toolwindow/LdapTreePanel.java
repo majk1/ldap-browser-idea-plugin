@@ -4,6 +4,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -28,10 +29,8 @@ import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -61,6 +60,13 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         this.project = project;
     }
 
+    private void invokeRefreshAction() {
+        AnAction refreshAction = ActionManager.getInstance().getAction(RefreshAction.ID);
+        if (refreshAction != null) {
+            refreshAction.actionPerformed(null);
+        }
+    }
+
     private void addActionMenuItem(JBPopupMenu menu, String title, Icon icon, String actionId) {
         JBMenuItem menuItem = new JBMenuItem(title, icon);
         menuItem.addActionListener(e -> ActionManager.getInstance().getAction(actionId).actionPerformed(null));
@@ -83,6 +89,7 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             JBMenuItem disconnectMenuItem = new JBMenuItem("Disconnect", AllIcons.Process.Stop);
             disconnectMenuItem.addActionListener(e -> {
                 ldapServerTreeNode.getConnectionInfo().disconnect();
+                invokeRefreshAction();
                 tree.repaint();
             });
             menu.add(disconnectMenuItem);
@@ -90,6 +97,7 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             JBMenuItem connectMenuItem = new JBMenuItem("Connect", AllIcons.General.Run);
             connectMenuItem.addActionListener(e -> {
                 ldapServerTreeNode.getConnectionInfo().connect();
+                invokeRefreshAction();
                 tree.repaint();
             });
             menu.add(connectMenuItem);
@@ -118,15 +126,12 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         tree.setRootVisible(false);
         //tree.setShowsRootHandles(false);
 
-        tree.setCellRenderer(new TreeCellRenderer() {
-            @Override
-            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-                JBLabel label = new JBLabel(value.toString());
-                if (value instanceof LdapIconProviderTreeNode) {
-                    label.setIcon(((LdapIconProviderTreeNode) value).getIcon());
-                }
-                return label;
+        tree.setCellRenderer((tree1, value, selected, expanded, leaf, row, hasFocus) -> {
+            JBLabel label = new JBLabel(value.toString());
+            if (value instanceof LdapIconProviderTreeNode) {
+                label.setIcon(((LdapIconProviderTreeNode) value).getIcon());
             }
+            return label;
         });
 
         tree.addKeyListener(new KeyAdapter() {
