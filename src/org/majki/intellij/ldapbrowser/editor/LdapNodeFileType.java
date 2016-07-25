@@ -37,7 +37,7 @@ public class LdapNodeFileType implements FileType {
     @Nullable
     @Override
     public Icon getIcon() {
-        return IconLoader.getIcon("/images/person.png");
+        return IconLoader.getIcon("/images/entry.png");
     }
 
     @Override

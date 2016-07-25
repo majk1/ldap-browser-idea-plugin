@@ -3,7 +3,6 @@ package org.majki.intellij.ldapbrowser.editor;
 import com.intellij.ide.FileIconProvider;
 import com.intellij.openapi.fileEditor.impl.EditorTabTitleProvider;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +20,7 @@ public class LdapFileIconProvider implements FileIconProvider, EditorTabTitlePro
     @Override
     public Icon getIcon(@NotNull VirtualFile virtualFile, @Iconable.IconFlags int i, @Nullable Project project) {
         if (virtualFile instanceof LdapNodeVirtualFile) {
-            return IconLoader.getIcon("/images/person.png");
+            return ((LdapNodeVirtualFile) virtualFile).getLdapTreeNode().getIcon();
         }
         return null;
     }
