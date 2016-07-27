@@ -51,6 +51,10 @@ public class LdapConnectionDetailForm {
         load();
     }
 
+    public JTextField getNameField() {
+        return nameField;
+    }
+
     public void init() {
         ActionListener resetTestConnectionLabelTextActionListener = e -> testConnectionResulLabel.setText("");
 

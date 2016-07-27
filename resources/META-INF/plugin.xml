@@ -32,7 +32,12 @@
   <depends>com.intellij.modules.lang</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <toolWindow id="LDAP" anchor="left" factoryClass="org.majki.intellij.ldapbrowser.toolwindow.LdapToolWindowFactory" icon="/images/ldap.png"/>
+    <toolWindow id="LDAP"
+                anchor="left"
+                secondary="true"
+                factoryClass="org.majki.intellij.ldapbrowser.toolwindow.LdapToolWindowFactory"
+                icon="/images/ldap.png"
+                canCloseContents="false"/>
     <fileIconProvider implementation="org.majki.intellij.ldapbrowser.editor.LdapFileIconProvider"/>
     <editorTabTitleProvider implementation="org.majki.intellij.ldapbrowser.editor.LdapFileIconProvider"/>
     <fileEditorProvider implementation="org.majki.intellij.ldapbrowser.editor.LdapNodeEditorProvider"/>

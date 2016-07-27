@@ -2,6 +2,9 @@ package org.majki.intellij.ldapbrowser.ldap;
 
 import com.intellij.openapi.ui.Messages;
 import com.intellij.util.xmlb.annotations.Transient;
+import org.apache.directory.api.ldap.model.entry.Attribute;
+import org.apache.directory.api.ldap.model.entry.Entry;
+import org.apache.directory.api.ldap.model.entry.Value;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.ldap.client.api.LdapConnection;
 import org.apache.directory.ldap.client.api.LdapNetworkConnection;
@@ -129,6 +132,10 @@ public class LdapConnectionInfo implements Serializable {
                     ldapConnection.bind();
                 }
                 opened = true;
+
+                if (!isSchemaPresent(ldapConnection)) {
+                    Messages.showWarningDialog("Schema DN (" + LdapNode.SCHEMA_DN + ") was not found!", "LDAP Connection Failed");
+                }
             } catch (LdapException e) {
                 Messages.showErrorDialog(e.getMessage(), "LDAP Connection Failed");
             }
@@ -161,8 +168,13 @@ public class LdapConnectionInfo implements Serializable {
                 connection.bind();
             }
 
+            boolean schemaPresent = isSchemaPresent(connection);
             connection.unBind();
             connection.close();
+
+            if (!schemaPresent) {
+                Messages.showWarningDialog("Connection successful to " + host + ":" + port + ",\n<br>but schema DN (" + LdapNode.SCHEMA_DN + ") was not found!", "LDAP Connection Success");
+            }
 
             return true;
         } catch (LdapException e) {
@@ -172,5 +184,19 @@ public class LdapConnectionInfo implements Serializable {
             Messages.showErrorDialog("Connection failed to " + host + ":" + port + "\n<br>" + e.getMessage(), "LDAP Connection Failed");
             return false;
         }
+    }
+
+    private boolean isSchemaPresent(LdapConnection connection) throws LdapException {
+        Entry rootDseEntryWithNamingContextAttributes = connection.getRootDse(LdapNode.NAMING_CONTEXT_ATTRIBUTE_NAME_UP);
+        for (Attribute attribute : rootDseEntryWithNamingContextAttributes.getAttributes()) {
+            if (attribute.getId().equalsIgnoreCase(LdapNode.NAMING_CONTEXT_ATTRIBUTE_NAME)) {
+                for (Value<?> value : attribute) {
+                    if (value.getString().equals(LdapNode.SCHEMA_DN)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
