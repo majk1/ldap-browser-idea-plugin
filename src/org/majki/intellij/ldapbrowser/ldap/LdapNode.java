@@ -328,24 +328,12 @@ public class LdapNode implements Serializable {
 
     public static LdapNode createRoot(LdapConnection connection, String baseDn) throws LdapException {
         LdapObjectClass topObjectClass = LdapObjectClass.getTop(connection);
-        return new LdapNode(connection, null, topObjectClass, baseDn, getRDN(baseDn), Collections.emptyList());
+        return new LdapNode(connection, null, topObjectClass, baseDn, LdapUtil.getTopDn(baseDn), Collections.emptyList());
     }
 
     public static LdapNode createNew(LdapConnection connection, LdapNode parent) throws LdapException {
         LdapObjectClass topObjectClass = LdapObjectClass.getTop(connection);
         return new LdapNode(null, parent, topObjectClass, "", "", new ArrayList<>());
-    }
-
-    public static String getRDN(String dn) {
-        if (dn == null) {
-            return null;
-        } else {
-            if (dn.indexOf(',') == -1) {
-                return dn;
-            } else {
-                return dn.split(",")[0].trim();
-            }
-        }
     }
 
     public static void valueModifier(LdapAttribute.Value value, String newValue) {

@@ -64,4 +64,8 @@ public class LdapConnectionsService implements PersistentStateComponent<LdapConn
     public List<LdapConnectionInfo> getLdapConnectionInfos() {
         return state.getLdapConnectionInfos();
     }
+
+    public void setLdapConnectionInfos(List<LdapConnectionInfo> connectionInfos) {
+        state.setLdapConnectionInfos(connectionInfos);
+    }
 }
