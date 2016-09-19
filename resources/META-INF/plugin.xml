@@ -13,6 +13,13 @@
   <change-notes><![CDATA[
       <ul>
       <li>
+        1.1</br>
+        <ul>
+          <li>Schema dn check during connection</li>
+          <li>New connection dialog</li>
+        </ul>
+      </li>
+      <li>
         First relese</br>
         TODO:
         <ul>
