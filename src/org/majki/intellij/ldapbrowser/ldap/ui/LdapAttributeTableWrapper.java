@@ -69,7 +69,12 @@ public class LdapAttributeTableWrapper {
             JBLabel label = new JBLabel();
 
             if (isSelected) {
-                label.setBackground(table1.getSelectionBackground());
+                label.setOpaque(true);
+                if (hasFocus) {
+                    label.setBackground(table1.getSelectionBackground());
+                } else {
+                    label.setBackground(UIUtil.getListUnfocusedSelectionBackground());
+                }
                 label.setForeground(table1.getSelectionForeground());
             } else {
                 label.setBackground(table1.getBackground());
@@ -82,11 +87,6 @@ public class LdapAttributeTableWrapper {
             String attributeName = (String) model1.getValueAt(row, 0);
 
             if (value instanceof String) {
-                // if (column != 0 && LdapNode.USERPASSWORD_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
-                //     label.setText("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022");
-                // } else {
-                //     label.setText((String) value);
-                // }
                 label.setText((String) value);
                 if (LdapNode.OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                     Font font = new Font(label.getFont().getName(), Font.BOLD, label.getFont().getSize());

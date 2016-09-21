@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>org.majki.intellij.ldapbrowser</id>
   <name>LDAP browser</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="support@majki.org" url="http://ldapbrowser.majki.org">Majki</vendor>
 
   <description><![CDATA[
@@ -12,6 +12,13 @@
 
   <change-notes><![CDATA[
       <ul>
+      <li>
+        1.2</br>
+        <ul>
+          <li>Schema ckeck removed, schema is now loaded and processed through the SchemaManager provided by the LDAP API</li>
+          <li>"New entry" dialog object class list now displays the schema name too + fixed some color issues</li>
+        </ul>
+      </li>
       <li>
         1.1</br>
         <ul>
