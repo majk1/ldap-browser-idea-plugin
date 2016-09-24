@@ -62,7 +62,7 @@
     <action id="ldapbrowser.addAttribute" class="org.majki.intellij.ldapbrowser.actions.AddAttributeAction" text="Add attribute" description="Adds an attribute to the entry">
       <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>
-    <action id="ldapbrowser.removeValue" class="org.majki.intellij.ldapbrowser.actions.RemoveValueAction" text="Remove value" description="Remove value from Entry">
+    <action id="ldapbrowser.removeValue" class="org.majki.intellij.ldapbrowser.actions.RemoveValueAction" text="Remove value" description="Remove value from Entry" use-shortcut-of="$Delete">
       <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>
   </actions>
