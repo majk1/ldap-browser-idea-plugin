@@ -56,10 +56,6 @@ public class LdapAttributeTableModel implements TableModel {
         return items;
     }
 
-    public void reload() {
-        items = createItems();
-    }
-
     public List<Item> getItems() {
         return items;
     }
@@ -95,7 +91,11 @@ public class LdapAttributeTableModel implements TableModel {
         if (columnIndex == 0) {
             return item.getAttribute().upName();
         } else if (columnIndex == 1) {
-            return item.getValue().asString();
+            if (item.getValue().isNull()) {
+                return null;
+            } else {
+                return item.getValue().asString();
+            }
         } else {
             return null;
         }

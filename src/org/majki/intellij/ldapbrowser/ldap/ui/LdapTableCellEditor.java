@@ -20,7 +20,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
@@ -37,8 +36,6 @@ public class LdapTableCellEditor implements TableCellEditor {
     private List<CellEditorListener> listeners;
     private Object newEditorValue;
     private Object currentEditorValue;
-    private int rid = new SecureRandom().nextInt(100);
-
 
     public LdapTableCellEditor(LdapNode ldapNode, JTable table) {
         this.ldapNode = ldapNode;
@@ -51,7 +48,7 @@ public class LdapTableCellEditor implements TableCellEditor {
         LdapAttributeTableModel.Item selectedItem = getSelectedItem();
         if (selectedItem != null) {
             if (isCellUserPassword()) {
-                LdapUserPasswordDialog userPasswordDialog = new LdapUserPasswordDialog(ldapNode, selectedItem.getValue().asByteArray());
+                LdapUserPasswordDialog userPasswordDialog = new LdapUserPasswordDialog(selectedItem.getValue().asByteArray());
                 if (userPasswordDialog.showAndGet()) {
                     byte[] newPassword = PasswordUtil.createStoragePassword(userPasswordDialog.getNewPassword(), userPasswordDialog.getAlgorithm());
                     Modification modification = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, selectedItem.getAttribute().upName(), newPassword);
@@ -173,7 +170,11 @@ public class LdapTableCellEditor implements TableCellEditor {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    stopCellEditing();
+                    if (textField.getText() == null || textField.getText().trim().isEmpty()) {
+                        cancelCellEditing();
+                    } else {
+                        stopCellEditing();
+                    }
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     cancelCellEditing();
                 }
