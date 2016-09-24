@@ -164,6 +164,10 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
                     Object comp = getTreeComponent(e.getX(), e.getY());
                     if (comp instanceof LdapTreeNode) {
                         FileEditorManager.getInstance(project).openFile(((LdapTreeNode) comp).getFile(), true, true);
+                    } else if (comp instanceof LdapServerTreeNode && !((LdapServerTreeNode) comp).getConnectionInfo().isOpened()) {
+                        ((LdapServerTreeNode) comp).getConnectionInfo().connect();
+                        invokeRefreshAction();
+                        tree.repaint();
                     }
                 }
             }
