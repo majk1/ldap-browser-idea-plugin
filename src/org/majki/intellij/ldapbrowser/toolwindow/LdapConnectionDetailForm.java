@@ -2,7 +2,7 @@ package org.majki.intellij.ldapbrowser.toolwindow;
 
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.ui.JBColor;
-import org.majki.intellij.ldapbrowser.config.LdapConnectionInfo;
+import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -84,7 +84,7 @@ public class LdapConnectionDetailForm {
         testConnectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (info.getHandler().testConnection()) {
+                if (info.testConnection()) {
                     testConnectionResulLabel.setText("Connection successfull");
                     testConnectionResulLabel.setForeground(JBColor.GREEN);
                 } else {
@@ -151,10 +151,10 @@ public class LdapConnectionDetailForm {
             return new ValidationInfo("Host name is mandatory", hostField);
         }
 
-        String baseDn = baseDnField.getText();
-        if (baseDn == null || baseDn.trim().isEmpty()) {
-            return new ValidationInfo("Base DN is mandatory", baseDnField);
-        }
+        // String baseDn = baseDnField.getText();
+        // if (baseDn == null || baseDn.trim().isEmpty()) {
+        //     return new ValidationInfo("Base DN is mandatory", baseDnField);
+        // }
 
         if (authenticateCheckBox.isSelected()) {
             String username = usernameField.getText();

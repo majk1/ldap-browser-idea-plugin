@@ -1,7 +1,7 @@
-package org.majki.intellij.ldapbrowser.toolwindow;
+package org.majki.intellij.ldapbrowser.ldap.ui;
 
 import com.intellij.util.enumeration.ArrayListEnumeration;
-import org.majki.intellij.ldapbrowser.config.LdapConnectionInfo;
+import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 
 import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
@@ -15,21 +15,21 @@ import java.util.stream.Collectors;
 
 public class LdapRootTreeNode implements TreeNode {
 
-    private ArrayList<LdapServerTreeNode> ldapServerTreeNodes;
+    private List<LdapServerTreeNode> children;
 
     public LdapRootTreeNode(List<LdapConnectionInfo> ldapConnectionInfos) {
-        ldapServerTreeNodes = new ArrayList<>();
-        ldapServerTreeNodes.addAll(ldapConnectionInfos.stream().map(ldapConnectionInfo -> new LdapServerTreeNode(this, ldapConnectionInfo)).collect(Collectors.toList()));
+        children = new ArrayList<>();
+        children.addAll(ldapConnectionInfos.stream().map(ldapConnectionInfo -> new LdapServerTreeNode(ldapConnectionInfo, this)).collect(Collectors.toList()));
     }
 
     @Override
     public TreeNode getChildAt(int childIndex) {
-        return ldapServerTreeNodes.get(childIndex);
+        return children.get(childIndex);
     }
 
     @Override
     public int getChildCount() {
-        return ldapServerTreeNodes.size();
+        return children.size();
     }
 
     @Override
@@ -38,8 +38,9 @@ public class LdapRootTreeNode implements TreeNode {
     }
 
     @Override
+    @SuppressWarnings("SuspiciousMethodCalls")
     public int getIndex(TreeNode node) {
-        return ldapServerTreeNodes.indexOf(node);
+        return children.indexOf(node);
     }
 
     @Override
@@ -54,6 +55,11 @@ public class LdapRootTreeNode implements TreeNode {
 
     @Override
     public Enumeration children() {
-        return new ArrayListEnumeration(ldapServerTreeNodes);
+        return new ArrayListEnumeration((ArrayList) children);
+    }
+
+    @Override
+    public String toString() {
+        return "LDAP Servers";
     }
 }

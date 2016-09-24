@@ -3,7 +3,7 @@ package org.majki.intellij.ldapbrowser.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationManager;
-import org.majki.intellij.ldapbrowser.config.LdapConnectionsService;
+import org.majki.intellij.ldapbrowser.ldap.LdapConnectionsService;
 import org.majki.intellij.ldapbrowser.toolwindow.LdapConnectionsDialog;
 import org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel;
 

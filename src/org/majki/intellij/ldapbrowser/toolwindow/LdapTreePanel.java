@@ -9,15 +9,16 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.JBPopupMenu;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.TreeSpeedSearch;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
 import org.jetbrains.annotations.NotNull;
-import org.majki.intellij.ldapbrowser.config.LdapConnectionsService;
-import org.majki.intellij.ldapbrowser.editor.PersonVirtualFile;
-import org.majki.intellij.ldapbrowser.ldap.OrganizationalPerson;
+import org.majki.intellij.ldapbrowser.ldap.LdapConnectionsService;
+import org.majki.intellij.ldapbrowser.ldap.ui.LdapIconProviderTreeNode;
+import org.majki.intellij.ldapbrowser.ldap.ui.LdapRootTreeNode;
+import org.majki.intellij.ldapbrowser.ldap.ui.LdapServerTreeNode;
+import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
@@ -25,10 +26,7 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 /**
  * @author Attila Majoros
@@ -56,12 +54,12 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
 
     private void openTreePopupMenu(LdapServerTreeNode ldapServerTreeNode, int x, int y) {
         JBPopupMenu menu = new JBPopupMenu(ldapServerTreeNode.toString());
-        if (ldapServerTreeNode.getInfo().getHandler().isOpened()) {
+        if (ldapServerTreeNode.getConnectionInfo().isOpened()) {
             JMenuItem disconnect = menu.add("Disconnect");
             disconnect.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ldapServerTreeNode.getInfo().getHandler().close();
+                    ldapServerTreeNode.getConnectionInfo().disconnect();
                     tree.repaint();
                 }
             });
@@ -70,7 +68,7 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             connect.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ldapServerTreeNode.getInfo().getHandler().connect();
+                    ldapServerTreeNode.getConnectionInfo().connect();
                     tree.repaint();
                 }
             });
@@ -88,11 +86,6 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         return null;
     }
 
-    private void openEditor(OrganizationalPerson person) {
-        PersonVirtualFile file = new PersonVirtualFile(person);
-        FileEditorManager.getInstance(project).openFile(file, true, true);
-    }
-
     @Override
     public void initComponent() {
         addToolbar();
@@ -107,12 +100,22 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             @Override
             public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
                 JBLabel label = new JBLabel(value.toString());
-                if (value instanceof LdapServerTreeNode) {
-                    label.setIcon(IconLoader.getIcon("/images/ldap.png"));
-                } else if (value instanceof LdapOrganizationPersonTreeNode) {
-                    label.setIcon(IconLoader.getIcon("/images/person.png"));
+                if (value instanceof LdapIconProviderTreeNode) {
+                    label.setIcon(((LdapIconProviderTreeNode) value).getIcon());
                 }
                 return label;
+            }
+        });
+
+        tree.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    LdapTreeNode[] selectedNodes = tree.getSelectedNodes(LdapTreeNode.class, null);
+                    if (selectedNodes.length > 0) {
+                        FileEditorManager.getInstance(project).openFile(selectedNodes[0].getFile(), true, true);
+                    }
+                }
             }
         });
 
@@ -131,8 +134,8 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
                     }
                 } else if (e.getClickCount() > 1) {
                     Object comp = getTreeComponent(e.getX(), e.getY());
-                    if (comp instanceof LdapOrganizationPersonTreeNode) {
-                        openEditor(((LdapOrganizationPersonTreeNode) comp).getPerson());
+                    if (comp instanceof LdapTreeNode) {
+                        FileEditorManager.getInstance(project).openFile(((LdapTreeNode) comp).getFile(), true, true);
                     }
                 }
             }
