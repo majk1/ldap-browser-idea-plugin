@@ -1,4 +1,4 @@
-package org.majki.intellij.ldapbrowser.toolwindow;
+package org.majki.intellij.ldapbrowser.dialog;
 
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.ui.JBColor;

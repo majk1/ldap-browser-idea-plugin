@@ -3,6 +3,7 @@ package org.majki.intellij.ldapbrowser.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.util.PlatformIcons;
 import org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel;
 
 /**
@@ -17,5 +18,8 @@ public class RefreshAction extends AnAction {
         // TODO: reload only selected
     }
 
-
+    @Override
+    public void update(AnActionEvent e) {
+        e.getPresentation().setIcon(PlatformIcons.SYNCHRONIZE_ICON);
+    }
 }
