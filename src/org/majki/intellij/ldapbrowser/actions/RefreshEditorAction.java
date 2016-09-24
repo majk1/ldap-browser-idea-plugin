@@ -8,7 +8,6 @@ import com.intellij.util.PlatformIcons;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.majki.intellij.ldapbrowser.editor.LdapNodeEditor;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
-import org.majki.intellij.ldapbrowser.ldap.ui.LdapAttributesTableModel;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 
 /**
@@ -16,18 +15,21 @@ import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
  */
 public class RefreshEditorAction extends AnAction {
 
+    public static final String ID = "ldapbrowser.refreshEditor";
+
     @Override
     public void actionPerformed(AnActionEvent e) {
         FileEditor fileEditor = DataKeys.FILE_EDITOR.getData(e.getDataContext());
         if (fileEditor instanceof LdapNodeEditor) {
-            LdapNode ldapNode = ((LdapNodeEditor) fileEditor).getVirtualFile().getLdapTreeNode().getLdapNode();
+            LdapNodeEditor nodeEditor = (LdapNodeEditor) fileEditor;
+            LdapNode ldapNode = nodeEditor.getVirtualFile().getLdapTreeNode().getLdapNode();
             try {
                 ldapNode.refresh();
             } catch (LdapException e1) {
                 LdapErrorHandler.handleError(e1, "Could not refresh editor");
             }
-            ((LdapAttributesTableModel) ((LdapNodeEditor) fileEditor).getTable().getModel()).refresh();
-            ((LdapNodeEditor) fileEditor).getTable().repaint();
+            nodeEditor.getTableWrapper().getModel().refresh();
+            nodeEditor.getTableWrapper().getTable().repaint();
         }
     }
 

@@ -13,7 +13,6 @@ import org.majki.intellij.ldapbrowser.dialog.LdapAddAttributeDialog;
 import org.majki.intellij.ldapbrowser.editor.LdapNodeEditor;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 import org.majki.intellij.ldapbrowser.ldap.LdapObjectClassAttribute;
-import org.majki.intellij.ldapbrowser.ldap.ui.LdapAttributesTableModel;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
 
@@ -22,12 +21,15 @@ import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
  */
 public class AddAttributeAction extends AnAction {
 
+    public static final String ID = "ldapbrowser.addAttribute";
+
     @Override
     public void actionPerformed(AnActionEvent e) {
         FileEditor fileEditor = DataKeys.FILE_EDITOR.getData(e.getDataContext());
         if (fileEditor instanceof LdapNodeEditor) {
-            LdapTreeNode ldapTreeNode = ((LdapNodeEditor) fileEditor).getVirtualFile().getLdapTreeNode();
-            LdapAddAttributeDialog addAttributeDialog = new LdapAddAttributeDialog(ldapTreeNode);
+            LdapNodeEditor nodeEditor = (LdapNodeEditor) fileEditor;
+            LdapTreeNode ldapTreeNode = nodeEditor.getVirtualFile().getLdapTreeNode();
+            LdapAddAttributeDialog addAttributeDialog = new LdapAddAttributeDialog(ldapTreeNode.getLdapNode());
             if (addAttributeDialog.showAndGet()) {
                 LdapNode ldapNode = ldapTreeNode.getLdapNode();
                 LdapObjectClassAttribute attribute = addAttributeDialog.getSelectedLdapObjectClassAttribute();
@@ -38,7 +40,8 @@ public class AddAttributeAction extends AnAction {
                     ldapNode.getConnection().modify(ldapNode.getDn(), modification);
 
                     ldapNode.refresh();
-                    ((LdapAttributesTableModel) ((LdapNodeEditor) fileEditor).getTable().getModel()).refresh();
+                    nodeEditor.getTableWrapper().getModel().refresh();
+                    nodeEditor.getTableWrapper().getTable().repaint();
                 } catch (LdapException e1) {
                     LdapErrorHandler.handleError(e1, "Could not add attribute value");
                 }

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Attila Majoros
@@ -68,14 +69,22 @@ public class LdapObjectClass {
     }
 
     public Set<LdapObjectClassAttribute> getObjectClassAttributes() {
-        return attributes;
+        return getObjectClassAttributes(false);
     }
 
-    public Set<LdapObjectClassAttribute> getAllObjectClassAttributes() {
+    public Set<LdapObjectClassAttribute> getObjectClassAttributes(boolean mustOnly) {
+        return mustOnly ? attributes.stream().filter(LdapObjectClassAttribute::isMust).collect(Collectors.toSet()) : attributes;
+    }
+
+    public Set<LdapObjectClassAttribute> getObjectClassAttributesWithInherited() {
+        return getObjectClassAttributesWithInherited(false);
+    }
+
+    public Set<LdapObjectClassAttribute> getObjectClassAttributesWithInherited(boolean mustOnly) {
         Set<LdapObjectClassAttribute> allAttributes = new HashSet<>();
         LdapObjectClass loc = this;
         while (loc != null) {
-            allAttributes.addAll(loc.getObjectClassAttributes());
+            allAttributes.addAll(loc.getObjectClassAttributes(mustOnly));
             loc = loc.getSuperObjectClass();
         }
         return allAttributes;

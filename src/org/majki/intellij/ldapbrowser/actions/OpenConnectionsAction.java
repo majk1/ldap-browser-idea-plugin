@@ -13,6 +13,8 @@ import org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel;
  */
 public class OpenConnectionsAction extends AnAction {
 
+    public static final String ID = "ldapbrowser.openConnections";
+
     @Override
     public void actionPerformed(AnActionEvent e) {
         LdapConnectionsService connectionsService = ApplicationManager.getApplication().getComponent(LdapConnectionsService.class);

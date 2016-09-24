@@ -5,8 +5,8 @@ import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.ui.ComboboxSpeedSearch;
 import com.intellij.ui.MutableCollectionComboBoxModel;
 import org.jetbrains.annotations.Nullable;
+import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 import org.majki.intellij.ldapbrowser.ldap.LdapObjectClassAttribute;
-import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ import java.util.Collections;
 
 public class LdapAddAttributeDialog extends DialogWrapper {
 
-    private LdapTreeNode treeNode;
+    private LdapNode ldapNode;
     private JPanel content;
     private JComboBox<LdapObjectClassAttribute> attributeComboBox;
     private JTextField valueTextField;
@@ -27,9 +27,9 @@ public class LdapAddAttributeDialog extends DialogWrapper {
 
     private boolean initialized;
 
-    public LdapAddAttributeDialog(LdapTreeNode treeNode) {
+    public LdapAddAttributeDialog(LdapNode ldapNode) {
         super(null, true, true);
-        this.treeNode = treeNode;
+        this.ldapNode = ldapNode;
         this.initialized = false;
 
         setTitle("Add Attribute to Entry");
@@ -40,12 +40,11 @@ public class LdapAddAttributeDialog extends DialogWrapper {
 
     private void initialize() {
         if (!initialized) {
-            ArrayList<LdapObjectClassAttribute> attributes = new ArrayList<>(treeNode.getLdapNode().getObjectClassAttributes());
+            ArrayList<LdapObjectClassAttribute> attributes = new ArrayList<>(ldapNode.getObjectClassAttributes());
             Collections.sort(attributes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
 
             MutableCollectionComboBoxModel<LdapObjectClassAttribute> attributeComboBoxModel = new MutableCollectionComboBoxModel<>(attributes);
             attributeComboBox.setModel(attributeComboBoxModel);
-            //AutoCompleteDecorator.decorate(attributeComboBox);
             new ComboboxSpeedSearch(attributeComboBox);
 
             initialized = true;
@@ -57,6 +56,12 @@ public class LdapAddAttributeDialog extends DialogWrapper {
     protected JComponent createCenterPanel() {
         initialize();
         return content;
+    }
+
+    @Nullable
+    @Override
+    public JComponent getPreferredFocusedComponent() {
+        return attributeComboBox;
     }
 
     @Nullable

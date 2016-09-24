@@ -1,18 +1,25 @@
 package org.majki.intellij.ldapbrowser.toolwindow;
 
 import com.intellij.icons.AllIcons;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.JBMenuItem;
 import com.intellij.openapi.ui.JBPopupMenu;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.ui.TreeSpeedSearch;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
+import com.intellij.util.PlatformIcons;
 import org.jetbrains.annotations.NotNull;
+import org.majki.intellij.ldapbrowser.actions.AddEntryAction;
+import org.majki.intellij.ldapbrowser.actions.DeleteEntryAction;
+import org.majki.intellij.ldapbrowser.actions.RefreshAction;
 import org.majki.intellij.ldapbrowser.ldap.LdapConnectionsService;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapIconProviderTreeNode;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapRootTreeNode;
@@ -25,7 +32,10 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Attila Majoros
@@ -51,45 +61,41 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         this.project = project;
     }
 
-    private void addRefreshAction(JBPopupMenu menu) {
-        JMenuItem refresh = menu.add("Refresh");
-        refresh.setIcon(AllIcons.Actions.Refresh);
-        refresh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AnAction action = ActionManager.getInstance().getAction("ldapbrowser.refresh");
-                if (action != null) {
-                    action.actionPerformed(null);
-                }
-            }
-        });
+    private void addActionMenuItem(JBPopupMenu menu, String title, Icon icon, String actionId) {
+        JBMenuItem menuItem = new JBMenuItem(title, icon);
+        menuItem.addActionListener(e -> ActionManager.getInstance().getAction(actionId).actionPerformed(null));
+        menu.add(menuItem);
     }
 
     private void openTreePopupMenu(LdapTreeNode ldapTreeNode, int x, int y) {
         JBPopupMenu menu = new JBPopupMenu(ldapTreeNode.toString());
-        addRefreshAction(menu);
+        addActionMenuItem(menu, "Refresh", AllIcons.Actions.Refresh, RefreshAction.ID);
+        if (ldapTreeNode.getAllowsChildren()) {
+            addActionMenuItem(menu, "New Entry", PlatformIcons.ADD_ICON, AddEntryAction.ID);
+        }
+        addActionMenuItem(menu, "Delete Entry", PlatformIcons.DELETE_ICON, DeleteEntryAction.ID);
         menu.show(tree, x, y);
     }
 
     private void openTreePopupMenu(LdapServerTreeNode ldapServerTreeNode, int x, int y) {
         JBPopupMenu menu = new JBPopupMenu(ldapServerTreeNode.toString());
         if (ldapServerTreeNode.getConnectionInfo().isOpened()) {
-            JMenuItem disconnect = menu.add("Disconnect");
-            disconnect.addActionListener(e -> {
+            JBMenuItem disconnectMenuItem = new JBMenuItem("Disconnect", AllIcons.Process.Stop);
+            disconnectMenuItem.addActionListener(e -> {
                 ldapServerTreeNode.getConnectionInfo().disconnect();
                 tree.repaint();
             });
-            disconnect.setIcon(AllIcons.Process.Stop);
+            menu.add(disconnectMenuItem);
         } else {
-            JMenuItem connect = menu.add("Connect");
-            connect.addActionListener(e -> {
+            JBMenuItem connectMenuItem = new JBMenuItem("Connect", AllIcons.General.Run);
+            connectMenuItem.addActionListener(e -> {
                 ldapServerTreeNode.getConnectionInfo().connect();
                 tree.repaint();
             });
-            connect.setIcon(AllIcons.General.Run);
+            menu.add(connectMenuItem);
         }
 
-        addRefreshAction(menu);
+        addActionMenuItem(menu, "Refresh", AllIcons.Actions.Refresh, RefreshAction.ID);
         menu.show(tree, x, y);
     }
 

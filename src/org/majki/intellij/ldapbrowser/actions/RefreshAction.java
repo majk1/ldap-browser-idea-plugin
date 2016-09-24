@@ -17,6 +17,8 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class RefreshAction extends AnAction {
 
+    public static final String ID = "ldapbrowser.refresh";
+
     @Override
     public void actionPerformed(AnActionEvent e) {
         LdapTreePanel treePanel = ApplicationManager.getApplication().getComponent(LdapTreePanel.class);
