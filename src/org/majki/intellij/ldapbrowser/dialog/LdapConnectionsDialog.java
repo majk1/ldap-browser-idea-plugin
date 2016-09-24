@@ -106,7 +106,10 @@ public class LdapConnectionsDialog extends DialogWrapper {
             if (selectedIndex != -1) {
                 InfoWrapper infoWrapper = (InfoWrapper) list.getModel().getElementAt(selectedIndex);
                 detailPanel.removeAll();
-                detailPanel.add(infoWrapper.getForm().getContent());
+                LdapConnectionDetailForm form = infoWrapper.getForm();
+                detailPanel.add(form.getContent());
+                form.getNameField().selectAll();
+                form.getNameField().requestFocusInWindow();
             } else {
                 detailPanel.removeAll();
             }
