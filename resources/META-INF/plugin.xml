@@ -5,17 +5,21 @@
   <vendor email="support@majki.org" url="http://ldapbrowser.majki.org">Majki</vendor>
 
   <description><![CDATA[
-      Plugin to browser LDAP server<br/>
+      Plugin to browser LDAP servers<br/>
       Using Apache Directory LDAP API version 1.0.0-RC1<br/>
-      Currently supported authentications are: Anonymous and simple authentication<br/>
+      Currently supported authentication methods are anonymous and simple authentication<br/>
     ]]></description>
 
   <change-notes><![CDATA[
-      First relese<br>
-      TODO:
       <ul>
-        <li>GUI improvements</li>
-        <li>Fixing icon sizes and adding more icons</li>
+      <li>
+        First relese</br>
+        TODO:
+        <ul>
+          <li>Fix virtual file / vfs bugs</li>
+          <li>Fix GUI bugs and do some improvements</li>
+        </ul>
+      </li>
       </ul>
     ]]>
   </change-notes>

@@ -90,7 +90,7 @@ public class LdapServerTreeNode extends LdapConnectionInfoTreeNode {
     @Nullable
     @Override
     public Icon getIcon() {
-        return IconLoader.getIcon("/images/ldap.png");
+        return IconLoader.getIcon("/images/server.png");
     }
 
     @Override

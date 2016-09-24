@@ -116,10 +116,17 @@ public class LdapTreeNode extends LdapConnectionInfoTreeNode {
     @Nullable
     @Override
     public Icon getIcon() {
-        if (node.isInstanceOf(LdapNode.OBJECTCLASS_PERSON)) {
+        if (node.isInstanceOf(LdapNode.OBJECTCLASS_DOMAIN)) {
+            return IconLoader.getIcon("/images/domain.png");
+        } else if (node.isInstanceOf(LdapNode.OBJECTCLASS_PERSON)) {
             return IconLoader.getIcon("/images/person.png");
+        } else if (node.isInstanceOf(LdapNode.OBJECTCLASS_GROUP_OF_UNIQUE_NAMES)) {
+            return IconLoader.getIcon("/images/group.png");
+        } else if (getAllowsChildren()) {
+            return IconLoader.getIcon("/images/node.png");
+        } else {
+            return IconLoader.getIcon("/images/entry.png");
         }
-        return null;
     }
 
     public LdapNodeVirtualFile getFile() {

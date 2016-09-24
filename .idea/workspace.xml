@@ -2,12 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ff6e9d3-4de9-4700-84b2-5dc08f60d19b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/domain.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/domain@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/domain@2x_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/domain_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/entry.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/entry@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/entry@2x_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/entry_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/group.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/group@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/group@2x_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/group_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/node.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/node@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/node@2x_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/node_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/server.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/server@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/server@2x_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/images/server_dark.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/ldap.png" afterPath="$PROJECT_DIR$/resources/images/ldap.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/ldap@2x.png" afterPath="$PROJECT_DIR$/resources/images/ldap@2x.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/ldap@2x_dark.png" afterPath="$PROJECT_DIR$/resources/images/ldap@2x_dark.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/ldap_dark.png" afterPath="$PROJECT_DIR$/resources/images/ldap_dark.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/person.png" afterPath="$PROJECT_DIR$/resources/images/person.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/person@2x.png" afterPath="$PROJECT_DIR$/resources/images/person@2x.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/person@2x_dark.png" afterPath="$PROJECT_DIR$/resources/images/person@2x_dark.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/person_dark.png" afterPath="$PROJECT_DIR$/resources/images/person_dark.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.form" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributeTableWrapper.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributeTableWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapFileIconProvider.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapFileIconProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapServerTreeNode.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapServerTreeNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java" />
     </list>
     <ignored path="ldap-browser-idea-plugin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,9 +67,87 @@
       <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="732">
-              <caret line="61" column="62" selection-start-line="61" selection-start-column="62" selection-end-line="61" selection-end-column="62" />
+            <state relative-caret-position="144">
+              <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LdapTreeNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1344">
+              <caret line="127" column="52" selection-start-line="127" selection-start-column="52" selection-end-line="127" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="docComment;class#LdapTreeNode#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LdapNodeVirtualFile.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeVirtualFile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="docComment;class#LdapNodeVirtualFile#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LdapNodeFileTypeFactory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileTypeFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="docComment;class#LdapNodeFileTypeFactory#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LdapNodeFileType.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="372">
+              <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="docComment;class#LdapNodeFileType#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LdapNodeEditorProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditorProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="docComment;class#LdapNodeEditorProvider#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LdapFileIconProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapFileIconProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="docComment;class#LdapFileIconProvider#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -88,11 +193,8 @@
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapConnectionInfoTreeNode.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/PersonFileIconProvider.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditorProvider.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileTypeFactory.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeVirtualFile.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapFileIconProvider.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.form" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapConnectionsDialog.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java" />
@@ -109,7 +211,6 @@
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RemoveValueAction.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshEditorAction.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttributeAction.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/DeleteEntryAction.java" />
@@ -121,11 +222,15 @@
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapUserPasswordDialog.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.form" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributeTableWrapper.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapServerTreeNode.java" />
-        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapServerTreeNode.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapFileIconProvider.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java" />
+        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
       </list>
     </option>
   </component>
@@ -151,8 +256,8 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1920" />
-    <option name="height" value="1140" />
+    <option name="width" value="1440" />
+    <option name="height" value="840" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -179,6 +284,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="NBKnowledgePane" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -416,17 +525,9 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="NBKnowledgePane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -444,13 +545,14 @@
     <property name="extract.method.default.visibility" value="private" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/images" />
+      <recent name="$PROJECT_DIR$/resources/images/old" />
+      <recent name="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap" />
       <recent name="$PROJECT_DIR$/src/org/majki/intellij/ldap" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog" />
-      <recent name="$PROJECT_DIR$/resources/images" />
     </key>
   </component>
   <component name="Regex">
@@ -1029,12 +1131,12 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="1140" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="840" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="LDAP" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36285713" sideWeight="0.5104303" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36266667" sideWeight="0.5104303" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32964718" sideWeight="0.4961905" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1049,14 +1151,13 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295238" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36285713" sideWeight="0.48956975" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36266667" sideWeight="0.48956975" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295238" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36285713" sideWeight="0.5104303" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="JRebel remote servers log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19220643" sideWeight="0.49238095" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19168429" sideWeight="0.49238095" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="SonarLint" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.18571429" sideWeight="0.507619" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
@@ -1065,6 +1166,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295238" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1142,58 +1244,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapErrorHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeVirtualFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileTypeFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/util/PlatformIcons.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="65" column="11" selection-start-line="65" selection-start-column="11" selection-end-line="65" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/icons/AllIcons.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
@@ -1325,9 +1375,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="65" column="20" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="20" />
-          <folding>
-            <element signature="class#Value#0;class#LdapAttribute#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1441,14 +1488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapServerTreeNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
-          <caret line="95" column="4" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1457,24 +1496,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="15" column="64" selection-start-line="15" selection-start-column="64" selection-end-line="15" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1283">
           <caret line="149" column="21" selection-start-line="149" selection-start-column="21" selection-end-line="149" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5309#5786#0" expanded="true" />
-            <element signature="e#5785#5786#0" expanded="true" />
-            <element signature="e#7080#7081#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1518,10 +1543,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="601">
           <caret line="126" column="5" selection-start-line="126" selection-start-column="5" selection-end-line="126" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#LdapUserPasswordDialog#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1529,17 +1550,94 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
           <caret line="65" column="24" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapServerTreeNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1344">
+          <caret line="127" column="52" selection-start-line="127" selection-start-column="52" selection-end-line="127" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="docComment;class#LdapTableCellEditor#0" expanded="false" />
+            <element signature="docComment;class#LdapTreeNode#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeVirtualFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="docComment;class#LdapNodeVirtualFile#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileTypeFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="docComment;class#LdapNodeFileTypeFactory#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="docComment;class#LdapNodeFileType#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditorProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="docComment;class#LdapNodeEditorProvider#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapFileIconProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="docComment;class#LdapFileIconProvider#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="732">
-          <caret line="61" column="62" selection-start-line="61" selection-start-column="62" selection-end-line="61" selection-end-column="62" />
+        <state relative-caret-position="144">
+          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
           <folding />
         </state>
       </provider>
