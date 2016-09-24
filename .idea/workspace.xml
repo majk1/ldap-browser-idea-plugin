@@ -2,19 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ff6e9d3-4de9-4700-84b2-5dc08f60d19b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttribute.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttributeAction.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshEditorAction.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.form" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClass.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttribute.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RemoveValueAction.java" />
       <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapConnectionDetailForm.form" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.form" />
       <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapConnectionDetailForm.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapConnectionsDialog.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.form" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.form" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapNode.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributesTableModel.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributesTableModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapErrorHandler.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapErrorHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java" afterPath="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java" />
     </list>
     <ignored path="ldap-browser-idea-plugin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,157 +49,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LdapNodeVirtualFile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeVirtualFile.java">
+      <file leaf-file-name="RefreshEditorAction.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshEditorAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1004">
-              <caret line="156" column="8" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapObjectClass.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClass.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="696">
-              <caret line="185" column="12" selection-start-line="185" selection-start-column="12" selection-end-line="185" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapObjectClassAttribute.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapNodeEditor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="64" column="54" selection-start-line="64" selection-start-column="54" selection-end-line="64" selection-end-column="54" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddAttribute.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttribute.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapConnectionsDialog.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapAddAttributeDialog.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapConnectionDetailForm.form" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.form">
-          <provider selected="true" editor-type-id="ui-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OpenConnectionsAction.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RefreshAction.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapNodeEditor.form" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.form">
-          <provider selected="true" editor-type-id="ui-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapNodeFileTypeFactory.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileTypeFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LdapNodeFileType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+            <state relative-caret-position="204">
+              <caret line="29" column="63" selection-start-line="29" selection-start-column="63" selection-end-line="29" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -207,8 +66,8 @@
       <list>
         <option value="ProjectComponent" />
         <option value="ApplicationComponent" />
-        <option value="Action" />
         <option value="Class" />
+        <option value="Action" />
       </list>
     </option>
   </component>
@@ -228,10 +87,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldap/toolwindow/LdapConnectionsDialog.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldap/toolwindow/LdapTreePanel.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldap/OrganizationalPerson.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/OrganizationUnit.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapOrganizationPersonTreeNode.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapServerTreeNode.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapOrganizationUnitTreeNode.java" />
@@ -246,7 +101,6 @@
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/PersonVirtualFile.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/OrganizationalPerson.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapConnectionHandler.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapErrorHandler.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/config/LdapConnectionInfo.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapConnectionsService.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapRootTreeNode.java" />
@@ -259,26 +113,31 @@
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/PersonFileIconProvider.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditorProvider.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributesTableModel.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileTypeFactory.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeVirtualFile.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapFileIconProvider.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapNode.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClass.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.form" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttribute.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java" />
-        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapConnectionsDialog.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java" />
-        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.java" />
         <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.form" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.form" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributesTableModel.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapNode.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttribute.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RemoveValueAction.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttributeAction.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapErrorHandler.java" />
+        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshEditorAction.java" />
+        <option value="$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java" />
       </list>
     </option>
   </component>
@@ -518,6 +377,32 @@
               <option name="myItemId" value="dialog" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LdapAddAttributeDialog" />
+              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldap-browser-idea-plugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldap-browser-idea-plugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldapbrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dialog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -594,6 +479,7 @@
     <property name="Repository.Attach.JavaDocs" value="true" />
     <property name="Repository.Attach.Sources" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH" value="129" />
+    <property name="extract.method.default.visibility" value="private" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1204,9 +1090,9 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295238" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36285713" sideWeight="0.49478486" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36285713" sideWeight="0.4921773" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295238" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36285713" sideWeight="0.5052151" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36285713" sideWeight="0.5078227" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="JRebel remote servers log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19220643" sideWeight="0.49238095" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -1252,76 +1138,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="10" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapOrganizationUnitTreeNode.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapVirtualFileSystem.java" />
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/vfs/VirtualFile.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="372" column="18" selection-start-line="372" selection-start-column="18" selection-end-line="372" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/PersonVirtualFile.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapServerTreeNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="87" column="5" selection-start-line="87" selection-start-column="5" selection-end-line="87" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapRootTreeNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="21" column="95" selection-start-line="21" selection-start-column="95" selection-end-line="21" selection-end-column="95" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1032#1074#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapErrorHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/table/AbstractTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="59" column="22" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/table/DefaultTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="61" column="47" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/table/TableColumn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="203" column="11" selection-start-line="203" selection-start-column="11" selection-end-line="203" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/PersonEditor.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/PersonEditorProvider.java" />
     <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditorProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -1340,17 +1161,6 @@
         <state relative-caret-position="420">
           <caret line="67" column="22" selection-start-line="67" selection-start-column="22" selection-end-line="67" selection-end-column="22" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributesTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="class#Item#0;class#LdapAttributesTableModel#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1387,26 +1197,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileTypeFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/tree/MutableTreeNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -1431,16 +1221,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="21" column="45" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/ListSelectionModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
@@ -1448,62 +1228,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/JTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="1970" column="34" selection-start-line="1970" selection-start-column="34" selection-end-line="1970" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/util/ui/UIUtil.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
           <caret line="2672" column="23" selection-start-line="2672" selection-start-column="23" selection-end-line="2672" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeVirtualFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1004">
-          <caret line="156" column="8" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="185" column="12" selection-start-line="185" selection-start-column="12" selection-end-line="185" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="173" column="53" selection-start-line="173" selection-start-column="53" selection-end-line="173" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1539,53 +1267,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="64" column="54" selection-start-line="64" selection-start-column="54" selection-end-line="64" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttribute.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/DialogWrapper.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -1594,36 +1275,275 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.java">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/swingx-core-1.6.2.jar!/org/jdesktop/swingx/autocomplete/AutoCompleteDecorator.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="17" column="38" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
+        <state relative-caret-position="72">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java">
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClassAttribute.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
+        <state relative-caret-position="396">
+          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="175" column="11" selection-start-line="175" selection-start-column="11" selection-end-line="175" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapAttributesTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
           <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="class#Item#0;class#LdapAttributesTableModel#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapTreeNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-600">
+          <caret line="21" column="45" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/ui/treeStructure/Tree.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="658" column="19" selection-start-line="658" selection-start-column="19" selection-end-line="658" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/event/TreeModelListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="57" column="9" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/tree/DefaultTreeModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="485" column="62" selection-start-line="485" selection-start-column="62" selection-end-line="485" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/toolwindow/LdapTreePanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="186" column="8" selection-start-line="186" selection-start-column="8" selection-end-line="186" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/event/CellEditorListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/com/intellij/ui/TableCellEditorWithButton.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/javax/swing/JTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="5432" column="17" selection-start-line="5432" selection-start-column="17" selection-end-line="5432" selection-end-column="17" />
+          <folding>
+            <element signature="class#GenericEditor#0;class#JTable#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/java/io/StringWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="208" column="18" selection-start-line="208" selection-start-column="18" selection-end-line="208" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/AddAttributeAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="28" column="51" selection-start-line="28" selection-start-column="51" selection-end-line="28" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding>
+            <element signature="class#UniqueNameListener#0;class#LdapConnectionDetailForm#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="51" column="62" selection-start-line="51" selection-start-column="62" selection-end-line="51" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/ui/LdapErrorHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="157" column="51" selection-start-line="157" selection-start-column="51" selection-end-line="157" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RemoveValueAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/OpenConnectionsAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+        <state relative-caret-position="-108">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="82" column="66" selection-start-line="82" selection-start-column="66" selection-end-line="82" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapAddAttributeDialog.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionDetailForm.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeEditor.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/ldap/LdapObjectClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="696">
+          <caret line="185" column="12" selection-start-line="185" selection-start-column="12" selection-end-line="185" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeVirtualFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileTypeFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/editor/LdapNodeFileType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/dialog/LdapConnectionsDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="112" column="38" selection-start-line="112" selection-start-column="38" selection-end-line="112" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/majki/intellij/ldapbrowser/actions/RefreshEditorAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="29" column="63" selection-start-line="29" selection-start-column="63" selection-end-line="29" selection-end-column="63" />
+          <folding />
         </state>
       </provider>
     </entry>

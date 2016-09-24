@@ -10,9 +10,7 @@ import org.apache.directory.api.ldap.model.message.SearchScope;
 import org.apache.directory.ldap.client.api.LdapConnection;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -59,6 +57,46 @@ public class LdapNode implements Serializable {
         this.objectClassValues = null;
     }
 
+    public LdapAttribute getAttributeByName(String name) {
+        for (LdapAttribute attribute : attributes) {
+            if (attribute.name().equalsIgnoreCase(name)) {
+                return attribute;
+            }
+        }
+        return null;
+    }
+
+    public void refresh() throws LdapException {
+        objectClassValues = null;
+        EntryCursor cursor = connection.search(dn, DEFAULT_FILTER, SearchScope.OBJECT, DEFAULT_SEARCH_ATTRIBUTE);
+        try {
+            if (cursor.next()) {
+                Entry entry = cursor.get();
+                for (Attribute attribute : entry.getAttributes()) {
+                    LdapAttribute ldapAttribute = getAttributeByName(attribute.getId());
+                    if (ldapAttribute != null) {
+                        List<LdapAttribute.Value> values = ldapAttribute.values();
+                        values.clear();
+                        addValuesFromAttribute(attribute, values);
+                    } else {
+                        List<LdapAttribute.Value> values = new ArrayList<>();
+                        addValuesFromAttribute(attribute, values);
+                        int index = OBJECTCLASS_ATTRIBUTE_NAME.equals(attribute.getId()) ? 0 : attributes.size();
+                        attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
+                    }
+                }
+            }
+        } catch (CursorException e) {
+            throw new LdapException("Cursor error", e);
+        }
+    }
+
+    private void addValuesFromAttribute(Attribute attribute, List<LdapAttribute.Value> values) {
+        for (Value<?> value : attribute) {
+            values.add(new LdapAttribute.Value(value.isNull(), value.isHumanReadable(), value.toString(), value.getBytes()));
+        }
+    }
+
     private void searchChildren() throws LdapException {
         children = new ArrayList<>();
         EntryCursor cursor = connection.search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, DEFAULT_SEARCH_ATTRIBUTE);
@@ -68,9 +106,7 @@ public class LdapNode implements Serializable {
                 List<LdapAttribute> attributes = new ArrayList<>();
                 for (Attribute attribute : entry.getAttributes()) {
                     List<LdapAttribute.Value> values = new ArrayList<>();
-                    for (Value<?> value : attribute) {
-                        values.add(new LdapAttribute.Value(value.isNull(), value.isHumanReadable(), value.toString(), value.getBytes()));
-                    }
+                    addValuesFromAttribute(attribute, values);
                     int index = OBJECTCLASS_ATTRIBUTE_NAME.equals(attribute.getId()) ? 0 : attributes.size();
                     attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
                 }
@@ -130,23 +166,48 @@ public class LdapNode implements Serializable {
         return getChildren().size();
     }
 
-    public void refresh() throws LdapException {
+    public void refreshWithChildren() throws LdapException {
+        refresh();
         searchChildren();
+    }
+
+    private List<String> getObjectClassValues() {
+        if (objectClassValues == null) {
+            extractObjectClassValues();
+        }
+        return objectClassValues;
     }
 
     public boolean isInstanceOf(String objectClass) {
         if (objectClass == null) {
             return false;
         }
-        if (objectClassValues == null) {
-            extractObjectClassValues();
-        }
-        for (String objectClassValue : objectClassValues) {
+        for (String objectClassValue : getObjectClassValues()) {
             if (objectClassValue.equalsIgnoreCase(objectClass.trim())) {
                 return true;
             }
         }
         return false;
+    }
+
+    public Set<LdapObjectClass> getObjectClasses() {
+        Set<LdapObjectClass> objectClasses = new HashSet<>();
+        LdapObjectClass topObjectClass = getTopObjectClass();
+        for (String objectClassValue : getObjectClassValues()) {
+            LdapObjectClass loc = topObjectClass.getByName(objectClassValue);
+            if (loc != null) {
+                objectClasses.add(loc);
+            }
+        }
+        return objectClasses;
+    }
+
+    public Set<LdapObjectClassAttribute> getObjectClassAttributes() {
+        Set<LdapObjectClassAttribute> objectClassAttributes = new HashSet<>();
+        for (LdapObjectClass ldapObjectClass : getObjectClasses()) {
+            objectClassAttributes.addAll(ldapObjectClass.getAllObjectClassAttributes());
+        }
+        return objectClassAttributes;
     }
 
     public static LdapNode createRoot(LdapConnection connection) throws LdapException {

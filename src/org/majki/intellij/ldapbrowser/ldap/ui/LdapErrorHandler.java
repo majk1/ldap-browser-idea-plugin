@@ -5,8 +5,8 @@ import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
 import com.intellij.openapi.ui.Messages;
 
-import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author Attila Majoros
@@ -21,10 +21,12 @@ public final class LdapErrorHandler {
     }
 
     public static void handleError(Exception e, String message) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        PrintWriter writer = new PrintWriter(bos);
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
         e.printStackTrace(writer);
-        final String stackTrace = new String(bos.toByteArray());
+        writer.flush();
+        final String stackTrace = stringWriter.toString();
+        writer.close();
 
         Notifications.Bus.notify(new Notification(NOTIFICATION_GROUP, "LDAP Exception", message + " (<a href=\"#showException\">show exception</a>)", NotificationType.ERROR, (notification, hyperlinkEvent) -> {
             if ("#showException".equals(hyperlinkEvent.getDescription())) {

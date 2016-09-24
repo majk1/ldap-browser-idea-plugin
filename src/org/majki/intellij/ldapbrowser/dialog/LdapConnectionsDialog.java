@@ -101,9 +101,14 @@ public class LdapConnectionsDialog extends DialogWrapper {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 JBList list = (JBList) e.getSource();
-                InfoWrapper infoWrapper = (InfoWrapper) list.getModel().getElementAt(list.getSelectedIndex());
-                detailPanel.removeAll();
-                detailPanel.add(infoWrapper.getForm().getContent());
+                int selectedIndex = list.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    InfoWrapper infoWrapper = (InfoWrapper) list.getModel().getElementAt(selectedIndex);
+                    detailPanel.removeAll();
+                    detailPanel.add(infoWrapper.getForm().getContent());
+                } else {
+                    detailPanel.removeAll();
+                }
                 detailPanel.revalidate();
                 detailPanel.repaint();
             }

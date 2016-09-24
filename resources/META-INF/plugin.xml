@@ -42,7 +42,13 @@
       <add-to-group group-id="ldapbrowser.actionGroup"/>
     </action>
 
-    <action id="ldapbrowser.addAttribute" class="org.majki.intellij.ldapbrowser.actions.AddAttribute" text="Add attribute" description="Adds an attribute to the entry">
+    <action id="ldapbrowser.addAttribute" class="org.majki.intellij.ldapbrowser.actions.AddAttributeAction" text="Add attribute" description="Adds an attribute to the entry">
+      <add-to-group group-id="ldapbrowser.editorActionGroup"/>
+    </action>
+    <action id="ldapbrowser.removeValue" class="org.majki.intellij.ldapbrowser.actions.RemoveValueAction" text="Remove value" description="Remove value from Entry">
+      <add-to-group group-id="ldapbrowser.editorActionGroup"/>
+    </action>
+    <action id="ldapbrowser.refreshEditorAction" class="org.majki.intellij.ldapbrowser.actions.RefreshEditorAction" text="Refresh editor" description="Refresh the attributes in editor">
       <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>
   </actions>

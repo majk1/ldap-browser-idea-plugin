@@ -53,6 +53,10 @@ public class LdapAttributesTableModel implements TableModel {
         return items;
     }
 
+    public void reload() {
+        items = createItems();
+    }
+
     public List<Item> getItems() {
         return items;
     }
