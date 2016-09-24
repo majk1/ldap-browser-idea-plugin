@@ -84,6 +84,7 @@ public class LdapConnectionDetailForm {
         testConnectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                save();
                 if (info.testConnection()) {
                     testConnectionResulLabel.setText("Connection successfull");
                     testConnectionResulLabel.setForeground(JBColor.GREEN);

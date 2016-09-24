@@ -58,6 +58,7 @@ public class LdapAttributeTableWrapper {
 
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setRowSelectionAllowed(true);
+        table.setRowHeight(24);
 
         TableColumn attributeColumn = table.getColumn(LdapAttributeTableModel.COLUMN_NAMES[0]);
         attributeColumn.setResizable(true);

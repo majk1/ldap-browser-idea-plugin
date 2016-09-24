@@ -2,14 +2,15 @@ package org.majki.intellij.ldapbrowser.dialog;
 
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
-import com.intellij.ui.*;
+import com.intellij.ui.CollectionListModel;
+import com.intellij.ui.JBSplitter;
+import com.intellij.ui.ListSpeedSearch;
+import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.*;
 import org.jetbrains.annotations.Nullable;
 import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.stream.Collectors;
 
@@ -97,34 +98,28 @@ public class LdapConnectionsDialog extends DialogWrapper {
         JBTabbedPane tabPanel = new JBTabbedPane(JBTabbedPane.TOP);
         tabPanel.add("Connection details", detailPanel);
 
-        connectionList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                JBList list = (JBList) e.getSource();
-                int selectedIndex = list.getSelectedIndex();
-                if (selectedIndex != -1) {
-                    InfoWrapper infoWrapper = (InfoWrapper) list.getModel().getElementAt(selectedIndex);
-                    detailPanel.removeAll();
-                    detailPanel.add(infoWrapper.getForm().getContent());
-                } else {
-                    detailPanel.removeAll();
-                }
-                detailPanel.revalidate();
-                detailPanel.repaint();
+        connectionList.addListSelectionListener(e -> {
+            JBList list = (JBList) e.getSource();
+            int selectedIndex = list.getSelectedIndex();
+            if (selectedIndex != -1) {
+                InfoWrapper infoWrapper = (InfoWrapper) list.getModel().getElementAt(selectedIndex);
+                detailPanel.removeAll();
+                detailPanel.add(infoWrapper.getForm().getContent());
+            } else {
+                detailPanel.removeAll();
             }
+            detailPanel.revalidate();
+            detailPanel.repaint();
         });
 
-        ListSpeedSearch listSpeedSearch = new ListSpeedSearch(connectionList);
+        new ListSpeedSearch(connectionList);
 
         ToolbarDecorator connectionListDecorator = ToolbarDecorator.createDecorator(connectionList);
-        connectionListDecorator.setAddAction(new AnActionButtonRunnable() {
-            @Override
-            public void run(AnActionButton anActionButton) {
-                LdapConnectionInfo ldapConnectionInfo = new LdapConnectionInfo();
-                InfoWrapper infoWrapper = new InfoWrapper(ldapConnectionInfo, uniqueNameListener);
-                connectionListModel.add(infoWrapper);
-                connectionList.setSelectedIndex(connectionListModel.getElementIndex(infoWrapper));
-            }
+        connectionListDecorator.setAddAction(anActionButton -> {
+            LdapConnectionInfo ldapConnectionInfo = new LdapConnectionInfo();
+            InfoWrapper infoWrapper = new InfoWrapper(ldapConnectionInfo, uniqueNameListener);
+            connectionListModel.add(infoWrapper);
+            connectionList.setSelectedIndex(connectionListModel.getElementIndex(infoWrapper));
         });
 
         JBPanel listLabelPanel = new JBPanel(new BorderLayout());

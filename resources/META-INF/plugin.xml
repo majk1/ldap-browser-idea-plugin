@@ -2,14 +2,21 @@
   <id>org.majki.intellij.ldapbrowser</id>
   <name>LDAP browser</name>
   <version>1.0</version>
-  <vendor email="support@majki.org" url="http://majki.org">Majki</vendor>
+  <vendor email="support@majki.org" url="http://ldapbrowser.majki.org">Majki</vendor>
 
   <description><![CDATA[
-      Plugin to browser LDAP
+      Plugin to browser LDAP server<br/>
+      Using Apache Directory LDAP API version 1.0.0-RC1<br/>
+      Currently supported authentications are: Anonymous and simple authentication<br/>
     ]]></description>
 
   <change-notes><![CDATA[
-      Initial release<br>
+      First relese<br>
+      TODO:
+      <ul>
+        <li>GUI improvements</li>
+        <li>Fixing icon sizes and adding more icons</li>
+      </ul>
     ]]>
   </change-notes>
 
@@ -18,9 +25,7 @@
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
-  <!-- uncomment to enable plugin in all products
   <depends>com.intellij.modules.lang</depends>
-  -->
 
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="LDAP" anchor="left" factoryClass="org.majki.intellij.ldapbrowser.toolwindow.LdapToolWindowFactory" icon="/images/ldap.png"/>
@@ -47,13 +52,13 @@
       <add-to-group group-id="ldapbrowser.actionGroup"/>
     </action>
 
+    <action id="ldapbrowser.refreshEditor" class="org.majki.intellij.ldapbrowser.actions.RefreshEditorAction" text="Refresh editor" description="Refresh the attributes in editor">
+      <add-to-group group-id="ldapbrowser.editorActionGroup"/>
+    </action>
     <action id="ldapbrowser.addAttribute" class="org.majki.intellij.ldapbrowser.actions.AddAttributeAction" text="Add attribute" description="Adds an attribute to the entry">
       <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>
     <action id="ldapbrowser.removeValue" class="org.majki.intellij.ldapbrowser.actions.RemoveValueAction" text="Remove value" description="Remove value from Entry">
-      <add-to-group group-id="ldapbrowser.editorActionGroup"/>
-    </action>
-    <action id="ldapbrowser.refreshEditor" class="org.majki.intellij.ldapbrowser.actions.RefreshEditorAction" text="Refresh editor" description="Refresh the attributes in editor">
       <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>
   </actions>
