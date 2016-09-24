@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>org.majki.intellij.ldapbrowser</id>
   <name>LDAP browser</name>
-  <version>1.0</version>
+  <version>1.1</version>
   <vendor email="support@majki.org" url="http://ldapbrowser.majki.org">Majki</vendor>
 
   <description><![CDATA[
