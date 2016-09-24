@@ -38,8 +38,6 @@ public class LdapNode implements Serializable {
     public static final String NAMING_CONTEXT_ATTRIBUTE_NAME = "namingcontexts";
     public static final String NAMING_CONTEXT_ATTRIBUTE_NAME_UP = "namingContexts";
 
-    public static final String SCHEMA_DN = "ou=schema";
-
     private static final String DEFAULT_FILTER = "(objectclass=*)";
     private static final String DEFAULT_SEARCH_ATTRIBUTE = "*";
 

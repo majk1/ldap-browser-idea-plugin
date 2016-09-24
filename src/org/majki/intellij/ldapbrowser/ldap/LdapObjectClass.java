@@ -1,18 +1,12 @@
 package org.majki.intellij.ldapbrowser.ldap;
 
-import org.apache.directory.api.ldap.model.cursor.CursorException;
-import org.apache.directory.api.ldap.model.cursor.EntryCursor;
-import org.apache.directory.api.ldap.model.entry.Attribute;
-import org.apache.directory.api.ldap.model.entry.Entry;
-import org.apache.directory.api.ldap.model.entry.Value;
 import org.apache.directory.api.ldap.model.exception.LdapException;
-import org.apache.directory.api.ldap.model.message.SearchScope;
+import org.apache.directory.api.ldap.model.schema.ObjectClass;
+import org.apache.directory.api.ldap.model.schema.SchemaObjectWrapper;
+import org.apache.directory.api.ldap.model.schema.registries.Schema;
 import org.apache.directory.ldap.client.api.LdapConnection;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -29,12 +23,14 @@ public class LdapObjectClass {
     private String superClassName;
     private String name;
     private String description;
+    private String schemaName;
 
     private Set<LdapObjectClassAttribute> attributes;
 
-    private LdapObjectClass(String superClassName, String name, String description, Set<LdapObjectClassAttribute> attributes) {
+    private LdapObjectClass(String superClassName, String name, String schemaName, String description, Set<LdapObjectClassAttribute> attributes) {
         this.superClassName = superClassName;
         this.name = name;
+        this.schemaName = schemaName;
         this.description = description;
         this.attributes = attributes;
         this.subObjectClasses = new HashSet<>();
@@ -77,6 +73,10 @@ public class LdapObjectClass {
 
     public String getName() {
         return name;
+    }
+
+    public String getSchemaName() {
+        return schemaName;
     }
 
     public String getDescription() {
@@ -175,39 +175,31 @@ public class LdapObjectClass {
     public static LdapObjectClass getTop(LdapConnection connection) throws LdapException {
         Map<String, LdapObjectClass> objectClassMap = new HashMap<>();
 
-        EntryCursor cursor = connection.search("ou=schema", "(objectClass=metaObjectClass)", SearchScope.SUBTREE, "*");
-        try {
-            while (cursor.next()) {
-                Entry entry = cursor.get();
+        connection.loadSchemaRelaxed();
+        for (Schema schema : connection.getSchemaManager().getAllSchemas()) {
+            for (SchemaObjectWrapper schemaObjectWrapper : schema.getContent()) {
+                if (schemaObjectWrapper.get() instanceof ObjectClass) {
+                    ObjectClass objectClass = (ObjectClass) schemaObjectWrapper.get();
 
-                Attribute superClassAttribute = entry.get("m-supobjectclass");
-                Attribute nameAttribute = entry.get("m-name");
-                Attribute descriptrionAttribute = entry.get("m-description");
-                Attribute mustAttribute = entry.get("m-must");
-                Attribute mayAttribute = entry.get("m-may");
+                    List<String> names = objectClass.getNames();
+                    if (names.isEmpty()) {
+                        names = Collections.singletonList(objectClass.getName());
+                    }
 
-                String superClassName = superClassAttribute == null ? null : superClassAttribute.get().toString();
-                String name = nameAttribute.get().toString();
-                String description = descriptrionAttribute == null ? null : descriptrionAttribute.get().toString();
+                    String superClassName = null;
+                    if (!objectClass.getSuperiorOids().isEmpty()) {
+                        superClassName = objectClass.getSuperiorOids().get(0); // TODO: handle multiple inheritance
+                    }
 
-                Set<LdapObjectClassAttribute> objectClassAttributes = new HashSet<>();
+                    Set<LdapObjectClassAttribute> objectClassAttributes = new HashSet<>();
+                    objectClassAttributes.addAll(objectClass.getMustAttributeTypeOids().stream().map(attributeName -> new LdapObjectClassAttribute(true, attributeName)).collect(Collectors.toList()));
+                    objectClassAttributes.addAll(objectClass.getMayAttributeTypeOids().stream().map(attributeName -> new LdapObjectClassAttribute(false, attributeName)).collect(Collectors.toList()));
 
-                if (mustAttribute != null) {
-                    for (Value<?> value : mustAttribute) {
-                        objectClassAttributes.add(new LdapObjectClassAttribute(true, value.toString()));
+                    for (String name : names) {
+                        objectClassMap.put(name, new LdapObjectClass(superClassName, name, objectClass.getSchemaName(), objectClass.getDescription(), objectClassAttributes));
                     }
                 }
-
-                if (mayAttribute != null) {
-                    for (Value<?> value : mayAttribute) {
-                        objectClassAttributes.add(new LdapObjectClassAttribute(false, value.toString()));
-                    }
-                }
-
-                objectClassMap.put(name, new LdapObjectClass(superClassName, name, description, objectClassAttributes));
             }
-        } catch (CursorException e) {
-            throw new LdapException("Cursor error", e);
         }
 
         for (LdapObjectClass ldapObjectClass : objectClassMap.values()) {

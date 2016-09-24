@@ -1,11 +1,14 @@
 package org.majki.intellij.ldapbrowser.dialog;
 
+import com.google.common.collect.ComparisonChain;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.ui.*;
+import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.table.JBTable;
+import com.intellij.util.ui.UIUtil;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -144,7 +147,10 @@ public class LdapAddEntryDialog extends DialogWrapper {
             new ComboboxSpeedSearch(rdnComboBox);
 
             ArrayList<LdapObjectClass> objectClasses = new ArrayList<>(treeNode.getLdapNode().getTopObjectClass().getAllObjectClasses());
-            Collections.sort(objectClasses, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+            Collections.sort(objectClasses, (o1, o2) -> ComparisonChain.start().
+                    compare(o1.getSchemaName(), o2.getSchemaName()).
+                    compare(o1.getName(), o2.getName()).
+                    result());
 
             rdnTextField.addKeyListener(new KeyAdapter() {
                 @Override
@@ -174,6 +180,20 @@ public class LdapAddEntryDialog extends DialogWrapper {
                         rdnTextField.requestFocusInWindow();
                     }
                 }
+            });
+            sourceClassList.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
+                LdapObjectClass objectClass = (LdapObjectClass) value;
+                JBLabel label = new JBLabel("<html><span color=\"gray\">["+objectClass.getSchemaName()+"]</span> " +objectClass.getName()+ "</html>");
+                if (isSelected) {
+                    label.setOpaque(true);
+                    if (cellHasFocus) {
+                        label.setBackground(UIUtil.getListSelectionBackground());
+                    } else {
+                        label.setBackground(UIUtil.getListUnfocusedSelectionBackground());
+                    }
+                    label.setForeground(UIUtil.getListSelectionForeground());
+                }
+                return label;
             });
 
             attrValueTable = new JBTable();
