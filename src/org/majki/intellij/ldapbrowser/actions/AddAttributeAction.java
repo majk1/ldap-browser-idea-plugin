@@ -32,7 +32,7 @@ public class AddAttributeAction extends AnAction {
         if (fileEditor instanceof LdapNodeEditor) {
             LdapNodeEditor nodeEditor = (LdapNodeEditor) fileEditor;
             LdapTreeNode ldapTreeNode = nodeEditor.getVirtualFile().getLdapTreeNode();
-            LdapAddAttributeDialog addAttributeDialog = new LdapAddAttributeDialog(ldapTreeNode.getLdapNode());
+            LdapAddAttributeDialog addAttributeDialog = new LdapAddAttributeDialog(nodeEditor.getComponent(), ldapTreeNode.getLdapNode());
             if (addAttributeDialog.showAndGet()) {
                 LdapNode ldapNode = ldapTreeNode.getLdapNode();
 

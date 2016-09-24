@@ -29,8 +29,8 @@ public class LdapAddAttributeDialog extends DialogWrapper {
     private JBPanel scrollPanel;
     private List<LdapAttributeValuePanel> attributeValuePanels;
 
-    public LdapAddAttributeDialog(LdapNode ldapNode) {
-        super(null, true, true);
+    public LdapAddAttributeDialog(@NotNull Component parent, LdapNode ldapNode) {
+        super(parent, true);
         this.ldapNode = ldapNode;
         this.initialized = false;
         this.attributeValuePanels = new ArrayList<>();
