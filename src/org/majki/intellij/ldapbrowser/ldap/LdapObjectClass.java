@@ -196,7 +196,7 @@ public class LdapObjectClass {
                     objectClassAttributes.addAll(objectClass.getMayAttributeTypeOids().stream().map(attributeName -> new LdapObjectClassAttribute(false, attributeName)).collect(Collectors.toList()));
 
                     for (String name : names) {
-                        objectClassMap.put(name, new LdapObjectClass(superClassName, name, objectClass.getSchemaName(), objectClass.getDescription(), objectClassAttributes));
+                        objectClassMap.put(name.toLowerCase(), new LdapObjectClass(superClassName, name, objectClass.getSchemaName(), objectClass.getDescription(), objectClassAttributes));
                     }
                 }
             }
@@ -204,7 +204,7 @@ public class LdapObjectClass {
 
         for (LdapObjectClass ldapObjectClass : objectClassMap.values()) {
             if (ldapObjectClass.getSuperClassName() != null) {
-                LdapObjectClass superClass = objectClassMap.get(ldapObjectClass.getSuperClassName());
+                LdapObjectClass superClass = objectClassMap.get(ldapObjectClass.getSuperClassName().toLowerCase());
                 superClass.getSubObjectClasses().add(ldapObjectClass);
                 ldapObjectClass.setSuperObjectClass(superClass);
             }

@@ -107,7 +107,10 @@ public class LdapNode implements Serializable {
     }
 
     private void readRootDSN() throws LdapException {
-        Entry rootDse = connection.getRootDse(NAMING_CONTEXT_ATTRIBUTE_NAME_UP);
+        Entry rootDse = connection.getRootDse(NAMING_CONTEXT_ATTRIBUTE_NAME);
+        if (rootDse == null) {
+            throw new LdapException("No root dse has been found");
+        }
         for (Attribute attribute : rootDse.getAttributes()) {
             if (attribute.getId().equalsIgnoreCase(NAMING_CONTEXT_ATTRIBUTE_NAME)) {
                 for (Value<?> value : attribute) {
@@ -125,7 +128,7 @@ public class LdapNode implements Serializable {
         if (dn == null || dn.trim().isEmpty()) {
             readRootDSN();
         } else {
-            EntryCursor cursor = connection.search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, DEFAULT_SEARCH_ATTRIBUTE);
+            EntryCursor cursor = connection.search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, "");
             try {
                 while (cursor.next()) {
                     Entry entry = cursor.get();
