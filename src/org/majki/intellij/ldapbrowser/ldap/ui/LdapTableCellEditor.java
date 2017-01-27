@@ -80,11 +80,7 @@ public class LdapTableCellEditor implements TableCellEditor {
 
     @Override
     public boolean isCellEditable(EventObject anEvent) {
-        if (isDoubleClick(anEvent) && !isCellObjectClass()) {
-            return true;
-        } else {
-            return false;
-        }
+        return isDoubleClick(anEvent) && !isCellObjectClass();
     }
 
     @Override

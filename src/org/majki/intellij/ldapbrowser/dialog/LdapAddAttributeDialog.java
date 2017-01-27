@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -58,12 +57,9 @@ public class LdapAddAttributeDialog extends DialogWrapper {
 
     private void revalidateAttribtueValueComponents() {
         boolean first = true;
-        Iterator<LdapAttributeValuePanel> attributeValuePanelIterator = attributeValuePanels.iterator();
-        while (attributeValuePanelIterator.hasNext()) {
-            LdapAttributeValuePanel attributeValuePanel = attributeValuePanelIterator.next();
+        for (LdapAttributeValuePanel attributeValuePanel : attributeValuePanels) {
             attributeValuePanel.setLabelsVisible(first);
             attributeValuePanel.setRemoveButtonEnabled(attributeValuePanels.size() > 1);
-            // attributeValuePanel.setSeparatorVisible(attributeValuePanelIterator.hasNext());
             attributeValuePanel.setSeparatorVisible(false);
             first = false;
         }

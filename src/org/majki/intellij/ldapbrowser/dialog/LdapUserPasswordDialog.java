@@ -48,6 +48,7 @@ public class LdapUserPasswordDialog extends DialogWrapper {
     }
 
     private void createAlogirithmComboBoxModel(JComboBox comboBox) {
+        //noinspection unchecked
         comboBox.setModel(new MutableCollectionComboBoxModel<>(new ArrayList<>(Arrays.asList(LdapSecurityConstants.values()))));
     }
 

@@ -27,10 +27,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Attila Majoros
@@ -75,7 +73,7 @@ public class LdapAddEntryDialog extends DialogWrapper {
         LdapObjectClassAttribute selected = (LdapObjectClassAttribute) rdnComboBox.getSelectedItem();
 
         List<LdapObjectClassAttribute> attributes = new ArrayList<>(newLdapNode.getObjectClassAttributes());
-        Collections.sort(attributes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+        attributes.sort(Comparator.comparing(LdapObjectClassAttribute::getName));
         rdnComboBox.setModel(new MutableCollectionComboBoxModel<>(attributes));
 
         if (selected == null) {
@@ -128,7 +126,7 @@ public class LdapAddEntryDialog extends DialogWrapper {
                     objectClasses.addAll(((CollectionListModel<LdapObjectClass>) sourceClassList.getModel()).getItems());
                     objectClasses.addAll(removedObjectClasses);
                 }
-                Collections.sort(objectClasses, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+                objectClasses.sort(Comparator.comparing(LdapObjectClass::getName));
 
                 sourceClassList.setModel(new CollectionListModel<>(objectClasses));
                 attrValueTableWrapper.getModel().refresh();
@@ -147,7 +145,7 @@ public class LdapAddEntryDialog extends DialogWrapper {
             new ComboboxSpeedSearch(rdnComboBox);
 
             ArrayList<LdapObjectClass> objectClasses = new ArrayList<>(treeNode.getLdapNode().getTopObjectClass().getAllObjectClasses());
-            Collections.sort(objectClasses, (o1, o2) -> ComparisonChain.start().
+            objectClasses.sort((o1, o2) -> ComparisonChain.start().
                     compare(o1.getSchemaName(), o2.getSchemaName()).
                     compare(o1.getName(), o2.getName()).
                     result());

@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -83,7 +83,7 @@ public class LdapAttributeValuePanel {
             valuePanel.add(valueTextField, BorderLayout.CENTER);
 
             List<LdapObjectClassAttribute> attributes = new ArrayList<>(ldapNode.getObjectClassAttributes());
-            Collections.sort(attributes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+            attributes.sort(Comparator.comparing(LdapObjectClassAttribute::getName));
             attributeComboBox.setModel(new MutableCollectionComboBoxModel<>(attributes));
             attributeComboBox.addKeyListener(new KeyAdapter() {
                 @Override

@@ -146,7 +146,7 @@ public class LdapNode implements Serializable {
             }
         }
 
-        Collections.sort(children, (o1, o2) -> o1.getRdn().compareTo(o2.getRdn()));
+        children.sort(Comparator.comparing(LdapNode::getRdn));
     }
 
     private void extractObjectClassValues() {

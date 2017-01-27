@@ -165,10 +165,7 @@ public class LdapConnectionInfo implements Serializable {
             connection.close();
 
             return true;
-        } catch (LdapException e) {
-            Messages.showErrorDialog("Connection failed to " + host + ":" + port + "\n<br>" + e.getMessage(), "LDAP Connection Failed");
-            return false;
-        } catch (IOException e) {
+        } catch (LdapException | IOException e) {
             Messages.showErrorDialog("Connection failed to " + host + ":" + port + "\n<br>" + e.getMessage(), "LDAP Connection Failed");
             return false;
         }
