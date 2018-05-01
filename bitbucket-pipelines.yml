@@ -11,7 +11,7 @@ pipelines:
           - gradle               # pre-defined cache
           - gradlewrapper        # custom cache
         script:
-          - ./gradlew buildPlugin
+          - bash ./gradlew buildPlugin
 
 definitions:
   caches:
