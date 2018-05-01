@@ -1,12 +1,12 @@
-<idea-plugin version="2">
+<idea-plugin>
   <id>org.majki.intellij.ldapbrowser</id>
   <name>LDAP browser</name>
-  <version>1.3</version>
+  <version>@version@</version>
   <vendor email="support@majki.org" url="http://ldapbrowser.majki.org">Majki</vendor>
 
   <description><![CDATA[
       Plugin to browse LDAP servers<br/>
-      Using Apache Directory LDAP API version 1.0.0-RC1<br/>
+      Using Apache Directory LDAP API version 1.0.0<br/>
       Currently supported authentication methods are anonymous and simple authentication<br/>
     ]]></description>
 
@@ -45,7 +45,7 @@
   </change-notes>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="141.0"/>
+  <idea-version since-build="171" until-build="181.*" />
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
