@@ -5,6 +5,7 @@ import com.intellij.util.xmlb.annotations.Transient;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.ldap.client.api.LdapConnection;
 import org.apache.directory.ldap.client.api.LdapNetworkConnection;
+import org.majki.intellij.ldapbrowser.TextBundle;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -130,7 +131,7 @@ public class LdapConnectionInfo implements Serializable {
                 }
                 opened = true;
             } catch (LdapException e) {
-                Messages.showErrorDialog(e.getMessage(), "LDAP Connection Failed");
+                Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-failure"));
             }
         }
     }
@@ -142,9 +143,9 @@ public class LdapConnectionInfo implements Serializable {
                     ldapConnection.unBind();
                     ldapConnection.close();
                 } catch (LdapException e) {
-                    Messages.showErrorDialog(e.getMessage(), "LDAP Connection Unbind Failed");
+                    Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-unbind-failure"));
                 } catch (IOException e) {
-                    Messages.showErrorDialog(e.getMessage(), "LDAP Connection Close Failed");
+                    Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-close-failure"));
                 }
             }
             ldapConnection = null;
@@ -153,8 +154,7 @@ public class LdapConnectionInfo implements Serializable {
     }
 
     public boolean testConnection() {
-        LdapConnection connection = new LdapNetworkConnection(host, port);
-        try {
+        try (LdapConnection connection = new LdapNetworkConnection(host, port)) {
             if (auth) {
                 connection.bind(username, password);
             } else {
@@ -162,11 +162,13 @@ public class LdapConnectionInfo implements Serializable {
             }
 
             connection.unBind();
-            connection.close();
 
             return true;
         } catch (LdapException | IOException e) {
-            Messages.showErrorDialog("Connection failed to " + host + ":" + port + "\n<br>" + e.getMessage(), "LDAP Connection Failed");
+            Messages.showErrorDialog(
+                TextBundle.message("ldapbrowser.connection-failure-msg", host, port, e.getMessage()),
+                TextBundle.message("ldapbrowser.connection-failure")
+            );
             return false;
         }
     }

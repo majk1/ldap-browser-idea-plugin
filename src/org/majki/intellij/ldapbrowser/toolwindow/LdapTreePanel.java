@@ -18,6 +18,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.PlatformIcons;
 import org.jetbrains.annotations.NotNull;
+import org.majki.intellij.ldapbrowser.TextBundle;
 import org.majki.intellij.ldapbrowser.actions.AddEntryAction;
 import org.majki.intellij.ldapbrowser.actions.DeleteEntryAction;
 import org.majki.intellij.ldapbrowser.actions.RefreshAction;
@@ -42,7 +43,7 @@ import java.awt.event.MouseEvent;
 
 public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationComponent {
 
-    public static final String COMPONENT_NAME = "ldapbrowser.treePanel";
+    private static final String COMPONENT_NAME = "ldapbrowser.treePanel";
 
     private Tree tree;
     private TreeNode root;
@@ -77,16 +78,16 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         JBPopupMenu menu = new JBPopupMenu(ldapTreeNode.toString());
         addActionMenuItem(menu, "Refresh", AllIcons.Actions.Refresh, RefreshAction.ID);
         if (ldapTreeNode.getAllowsChildren()) {
-            addActionMenuItem(menu, "New Entry", PlatformIcons.ADD_ICON, AddEntryAction.ID);
+            addActionMenuItem(menu, TextBundle.message("ldapbrowser.new-entry"), PlatformIcons.ADD_ICON, AddEntryAction.ID);
         }
-        addActionMenuItem(menu, "Delete Entry", PlatformIcons.DELETE_ICON, DeleteEntryAction.ID);
+        addActionMenuItem(menu, TextBundle.message("ldapbrowser.delete-entry"), PlatformIcons.DELETE_ICON, DeleteEntryAction.ID);
         menu.show(tree, x, y);
     }
 
     private void openTreePopupMenu(LdapServerTreeNode ldapServerTreeNode, int x, int y) {
         JBPopupMenu menu = new JBPopupMenu(ldapServerTreeNode.toString());
         if (ldapServerTreeNode.getConnectionInfo().isOpened()) {
-            JBMenuItem disconnectMenuItem = new JBMenuItem("Disconnect", AllIcons.Process.Stop);
+            JBMenuItem disconnectMenuItem = new JBMenuItem(TextBundle.message("ldapbrowser.disconnect"), AllIcons.Process.Stop);
             disconnectMenuItem.addActionListener(e -> {
                 ldapServerTreeNode.getConnectionInfo().disconnect();
                 invokeRefreshAction();
@@ -94,7 +95,7 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             });
             menu.add(disconnectMenuItem);
         } else {
-            JBMenuItem connectMenuItem = new JBMenuItem("Connect", AllIcons.General.Run);
+            JBMenuItem connectMenuItem = new JBMenuItem(TextBundle.message("ldapbrowser.connect"), AllIcons.General.Run);
             connectMenuItem.addActionListener(e -> {
                 ldapServerTreeNode.getConnectionInfo().connect();
                 invokeRefreshAction();
@@ -103,7 +104,7 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             menu.add(connectMenuItem);
         }
 
-        addActionMenuItem(menu, "Refresh", AllIcons.Actions.Refresh, RefreshAction.ID);
+        addActionMenuItem(menu, TextBundle.message("ldapbrowser.refresh"), AllIcons.Actions.Refresh, RefreshAction.ID);
         menu.show(tree, x, y);
     }
 
@@ -122,7 +123,7 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
 
         root = generateTree();
         tree = new Tree(root);
-        tree.getEmptyText().setText("No connections");
+        tree.getEmptyText().setText(TextBundle.message("ldapbrowser.no-connections"));
         tree.setRootVisible(false);
         //tree.setShowsRootHandles(false);
 

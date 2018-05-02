@@ -51,6 +51,8 @@
        on how to target different products -->
   <depends>com.intellij.modules.lang</depends>
 
+  <resource-bundle>i18n</resource-bundle>
+
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="LDAP"
                 anchor="left"

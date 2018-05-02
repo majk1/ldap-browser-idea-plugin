@@ -10,6 +10,7 @@ import org.apache.directory.api.ldap.model.entry.DefaultModification;
 import org.apache.directory.api.ldap.model.entry.Modification;
 import org.apache.directory.api.ldap.model.entry.ModificationOperation;
 import org.apache.directory.api.ldap.model.exception.LdapException;
+import org.majki.intellij.ldapbrowser.TextBundle;
 import org.majki.intellij.ldapbrowser.editor.LdapNodeEditor;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapAttributeTableModel;
@@ -32,9 +33,14 @@ public class RemoveValueAction extends AnAction {
                 LdapAttributeTableModel.Item selectedItem = nodeEditor.getTableWrapper().getModel().getItems().get(selectedRow);
 
                 int result = Messages.showOkCancelDialog(
-                        fileEditor.getComponent(),
-                        "Really delete value \"" + selectedItem.getValue().asString() + "\" from attribute \"" + selectedItem.getAttribute().name() + "\"?",
-                        "Remove Value", "Remove", "Cancel", PlatformIcons.DELETE_ICON);
+                    fileEditor.getComponent(),
+                    TextBundle.message("ldapbrowser.remove-message", selectedItem.getValue().asString(), selectedItem.getAttribute().name()),
+                    TextBundle.message("ldapbrowser.remove-value"),
+                    TextBundle.message("ldapbrowser.remove"),
+                    TextBundle.message("ldapbrowser.cancel"),
+                    PlatformIcons.DELETE_ICON
+                );
+
                 if (result == Messages.OK) {
                     LdapNode ldapNode = nodeEditor.getTableWrapper().getLdapNode();
 
