@@ -1,0 +1,71 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    }
+}
+
+plugins {
+    id 'org.jetbrains.intellij' version '0.3.1'
+}
+
+apply plugin: 'java'
+
+sourceSets {
+    main {
+        java.srcDirs 'src'
+        resources.srcDirs 'resources'
+    }
+    test {
+        java.srcDirs 'test'
+    }
+}
+
+version = "${version}"
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:deprecation"
+}
+
+// take the version number defined in gradle build and use that in plugin.xml
+task initConfig(type: Copy) {
+    from('resources') {
+        include '**/plugin.xml'
+        filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: version])
+    }
+}
+
+apply plugin: 'org.jetbrains.intellij'
+intellij {
+    pluginName 'ldap-browser-idea-plugin'
+    version ideaVersion
+    updateSinceUntilBuild false
+
+    publishPlugin {
+        username System.getenv('SB_JETBRAINS_USERNAME')
+        password System.getenv('SB_JETBRAINS_PASSWORD')
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.apache.directory.api:api-all:1.0.0'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+apply plugin: 'idea'
+idea {
+    project {
+        jdkName = javaVersion
+        languageLevel = javaVersion
+    }
+}

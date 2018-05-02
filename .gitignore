@@ -1,3 +1,18 @@
-out
-.gitignore
-ldap-browser-idea-plugin.zip
+.DS_Store
+
+# ignore Intellij stuff
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Ignore Sublime Text workspace (project file is ok):
+*.sublime-workspace
+
+# ignore Gradle build stuff
+.gradle/
+build/
+
+# Ignore old build output
+out/
+*.zip
