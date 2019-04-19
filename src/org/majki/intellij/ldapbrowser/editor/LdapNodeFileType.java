@@ -8,10 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapNodeFileType implements FileType {
 
     public static final String EXTENSION = "ldapnode";

@@ -1,15 +1,15 @@
 package org.majki.intellij.ldapbrowser.ldap;
 
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Attila Majoros
- */
 
 @State(name = "ldapConnections", storages = {
     @Storage("ldapConnections.xml")

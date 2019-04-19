@@ -22,10 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapConnectionInfosDialog extends DialogWrapper {
 
     @FunctionalInterface

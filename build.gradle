@@ -1,50 +1,38 @@
-
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
-    }
-}
+import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-    id 'org.jetbrains.intellij' version '0.3.1'
+    id 'org.jetbrains.intellij' version '0.4.8'
 }
 
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
+
+version = "${version}"
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 sourceSets {
     main {
         java.srcDirs 'src'
         resources.srcDirs 'resources'
     }
-    test {
-        java.srcDirs 'test'
+}
+
+processResources {
+    filesMatching('**/plugin.xml') {
+        filter ReplaceTokens, tokens: [
+            version                  : version.toString(),
+            apacheDirectoryApiVersion: apacheDirectoryApiVersion
+        ]
     }
 }
 
-version = "${version}"
-
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.compilerArgs << "-Xlint:deprecation"
-}
-
-// take the version number defined in gradle build and use that in plugin.xml
-task initConfig(type: Copy) {
-    from('resources') {
-        include '**/plugin.xml'
-        filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: version])
-    }
-}
-
-apply plugin: 'org.jetbrains.intellij'
 intellij {
     pluginName 'ldap-browser-idea-plugin'
     version ideaVersion
     updateSinceUntilBuild false
+    sandboxDirectory "$project.buildDir/plugin-sandbox"
 
     publishPlugin {
         username System.getenv('SB_JETBRAINS_USERNAME')
@@ -52,24 +40,18 @@ intellij {
     }
 }
 
+configurations.all {
+    exclude group: 'org.slf4j', module: ''
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 repositories {
     mavenCentral()
 }
 
-configurations.all {
-    exclude group: "org.slf4j", module: ""
-}
-
 dependencies {
-    compile "org.apache.directory.api:api-all:1.0.2"
-
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}
-
-apply plugin: 'idea'
-idea {
-    project {
-        jdkName = javaVersion
-        languageLevel = javaVersion
-    }
+    compile group: 'org.apache.directory.api', name: 'api-all', version: apacheDirectoryApiVersion
 }

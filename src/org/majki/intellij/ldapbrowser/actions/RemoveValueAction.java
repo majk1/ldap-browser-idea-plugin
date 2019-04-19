@@ -16,9 +16,6 @@ import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapAttributeTableModel;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 
-/**
- * @author Attila Majoros
- */
 public class RemoveValueAction extends AnAction {
 
     public static final String ID = "ldapbrowser.removeValue";

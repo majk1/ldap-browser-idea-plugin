@@ -10,10 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapFileIconProvider implements FileIconProvider, EditorTabTitleProvider {
 
     @Nullable
@@ -27,7 +23,7 @@ public class LdapFileIconProvider implements FileIconProvider, EditorTabTitlePro
 
     @Nullable
     @Override
-    public String getEditorTabTitle(Project project, VirtualFile virtualFile) {
+    public String getEditorTabTitle(@NotNull Project project, @NotNull VirtualFile virtualFile) {
         if (virtualFile instanceof LdapNodeVirtualFile) {
             return "RDN: " + ((LdapNodeVirtualFile) virtualFile).getLdapTreeNode().toString();
         }

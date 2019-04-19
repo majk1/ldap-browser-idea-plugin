@@ -11,10 +11,6 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapValueEditorDialog extends DialogWrapper {
 
     private JBPanel content;
@@ -82,7 +78,7 @@ public class LdapValueEditorDialog extends DialogWrapper {
     @Nullable
     @Override
     protected ValidationInfo doValidate() {
-        if (editor.getText() == null || editor.getText().trim().isEmpty()) {
+        if (editor.getText().trim().isEmpty()) {
             return new ValidationInfo("Value cannot be empty", editor);
         }
 

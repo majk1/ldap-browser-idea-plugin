@@ -1,7 +1,7 @@
 .DS_Store
 
 # ignore Intellij stuff
-.idea/
+.idea
 *.iml
 *.ipr
 *.iws
@@ -16,3 +16,6 @@ build/
 # Ignore old build output
 out/
 *.zip
+
+# Ignore lib
+lib

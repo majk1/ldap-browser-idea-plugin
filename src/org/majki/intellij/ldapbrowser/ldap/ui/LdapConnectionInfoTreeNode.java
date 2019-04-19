@@ -5,9 +5,6 @@ import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-/**
- * @author Attila Majoros
- */
 
 public abstract class LdapConnectionInfoTreeNode extends DefaultMutableTreeNode implements LdapIconProviderTreeNode {
 

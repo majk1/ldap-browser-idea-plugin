@@ -9,9 +9,6 @@ import org.apache.directory.ldap.client.api.LdapConnection;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * @author Attila Majoros
- */
 
 public class LdapObjectClass {
 

@@ -3,10 +3,6 @@ package org.majki.intellij.ldapbrowser.dialog;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapAddEntryTableModel implements TableModel {
 
     @Override

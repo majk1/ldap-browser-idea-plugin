@@ -16,10 +16,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapNodeVirtualFile extends VirtualFile {
 
     private LdapTreeNode ldapTreeNode;

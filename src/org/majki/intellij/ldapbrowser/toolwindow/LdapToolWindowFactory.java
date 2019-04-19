@@ -7,9 +7,6 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * @author Attila Majoros
- */
 
 public class LdapToolWindowFactory implements ToolWindowFactory {
 

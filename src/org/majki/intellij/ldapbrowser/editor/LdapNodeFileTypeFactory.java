@@ -4,10 +4,6 @@ import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapNodeFileTypeFactory extends FileTypeFactory {
 
     @Override

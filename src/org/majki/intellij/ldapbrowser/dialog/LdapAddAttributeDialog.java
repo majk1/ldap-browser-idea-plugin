@@ -15,10 +15,6 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapAddAttributeDialog extends DialogWrapper {
 
     private LdapNode ldapNode;

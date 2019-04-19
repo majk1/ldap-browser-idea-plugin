@@ -2,6 +2,7 @@ package org.majki.intellij.ldapbrowser.ldap.ui;
 
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.table.JBTable;
+import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import org.apache.directory.api.ldap.model.entry.DefaultModification;
 import org.apache.directory.api.ldap.model.entry.Modification;
@@ -11,7 +12,6 @@ import org.majki.intellij.ldapbrowser.ldap.LdapAttribute;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellRenderer;
@@ -19,10 +19,6 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-/**
- * @author Attila Majoros
- */
 
 public class LdapAttributeTableWrapper {
 
@@ -81,7 +77,7 @@ public class LdapAttributeTableWrapper {
                 label.setForeground(table1.getForeground());
             }
 
-            UIUtil.addBorder(label, new EmptyBorder(1, 8, 1, 8));
+            UIUtil.addBorder(label, JBUI.Borders.empty(1, 8));
 
             LdapAttributeTableModel model1 = (LdapAttributeTableModel) table1.getModel();
             String attributeName = (String) model1.getValueAt(row, 0);
@@ -123,7 +119,7 @@ public class LdapAttributeTableWrapper {
                         values.remove(oldValue);
                         values.add(newValue);
 
-                        Modification modification = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, attributeName, values.toArray(new String[values.size()]));
+                        Modification modification = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, attributeName, values.toArray(new String[0]));
                         try {
                             ldapNode.getConnection().modify(ldapNode.getDn(), modification);
 
