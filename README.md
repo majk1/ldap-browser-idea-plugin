@@ -1,4 +1,4 @@
-# LDAP Browser plugin for Jetbrains products [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/majk1/ldap-browser-idea-plugin.svg?branch=master)](https://travis-ci.org/majk1/ldap-browser-idea-plugin) [![Jetbrains plugin download](https://img.shields.io/jetbrains/plugin/d/8513-ldap-browser.svg)](https://plugins.jetbrains.com/plugin/8513-ldap-browser)
+# LDAP plugin for Jetbrains products [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/majk1/ldap-browser-idea-plugin.svg?branch=master)](https://travis-ci.org/majk1/ldap-browser-idea-plugin) [![Jetbrains plugin download](https://img.shields.io/jetbrains/plugin/d/8513-ldap-browser.svg)](https://plugins.jetbrains.com/plugin/8513-ldap-browser)
 
 This is an LDAP browser plugin for [IntelliJ IDEA](https://www.jetbrains.com/idea) and other Jetbrains products.  
 Releases are available from the [Jetbrains plugin repository](https://plugins.jetbrains.com/plugin/8513-ldap-browser).
