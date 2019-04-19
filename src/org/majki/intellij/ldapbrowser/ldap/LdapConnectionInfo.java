@@ -21,7 +21,6 @@ public class LdapConnectionInfo implements Serializable {
     private int port = 389;
     private String baseDn;
     private boolean auth = false;
-    private boolean opened = false;
     private String username;
     private String password;
 
@@ -69,11 +68,7 @@ public class LdapConnectionInfo implements Serializable {
     }
 
     public boolean isOpened() {
-        return opened;
-    }
-
-    public void setOpened(boolean opened) {
-        this.opened = opened;
+        return ldapConnection != null && ldapConnection.isConnected();
     }
 
     public String getUsername() {
@@ -104,53 +99,44 @@ public class LdapConnectionInfo implements Serializable {
         info.setPort(getPort());
         info.setBaseDn(getBaseDn());
         info.setAuth(isAuth());
-        info.setOpened(isOpened());
         info.setUsername(getUsername());
         info.setPassword(getPassword());
         return info;
     }
 
     @Transient
-    public LdapConnection getLdapConnection() {
-        if (!opened) {
-            return null;
-        } else if (ldapConnection == null || !ldapConnection.isConnected()) {
-            connect();
-        }
+    LdapConnection getLdapConnection() {
+
+        connect();
+
         return ldapConnection;
     }
 
     public void connect() {
-        if (ldapConnection == null || !ldapConnection.isConnected()) {
-            ldapConnection = new LdapNetworkConnection(host, port);
-            try {
-                if (auth) {
-                    ldapConnection.bind(username, password);
-                } else {
-                    ldapConnection.bind();
-                }
-                opened = true;
-            } catch (LdapException e) {
-                Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-failure"));
+        ldapConnection = new LdapNetworkConnection(host, port);
+        try {
+            if (auth) {
+                ldapConnection.bind(username, password);
+            } else {
+                ldapConnection.bind();
             }
+        } catch (LdapException e) {
+            Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-failure"));
         }
     }
 
     public void disconnect() {
-        if (ldapConnection != null) {
-            if (ldapConnection.isConnected()) {
-                try {
-                    ldapConnection.unBind();
-                    ldapConnection.close();
-                } catch (LdapException e) {
-                    Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-unbind-failure"));
-                } catch (IOException e) {
-                    Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-close-failure"));
-                }
+        if (isOpened()) {
+            try {
+                ldapConnection.unBind();
+                ldapConnection.close();
+            } catch (LdapException e) {
+                Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-unbind-failure"));
+            } catch (IOException e) {
+                Messages.showErrorDialog(e.getMessage(), TextBundle.message("ldapbrowser.connection-close-failure"));
             }
-            ldapConnection = null;
         }
-        opened = false;
+        ldapConnection = null;
     }
 
     public boolean testConnection() {

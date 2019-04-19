@@ -172,9 +172,10 @@ public class LdapObjectClass {
         return allObjectClasses;
     }
 
-    public static LdapObjectClass getTop(LdapConnection connection) throws LdapException {
+    public static LdapObjectClass getTop(LdapConnectionInfo ldapConnectionInfo) throws LdapException {
         Map<String, LdapObjectClass> objectClassMap = new HashMap<>();
 
+        LdapConnection connection = ldapConnectionInfo.getLdapConnection();
         connection.loadSchemaRelaxed();
         for (Schema schema : connection.getSchemaManager().getAllSchemas()) {
             for (SchemaObjectWrapper schemaObjectWrapper : schema.getContent()) {

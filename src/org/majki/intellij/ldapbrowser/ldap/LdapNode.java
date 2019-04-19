@@ -1,5 +1,6 @@
 package org.majki.intellij.ldapbrowser.ldap;
 
+import com.intellij.util.xmlb.annotations.Transient;
 import org.apache.directory.api.ldap.model.cursor.CursorException;
 import org.apache.directory.api.ldap.model.cursor.EntryCursor;
 import org.apache.directory.api.ldap.model.entry.Attribute;
@@ -9,6 +10,7 @@ import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.api.ldap.model.message.SearchScope;
 import org.apache.directory.ldap.client.api.LdapConnection;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,7 +43,13 @@ public class LdapNode implements Serializable {
     private static final String DEFAULT_FILTER = "(objectclass=*)";
     private static final String DEFAULT_SEARCH_ATTRIBUTE = "*";
 
-    private transient LdapConnection connection;
+    public LdapConnectionInfo getLdapConnectionInfo() {
+        return ldapConnectionInfo;
+    }
+
+    @Transient
+    private final LdapConnectionInfo ldapConnectionInfo;
+
     private String dn;
     private String rdn;
     private LdapNode parent;
@@ -52,8 +60,8 @@ public class LdapNode implements Serializable {
 
     private LdapObjectClass topObjectClass;
 
-    private LdapNode(LdapConnection connection, LdapNode parent, LdapObjectClass topObjectClass, String dn, String rdn, List<LdapAttribute> attributes) {
-        this.connection = connection;
+    private LdapNode(LdapConnectionInfo ldapConnectionInfo  , LdapNode parent, LdapObjectClass topObjectClass, String dn, String rdn, List<LdapAttribute> attributes) {
+        this.ldapConnectionInfo = ldapConnectionInfo;
         this.dn = dn;
         this.rdn = rdn;
         this.parent = parent;
@@ -75,8 +83,7 @@ public class LdapNode implements Serializable {
     public void refresh() throws LdapException {
         Set<LdapAttribute> removedAttributes = new HashSet<>(attributes);
         objectClassValues = null;
-        EntryCursor cursor = connection.search(dn, DEFAULT_FILTER, SearchScope.OBJECT, DEFAULT_SEARCH_ATTRIBUTE);
-        try {
+        try(EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.OBJECT, DEFAULT_SEARCH_ATTRIBUTE)) {
             if (cursor.next()) {
                 Entry entry = cursor.get();
                 for (Attribute attribute : entry.getAttributes()) {
@@ -89,13 +96,13 @@ public class LdapNode implements Serializable {
                     } else {
                         List<LdapAttribute.Value> values = new ArrayList<>();
                         addValuesFromAttribute(attribute, values);
-                        int index = OBJECTCLASS_ATTRIBUTE_NAME.equals(attribute.getId()) ? 0 : attributes.size();
+                        int index = OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attribute.getId()) ? 0 : attributes.size();
                         attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
                     }
                 }
             }
             attributes.removeAll(removedAttributes);
-        } catch (CursorException e) {
+        } catch (CursorException | IOException e) {
             throw new LdapException("Cursor error", e);
         }
     }
@@ -107,14 +114,14 @@ public class LdapNode implements Serializable {
     }
 
     private void readRootDSN() throws LdapException {
-        Entry rootDse = connection.getRootDse(NAMING_CONTEXT_ATTRIBUTE_NAME);
+        Entry rootDse = getConnection().getRootDse(NAMING_CONTEXT_ATTRIBUTE_NAME);
         if (rootDse == null) {
             throw new LdapException("No root dse has been found");
         }
         for (Attribute attribute : rootDse.getAttributes()) {
             if (attribute.getId().equalsIgnoreCase(NAMING_CONTEXT_ATTRIBUTE_NAME)) {
                 for (Value<?> value : attribute) {
-                    LdapNode node = new LdapNode(connection, this, topObjectClass, value.getString(), value.getString(), new ArrayList<>());
+                    LdapNode node = new LdapNode(ldapConnectionInfo, this, topObjectClass, value.getString(), value.getString(), new ArrayList<>());
                     node.refresh();
                     children.add(node);
                 }
@@ -128,20 +135,22 @@ public class LdapNode implements Serializable {
         if (dn == null || dn.trim().isEmpty()) {
             readRootDSN();
         } else {
-            EntryCursor cursor = connection.search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, "");
-            try {
-                while (cursor.next()) {
+            try( EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, "")) {
+                for (int i=0;cursor.next();i++) {
                     Entry entry = cursor.get();
                     List<LdapAttribute> attributes = new ArrayList<>();
-                    for (Attribute attribute : entry.getAttributes()) {
-                        List<LdapAttribute.Value> values = new ArrayList<>();
-                        addValuesFromAttribute(attribute, values);
-                        int index = OBJECTCLASS_ATTRIBUTE_NAME.equals(attribute.getId()) ? 0 : attributes.size();
-                        attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
+                    if(i<100) {
+                        Entry attributeHolder = getConnection().lookup(entry.getDn());
+                        for (Attribute attribute : attributeHolder.getAttributes()) {
+                            List<LdapAttribute.Value> values = new ArrayList<>();
+                            addValuesFromAttribute(attribute, values);
+                            int index = OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attribute.getId()) ? 0 : attributes.size();
+                            attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
+                        }
                     }
-                    children.add(new LdapNode(connection, this, topObjectClass, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
+                    children.add(new LdapNode(ldapConnectionInfo, this, topObjectClass, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
                 }
-            } catch (CursorException e) {
+            } catch (CursorException | IOException e) {
                 throw new LdapException("Cursor error", e);
             }
         }
@@ -152,7 +161,7 @@ public class LdapNode implements Serializable {
     private void extractObjectClassValues() {
         objectClassValues = new ArrayList<>();
         for (LdapAttribute attribute : attributes) {
-            if (OBJECTCLASS_ATTRIBUTE_NAME.equals(attribute.name())) {
+            if (OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attribute.name())) {
                 objectClassValues.addAll(attribute.values().stream().map(LdapAttribute.Value::asString).collect(Collectors.toList()));
                 break;
             }
@@ -160,7 +169,7 @@ public class LdapNode implements Serializable {
     }
 
     public LdapConnection getConnection() {
-        return connection;
+        return ldapConnectionInfo.getLdapConnection();
     }
 
     public String getDn() {
@@ -323,17 +332,17 @@ public class LdapNode implements Serializable {
         return removedObjectClasses;
     }
 
-    public static LdapNode createRoot(LdapConnection connection) throws LdapException {
-        return createRoot(connection, "");
+    public static LdapNode createRoot(LdapConnectionInfo ldapConnectionInfo) throws LdapException {
+        return createRoot(ldapConnectionInfo, "");
     }
 
-    public static LdapNode createRoot(LdapConnection connection, String baseDn) throws LdapException {
-        LdapObjectClass topObjectClass = LdapObjectClass.getTop(connection);
-        return new LdapNode(connection, null, topObjectClass, baseDn, LdapUtil.getTopDn(baseDn), Collections.emptyList());
+    public static LdapNode createRoot(LdapConnectionInfo ldapConnectionInfo, String baseDn) throws LdapException {
+        LdapObjectClass topObjectClass = LdapObjectClass.getTop(ldapConnectionInfo);
+        return new LdapNode(ldapConnectionInfo, null, topObjectClass, baseDn, LdapUtil.getTopDn(baseDn), Collections.emptyList());
     }
 
-    public static LdapNode createNew(LdapConnection connection, LdapNode parent) throws LdapException {
-        LdapObjectClass topObjectClass = LdapObjectClass.getTop(connection);
+    public static LdapNode createNew(LdapConnectionInfo ldapConnectionInfo, LdapNode parent) throws LdapException {
+        LdapObjectClass topObjectClass = LdapObjectClass.getTop(ldapConnectionInfo);
         return new LdapNode(null, parent, topObjectClass, "", "", new ArrayList<>());
     }
 

@@ -63,7 +63,7 @@ public class LdapAddEntryDialog extends DialogWrapper {
     private void createNewLdapNode() {
         LdapNode ldapNode = treeNode.getLdapNode();
         try {
-            newLdapNode = LdapNode.createNew(ldapNode.getConnection(), ldapNode);
+            newLdapNode = LdapNode.createNew(ldapNode.getLdapConnectionInfo(), ldapNode);
         } catch (LdapException e) {
             LdapErrorHandler.handleError(e, "Could not create new Ldap Node for new entry creation");
         }

@@ -30,7 +30,7 @@ public class LdapServerTreeNode extends LdapConnectionInfoTreeNode {
     private void createChildren() {
         children = new ArrayList<>();
         try {
-            LdapNode root = LdapNode.createRoot(getConnectionInfo().getLdapConnection(), getConnectionInfo().getBaseDn());
+            LdapNode root = LdapNode.createRoot(getConnectionInfo(), getConnectionInfo().getBaseDn());
             children.addAll(root.getChildren().stream().map(ldapNode -> new LdapTreeNode(getConnectionInfo(), this, ldapNode)).collect(Collectors.toList()));
         } catch (LdapException e) {
             LdapErrorHandler.handleError(e, "Could not create server child nodes");

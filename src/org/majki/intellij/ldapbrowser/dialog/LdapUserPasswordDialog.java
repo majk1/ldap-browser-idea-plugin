@@ -68,13 +68,16 @@ public class LdapUserPasswordDialog extends DialogWrapper {
                 verifyPasswordButton.setEnabled(false);
             } else {
                 PasswordDetails passwordDetails = PasswordUtil.splitCredentials(currentPassword);
-                newAlgorithmComboBox.setSelectedItem(passwordDetails.getAlgorithm());
-                currentAlgorithmTextField.setText(passwordDetails.getAlgorithm().getName());
+                // handle plaintext passwords
+                if(passwordDetails.getAlgorithm()!=null) {
+                    newAlgorithmComboBox.setSelectedItem(passwordDetails.getAlgorithm());
+                    currentAlgorithmTextField.setText(passwordDetails.getAlgorithm().getName());
+                }
                 ActionListener verifyPasswordAction = e -> {
                     if (verifyPassword(new String(verifyPasswordField.getPassword()))) {
-                        Messages.showInfoMessage(LdapUserPasswordDialog.this.getContentPane(), null, "Password Match");
+                        Messages.showInfoMessage(LdapUserPasswordDialog.this.getContentPane(), "Password Match", "Password Match");
                     } else {
-                        Messages.showInfoMessage(LdapUserPasswordDialog.this.getContentPane(), null, "Password Mismatch");
+                        Messages.showErrorDialog(LdapUserPasswordDialog.this.getContentPane(), "Password Mismatch", "Password Mismatch");
                     }
                 };
                 verifyPasswordField.addActionListener(verifyPasswordAction);
@@ -115,7 +118,7 @@ public class LdapUserPasswordDialog extends DialogWrapper {
         }
 
         if (!newPassword.equals(newConfirmPassword)) {
-            return new ValidationInfo("Passwords doesn't match", newPasswordField);
+            return new ValidationInfo("Passwords don't match", newPasswordField);
         }
 
         return null;
