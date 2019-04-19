@@ -3,9 +3,6 @@ package org.majki.intellij.ldapbrowser.ldap;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * @author Attila Majoros
- */
 
 public class LdapAttribute implements Serializable {
 

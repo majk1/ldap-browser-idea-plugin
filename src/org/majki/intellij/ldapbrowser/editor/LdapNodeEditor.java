@@ -20,10 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapNodeEditor implements FileEditor {
 
     private LdapNodeVirtualFile virtualFile;

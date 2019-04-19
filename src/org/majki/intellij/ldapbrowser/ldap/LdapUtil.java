@@ -1,8 +1,5 @@
 package org.majki.intellij.ldapbrowser.ldap;
 
-/**
- * @author Attila Majoros
- */
 
 public final class LdapUtil {
 

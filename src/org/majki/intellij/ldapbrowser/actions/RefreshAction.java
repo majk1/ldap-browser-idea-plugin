@@ -12,9 +12,6 @@ import org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel;
 
 import javax.swing.tree.DefaultTreeModel;
 
-/**
- * @author Attila Majoros
- */
 public class RefreshAction extends AnAction {
 
     public static final String ID = "ldapbrowser.refresh";

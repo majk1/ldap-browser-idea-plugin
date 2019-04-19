@@ -8,10 +8,6 @@ import com.intellij.openapi.ui.Messages;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-/**
- * @author Attila Majoros
- */
-
 public final class LdapErrorHandler {
 
     private static final String NOTIFICATION_GROUP = "LDAP notifications";

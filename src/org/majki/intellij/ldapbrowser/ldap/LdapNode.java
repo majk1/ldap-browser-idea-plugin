@@ -15,9 +15,6 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * @author Attila Majoros
- */
 
 public class LdapNode implements Serializable {
 
@@ -94,10 +91,7 @@ public class LdapNode implements Serializable {
                         values.clear();
                         addValuesFromAttribute(attribute, values);
                     } else {
-                        List<LdapAttribute.Value> values = new ArrayList<>();
-                        addValuesFromAttribute(attribute, values);
-                        int index = OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attribute.getId()) ? 0 : attributes.size();
-                        attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
+                        mapLdapAttributes(attributes, attribute);
                     }
                 }
             }
@@ -142,10 +136,7 @@ public class LdapNode implements Serializable {
                     if(i<100) {
                         Entry attributeHolder = getConnection().lookup(entry.getDn());
                         for (Attribute attribute : attributeHolder.getAttributes()) {
-                            List<LdapAttribute.Value> values = new ArrayList<>();
-                            addValuesFromAttribute(attribute, values);
-                            int index = OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attribute.getId()) ? 0 : attributes.size();
-                            attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
+                            mapLdapAttributes(attributes, attribute);
                         }
                     }
                     children.add(new LdapNode(ldapConnectionInfo, this, topObjectClass, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
@@ -156,6 +147,13 @@ public class LdapNode implements Serializable {
         }
 
         children.sort(Comparator.comparing(LdapNode::getRdn));
+    }
+
+    private void mapLdapAttributes(List<LdapAttribute> attributes, Attribute attribute) {
+        List<LdapAttribute.Value> values = new ArrayList<>();
+        addValuesFromAttribute(attribute, values);
+        int index = OBJECTCLASS_ATTRIBUTE_NAME.equalsIgnoreCase(attribute.getId()) ? 0 : attributes.size();
+        attributes.add(index, new LdapAttribute(attribute.getId(), attribute.getUpId(), attribute.isHumanReadable(), values));
     }
 
     private void extractObjectClassValues() {

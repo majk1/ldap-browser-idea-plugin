@@ -19,15 +19,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.List;
 
-/**
- * @author Attila Majoros
- */
 
 public class LdapTableCellEditor implements TableCellEditor {
 

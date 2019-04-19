@@ -13,9 +13,7 @@ import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
 import org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel;
 
-/**
- * @author Attila Majoros
- */
+
 public class DeleteEntryAction extends AnAction {
 
     public static final String ID = "ldapbrowser.deleteEntry";

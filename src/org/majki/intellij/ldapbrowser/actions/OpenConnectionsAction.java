@@ -8,9 +8,7 @@ import org.majki.intellij.ldapbrowser.dialog.LdapConnectionInfosDialog;
 import org.majki.intellij.ldapbrowser.ldap.LdapConnectionsService;
 import org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel;
 
-/**
- * @author Attila Majoros
- */
+
 public class OpenConnectionsAction extends AnAction {
 
     public static final String ID = "ldapbrowser.openConnections";

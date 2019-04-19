@@ -10,9 +10,6 @@ import org.majki.intellij.ldapbrowser.TextBundle;
 import java.io.IOException;
 import java.io.Serializable;
 
-/**
- * @author Attila Majoros
- */
 
 public class LdapConnectionInfo implements Serializable {
 

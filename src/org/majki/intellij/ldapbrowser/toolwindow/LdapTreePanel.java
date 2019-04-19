@@ -37,10 +37,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationComponent {
 
     private static final String COMPONENT_NAME = "ldapbrowser.treePanel";
@@ -125,7 +121,6 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         tree = new Tree(root);
         tree.getEmptyText().setText(TextBundle.message("ldapbrowser.no-connections"));
         tree.setRootVisible(false);
-        //tree.setShowsRootHandles(false);
 
         tree.setCellRenderer((tree1, value, selected, expanded, leaf, row, hasFocus) -> {
             JBLabel label = new JBLabel(value.toString());

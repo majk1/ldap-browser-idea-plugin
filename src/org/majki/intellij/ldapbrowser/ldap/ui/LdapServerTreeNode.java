@@ -14,10 +14,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapServerTreeNode extends LdapConnectionInfoTreeNode {
 
     private List<LdapTreeNode> children;

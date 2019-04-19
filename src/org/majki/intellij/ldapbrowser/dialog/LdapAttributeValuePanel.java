@@ -19,10 +19,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapAttributeValuePanel {
 
     private JPanel content;

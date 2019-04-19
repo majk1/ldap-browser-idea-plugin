@@ -10,10 +10,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapRootTreeNode extends DefaultMutableTreeNode implements TreeNode {
 
     private List<LdapServerTreeNode> children;

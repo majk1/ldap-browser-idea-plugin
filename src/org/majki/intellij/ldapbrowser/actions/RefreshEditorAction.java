@@ -10,9 +10,7 @@ import org.majki.intellij.ldapbrowser.editor.LdapNodeEditor;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 
-/**
- * @author Attila Majoros
- */
+
 public class RefreshEditorAction extends AnAction {
 
     public static final String ID = "ldapbrowser.refreshEditor";

@@ -19,9 +19,7 @@ import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Attila Majoros
- */
+
 public class AddAttributeAction extends AnAction {
 
     public static final String ID = "ldapbrowser.addAttribute";

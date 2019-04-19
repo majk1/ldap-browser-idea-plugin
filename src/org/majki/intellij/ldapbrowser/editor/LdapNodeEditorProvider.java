@@ -7,10 +7,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * @author Attila Majoros
- */
-
 public class LdapNodeEditorProvider implements FileEditorProvider {
 
     private static final String TYPE = "LDAP";
