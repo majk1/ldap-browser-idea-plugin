@@ -1,0 +1,15 @@
+language: java
+sudo: false
+
+git:
+  depth: 3
+
+branches:
+  only:
+    - master
+
+jdk:
+  - oraclejdk8
+
+script:
+  - ./gradlew buildPlugin

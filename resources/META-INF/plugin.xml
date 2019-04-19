@@ -2,7 +2,7 @@
   <id>org.majki.intellij.ldapbrowser</id>
   <name>LDAP browser</name>
   <version>@version@</version>
-  <vendor email="support@majki.org" url="https://bitbucket.org/mn3monic/ldap-browser-idea-plugin/">Majki</vendor>
+  <vendor email="support@majki.org" url="https://github.com/majk1/ldap-browser-idea-plugin">Majki</vendor>
 
   <description><![CDATA[
       Plugin to browse LDAP servers<br/>
