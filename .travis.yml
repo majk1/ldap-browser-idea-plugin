@@ -8,4 +8,4 @@ jdk:
   - oraclejdk8
 
 script:
-  - ./gradlew buildPlugin --scan -s
+  - ./gradlew buildPlugin
