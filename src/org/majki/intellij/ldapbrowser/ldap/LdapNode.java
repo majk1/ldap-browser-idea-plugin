@@ -129,15 +129,12 @@ public class LdapNode implements Serializable {
         if (dn == null || dn.trim().isEmpty()) {
             readRootDSN();
         } else {
-            try( EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, "")) {
-                for (int i=0;cursor.next();i++) {
+            try( EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, DEFAULT_SEARCH_ATTRIBUTE)) {
+                while (cursor.next()) {
                     Entry entry = cursor.get();
                     List<LdapAttribute> attributes = new ArrayList<>();
-                    if(i<100) {
-                        Entry attributeHolder = getConnection().lookup(entry.getDn());
-                        for (Attribute attribute : attributeHolder.getAttributes()) {
-                            mapLdapAttributes(attributes, attribute);
-                        }
+                    for (Attribute attribute : entry.getAttributes()) {
+                        mapLdapAttributes(attributes, attribute);
                     }
                     children.add(new LdapNode(ldapConnectionInfo, this, topObjectClass, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
                 }
