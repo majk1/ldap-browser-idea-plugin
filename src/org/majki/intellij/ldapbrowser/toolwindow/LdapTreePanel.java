@@ -92,11 +92,7 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             menu.add(disconnectMenuItem);
         } else {
             JBMenuItem connectMenuItem = new JBMenuItem(TextBundle.message("ldapbrowser.connect"), AllIcons.General.Run);
-            connectMenuItem.addActionListener(e -> {
-                ldapServerTreeNode.getConnectionInfo().connect();
-                invokeRefreshAction();
-                tree.repaint();
-            });
+            connectMenuItem.addActionListener(e -> connectToLdapServer(ldapServerTreeNode));
             menu.add(connectMenuItem);
         }
 
@@ -161,9 +157,7 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
                     if (comp instanceof LdapTreeNode) {
                         FileEditorManager.getInstance(project).openFile(((LdapTreeNode) comp).getFile(), true, true);
                     } else if (comp instanceof LdapServerTreeNode && !((LdapServerTreeNode) comp).getConnectionInfo().isOpened()) {
-                        ((LdapServerTreeNode) comp).getConnectionInfo().connect();
-                        invokeRefreshAction();
-                        tree.repaint();
+                        connectToLdapServer((LdapServerTreeNode) comp);
                     }
                 }
             }
@@ -174,6 +168,13 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
 
         JBScrollPane treeScroll = new JBScrollPane(tree);
         super.setContent(treeScroll);
+    }
+
+    private void connectToLdapServer(LdapServerTreeNode node) {
+        node.getConnectionInfo().connect();
+        ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(node);
+        TreePath path = new TreePath(node.getPath());
+        tree.expandPath(path);
     }
 
     @Override

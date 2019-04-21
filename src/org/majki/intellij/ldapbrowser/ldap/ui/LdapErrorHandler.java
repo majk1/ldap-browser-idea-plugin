@@ -16,19 +16,31 @@ public final class LdapErrorHandler {
         throw new UnsupportedOperationException();
     }
 
+    public static void handleError(String message) {
+        handleError((String) null, message);
+    }
+
     public static void handleError(Exception e, String message) {
         StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter);
-        e.printStackTrace(writer);
-        writer.flush();
-        final String stackTrace = stringWriter.toString();
-        writer.close();
+        try (PrintWriter writer = new PrintWriter(stringWriter)) {
+            e.printStackTrace(writer);
+            writer.flush();
+            handleError(stringWriter.toString(), message);
+        }
+    }
 
-        Notifications.Bus.notify(new Notification(NOTIFICATION_GROUP, "LDAP Exception", message + " (<a href=\"#showException\">show exception</a>)", NotificationType.ERROR, (notification, hyperlinkEvent) -> {
-            if ("#showException".equals(hyperlinkEvent.getDescription())) {
-                Messages.showErrorDialog(stackTrace, "LDAP Exception");
-            }
-        }));
+    public static void handleError(String stackTrace, String message) {
+        if (stackTrace == null) {
+            Notifications.Bus.notify(new Notification(NOTIFICATION_GROUP, "LDAP Error", message, NotificationType.ERROR));
+        } else {
+            Notifications.Bus.notify(new Notification(NOTIFICATION_GROUP, "LDAP Exception",
+                message + " (<a href=\"#showException\">show exception</a>)", NotificationType.ERROR,
+                (notification, hyperlinkEvent) -> {
+                    if ("#showException".equals(hyperlinkEvent.getDescription())) {
+                        Messages.showErrorDialog(stackTrace, "LDAP Exception");
+                    }
+                }));
+        }
     }
 
 }

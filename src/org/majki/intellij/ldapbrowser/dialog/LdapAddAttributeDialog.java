@@ -47,6 +47,7 @@ public class LdapAddAttributeDialog extends DialogWrapper {
 
             addAttributeValueComponent();
 
+            content.setPreferredSize(new Dimension(800, 40));
             initialized = true;
         }
     }
