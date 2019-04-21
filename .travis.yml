@@ -9,7 +9,7 @@ branches:
     - master
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 script:
   - ./gradlew buildPlugin
