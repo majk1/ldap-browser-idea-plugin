@@ -32,7 +32,7 @@ public class LdapAttributeValuePanel {
     private JLabel valueLabel;
 
     private LdapNode ldapNode;
-    private boolean initialized = false;
+    private boolean initialized;
     private ActionListener removeButtonActionListener;
     private byte[] passwordBytes;
 

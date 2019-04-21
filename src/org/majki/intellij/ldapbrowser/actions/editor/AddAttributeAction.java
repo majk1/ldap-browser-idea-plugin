@@ -1,9 +1,6 @@
-package org.majki.intellij.ldapbrowser.actions;
+package org.majki.intellij.ldapbrowser.actions.editor;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.util.PlatformIcons;
 import org.apache.directory.api.ldap.model.entry.DefaultModification;
 import org.apache.directory.api.ldap.model.entry.Modification;
@@ -11,7 +8,6 @@ import org.apache.directory.api.ldap.model.entry.ModificationOperation;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.majki.intellij.ldapbrowser.dialog.LdapAddAttributeDialog;
 import org.majki.intellij.ldapbrowser.dialog.LdapAttributeValuePanel;
-import org.majki.intellij.ldapbrowser.editor.LdapNodeEditor;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
@@ -20,15 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AddAttributeAction extends AnAction {
+public class AddAttributeAction extends LdapNodeEditorAction {
 
     public static final String ID = "ldapbrowser.addAttribute";
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        FileEditor fileEditor = DataKeys.FILE_EDITOR.getData(e.getDataContext());
-        if (fileEditor instanceof LdapNodeEditor) {
-            LdapNodeEditor nodeEditor = (LdapNodeEditor) fileEditor;
+        getNodeEditor(e).ifPresent(nodeEditor -> {
             LdapTreeNode ldapTreeNode = nodeEditor.getVirtualFile().getLdapTreeNode();
             LdapAddAttributeDialog addAttributeDialog = new LdapAddAttributeDialog(nodeEditor.getComponent(), ldapTreeNode.getLdapNode());
             if (addAttributeDialog.showAndGet()) {
@@ -53,7 +47,7 @@ public class AddAttributeAction extends AnAction {
                     LdapErrorHandler.handleError(e1, "Could not add attribute value");
                 }
             }
-        }
+        });
     }
 
     @Override
