@@ -1,25 +1,19 @@
-package org.majki.intellij.ldapbrowser.actions;
+package org.majki.intellij.ldapbrowser.actions.editor;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.util.PlatformIcons;
 import org.apache.directory.api.ldap.model.exception.LdapException;
-import org.majki.intellij.ldapbrowser.editor.LdapNodeEditor;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 
 
-public class RefreshEditorAction extends AnAction {
+public class RefreshEditorAction extends LdapNodeEditorAction {
 
     public static final String ID = "ldapbrowser.refreshEditor";
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        FileEditor fileEditor = DataKeys.FILE_EDITOR.getData(e.getDataContext());
-        if (fileEditor instanceof LdapNodeEditor) {
-            LdapNodeEditor nodeEditor = (LdapNodeEditor) fileEditor;
+        getNodeEditor(e).ifPresent(nodeEditor -> {
             LdapNode ldapNode = nodeEditor.getVirtualFile().getLdapTreeNode().getLdapNode();
             try {
                 ldapNode.refresh();
@@ -28,7 +22,7 @@ public class RefreshEditorAction extends AnAction {
             }
             nodeEditor.getTableWrapper().getModel().refresh();
             nodeEditor.getTableWrapper().getTable().repaint();
-        }
+        });
     }
 
     @Override

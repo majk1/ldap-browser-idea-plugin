@@ -1,7 +1,9 @@
 package org.majki.intellij.ldapbrowser.dialog;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
+import com.intellij.openapi.util.DimensionService;
 import com.intellij.ui.*;
 import com.intellij.ui.border.IdeaTitledBorder;
 import com.intellij.ui.components.JBLabel;
@@ -56,7 +58,7 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
     private JLabel bindDnLabel;
     private JLabel passwordLabel;
 
-    public LdapConnectionInfosDialog(@NotNull Component parent, List<LdapConnectionInfo> connectionInfos) {
+    public LdapConnectionInfosDialog(@NotNull Component parent, Project project, List<LdapConnectionInfo> connectionInfos) {
         super(parent, true);
         this.connectionListModel = new CollectionListModel<>(connectionInfos.stream().
                 map(LdapConnectionInfo::getCopy).
@@ -67,6 +69,18 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
         setTitle("LDAP Connections");
         init();
         validate();
+        initialSize(project);
+    }
+
+    private void initialSize(Project project) {
+        String dimensionServiceKey = getDimensionServiceKey();
+        if (dimensionServiceKey != null && project != null) {
+            Dimension size = DimensionService.getInstance().getSize(dimensionServiceKey);
+            if (size == null) {
+                size = new Dimension(750, 450);
+                DimensionService.getInstance().setSize(dimensionServiceKey, size, project);
+            }
+        }
     }
 
     private void addTextChangedDocumentAdapter(JTextField textField, TextChangedFunction textChangedFunction) {
@@ -135,7 +149,7 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
             connectionTestResultLabel.setText("");
             authenticateCheckBox.addActionListener(e -> updateAuthenticationPanelByCheckboxValue());
 
-            connectionList = new JBList(connectionListModel);
+            connectionList = new JBList<>(connectionListModel);
             connectionList.addListSelectionListener(e -> handleListSelection());
             ToolbarDecorator toolbarDecorator = ToolbarDecorator.createDecorator(connectionList);
             toolbarDecorator.setAddAction(anActionButton -> {

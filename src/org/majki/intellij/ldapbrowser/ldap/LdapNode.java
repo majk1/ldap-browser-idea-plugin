@@ -102,8 +102,8 @@ public class LdapNode implements Serializable {
     }
 
     private void addValuesFromAttribute(Attribute attribute, List<LdapAttribute.Value> values) {
-        for (Value<?> value : attribute) {
-            values.add(new LdapAttribute.Value(value.isNull(), value.isHumanReadable(), value.getString(), value.getBytes()));
+        for (Value value : attribute) {
+            values.add(new LdapAttribute.Value(value.isNull(), value.isHumanReadable(), value.getValue(), value.getBytes()));
         }
     }
 
@@ -114,8 +114,8 @@ public class LdapNode implements Serializable {
         }
         for (Attribute attribute : rootDse.getAttributes()) {
             if (attribute.getId().equalsIgnoreCase(NAMING_CONTEXT_ATTRIBUTE_NAME)) {
-                for (Value<?> value : attribute) {
-                    LdapNode node = new LdapNode(ldapConnectionInfo, this, topObjectClass, value.getString(), value.getString(), new ArrayList<>());
+                for (Value value : attribute) {
+                    LdapNode node = new LdapNode(ldapConnectionInfo, this, topObjectClass, value.getValue(), value.getValue(), new ArrayList<>());
                     node.refresh();
                     children.add(node);
                 }
@@ -129,15 +129,12 @@ public class LdapNode implements Serializable {
         if (dn == null || dn.trim().isEmpty()) {
             readRootDSN();
         } else {
-            try( EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, "")) {
-                for (int i=0;cursor.next();i++) {
+            try( EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, DEFAULT_SEARCH_ATTRIBUTE)) {
+                while (cursor.next()) {
                     Entry entry = cursor.get();
                     List<LdapAttribute> attributes = new ArrayList<>();
-                    if(i<100) {
-                        Entry attributeHolder = getConnection().lookup(entry.getDn());
-                        for (Attribute attribute : attributeHolder.getAttributes()) {
-                            mapLdapAttributes(attributes, attribute);
-                        }
+                    for (Attribute attribute : entry.getAttributes()) {
+                        mapLdapAttributes(attributes, attribute);
                     }
                     children.add(new LdapNode(ldapConnectionInfo, this, topObjectClass, entry.getDn().getName(), entry.getDn().getRdn().getName(), attributes));
                 }
