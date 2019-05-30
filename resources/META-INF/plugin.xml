@@ -13,9 +13,9 @@
   <change-notes><![CDATA[
       <ul>
       <li>
-        1.5-SNAPSHOT</br>
+        1.5</br>
         <ul>
-          <li>Apache Directory API version upgrade to 2.0.0.AM2</li>
+          <li>Apache Directory API version upgrade to 2.0.0.AM3</li>
           <li>Dialogs initial size fix</li>
           <li>Added disconnect toolbar button and handling states according to selected item</li>
           <li>Auto expand server node after connected</li>
