@@ -59,7 +59,7 @@ public class LdapObjectClass {
 
     private Set<LdapObjectClass> getSubObjectClasses(LdapObjectClass objectClass) {
         Set<LdapObjectClass> subObjectClasses = new HashSet<>();
-        for (LdapObjectClass subObjectClass: objectClass.getSubObjectClasses()) {
+        for (LdapObjectClass subObjectClass : objectClass.getSubObjectClasses()) {
             subObjectClasses.add(subObjectClass);
             if (!subObjectClass.getSubObjectClasses().isEmpty()) {
                 subObjectClasses.addAll(getSubObjectClasses(subObjectClass));
@@ -141,7 +141,7 @@ public class LdapObjectClass {
             if (TOP.equals(loc.getName())) {
                 return loc;
             } else {
-                throw new IllegalStateException("Coult not find \"top\" ObjectClass");
+                throw new IllegalStateException("Could not find \"top\" ObjectClass");
             }
         }
     }
@@ -161,8 +161,7 @@ public class LdapObjectClass {
     }
 
     private Set<LdapObjectClass> getAllObjectClasses(LdapObjectClass subObjectClass) {
-        Set<LdapObjectClass> allObjectClasses = new HashSet<>();
-        allObjectClasses.addAll(subObjectClass.getSubObjectClasses());
+        Set<LdapObjectClass> allObjectClasses = new HashSet<>(subObjectClass.getSubObjectClasses());
         for (LdapObjectClass objectClass : subObjectClass.getSubObjectClasses()) {
             allObjectClasses.addAll(getAllObjectClasses(objectClass));
         }

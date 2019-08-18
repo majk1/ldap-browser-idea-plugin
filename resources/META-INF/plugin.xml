@@ -15,7 +15,10 @@
       <li>
         1.6-SNAPSHOT</br>
         <ul>
-          <li>...</li>
+          <li>Apache Directory API version upgrade to 2.0.0.AM4</li>
+          <li>SSL support</li>
+          <li>Default connection timeout has been set to 3 seconds</li>
+          <li>Minor UI fixes</li>
         </ul>
       </li>
       <li>

@@ -9,11 +9,14 @@ import com.intellij.ui.border.IdeaTitledBorder;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBPanel;
+import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.ui.JBUI;
+import org.apache.directory.ldap.client.api.LdapConnectionConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 import org.majki.intellij.ldapbrowser.ldap.LdapUtil;
+import org.majki.intellij.ldapbrowser.ldap.ui.LdapServerTreeNode;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -41,7 +44,7 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
     private LdapConnectionInfo selectedConnectionInfo;
 
     private JBSplitter splitter;
-    private JBList connectionList;
+    private JBList<LdapConnectionInfo> connectionList;
     private JBPanel detailPanel;
 
     private JPanel detailContent;
@@ -57,12 +60,15 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
     private SeparatorWithText authenticationSeparator;
     private JLabel bindDnLabel;
     private JLabel passwordLabel;
+    private JCheckBox sslCheckBox;
 
     public LdapConnectionInfosDialog(@NotNull Component parent, Project project, List<LdapConnectionInfo> connectionInfos) {
         super(parent, true);
+        String selectedServerName = getSelectedServerNodeConnectionName(parent);
+
         this.connectionListModel = new CollectionListModel<>(connectionInfos.stream().
-                map(LdapConnectionInfo::getCopy).
-                collect(Collectors.toList()));
+            map(LdapConnectionInfo::getCopy).
+            collect(Collectors.toList()));
         this.initialized = false;
         this.selectedConnectionInfo = null;
 
@@ -70,6 +76,31 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
         init();
         validate();
         initialSize(project);
+        selectServerByConnectionName(selectedServerName);
+    }
+
+    private String getSelectedServerNodeConnectionName(Component parent) {
+        if (parent instanceof Tree) {
+            LdapServerTreeNode[] selectedNodes = ((Tree) parent).getSelectedNodes(LdapServerTreeNode.class, null);
+            if (selectedNodes.length > 0) {
+                return selectedNodes[0].getConnectionInfo().getName();
+            }
+        }
+        return null;
+    }
+
+    private void selectServerByConnectionName(String connectionName) {
+        if (connectionName != null) {
+            connectionListModel.toList().stream()
+                .filter(info -> connectionName.equals(info.getName()))
+                .map(connectionInfo -> connectionListModel.getElementIndex(connectionInfo))
+                .findFirst()
+                .ifPresent(this::selectIndex);
+        }
+    }
+
+    private void selectIndex(Integer index) {
+        connectionList.setSelectedIndex(index);
     }
 
     private void initialSize(Project project) {
@@ -77,7 +108,7 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
         if (dimensionServiceKey != null && project != null) {
             Dimension size = DimensionService.getInstance().getSize(dimensionServiceKey);
             if (size == null) {
-                size = new Dimension(750, 450);
+                size = new Dimension(750, 500);
                 DimensionService.getInstance().setSize(dimensionServiceKey, size, project);
             }
         }
@@ -148,21 +179,31 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
 
             connectionTestResultLabel.setText("");
             authenticateCheckBox.addActionListener(e -> updateAuthenticationPanelByCheckboxValue());
+            sslCheckBox.addActionListener(e -> updatePortAccordingToSSL());
 
             connectionList = new JBList<>(connectionListModel);
+            DefaultListCellRenderer cellRenderer = new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    DefaultListCellRenderer listCellRendererComponent = (DefaultListCellRenderer) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    listCellRendererComponent.setBorder(JBUI.Borders.empty(2, 8));
+                    return listCellRendererComponent;
+                }
+            };
+            connectionList.setCellRenderer(cellRenderer);
             connectionList.addListSelectionListener(e -> handleListSelection());
             ToolbarDecorator toolbarDecorator = ToolbarDecorator.createDecorator(connectionList);
             toolbarDecorator.setAddAction(anActionButton -> {
                 LdapConnectionInfo connectionInfo = new LdapConnectionInfo();
                 connectionListModel.add(connectionInfo);
-                connectionList.setSelectedIndex(connectionListModel.getElementIndex(connectionInfo));
+                selectIndex(connectionListModel.getElementIndex(connectionInfo));
             });
             JPanel connectionListPanel = toolbarDecorator.createPanel();
 
             detailPanel = new JBPanel(new BorderLayout());
             setupDetailPanel();
 
-            splitter = new JBSplitter("ldapbrowser.LdapCOnnectionInfosDialogSplitterProportion", 0.4f);
+            splitter = new JBSplitter("ldapbrowser.LdapConnectionInfosDialogSplitterProportion", 0.4f);
             splitter.setFirstComponent(connectionListPanel);
             splitter.setSecondComponent(detailPanel);
 
@@ -197,6 +238,17 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
         passwordLabel.setEnabled(selected);
     }
 
+    private void updatePortAccordingToSSL() {
+        int port = Integer.parseInt(portField.getText());
+        boolean sslSelected = sslCheckBox.isSelected();
+        if (sslSelected && port == LdapConnectionConfig.DEFAULT_LDAP_PORT) {
+            portField.setText(String.valueOf(LdapConnectionConfig.DEFAULT_LDAPS_PORT));
+        } else if (!sslSelected && port == LdapConnectionConfig.DEFAULT_LDAPS_PORT) {
+            portField.setText(String.valueOf(LdapConnectionConfig.DEFAULT_LDAP_PORT));
+        }
+        selectedConnectionInfo.setSsl(sslSelected);
+    }
+
     private void setupDetailPanel() {
         if (selectedConnectionInfo != null) {
 
@@ -206,6 +258,7 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
             hostnameField.setText(selectedConnectionInfo.getHost());
             portField.setText(String.valueOf(selectedConnectionInfo.getPort()));
             baseDnField.setText(selectedConnectionInfo.getBaseDn());
+            sslCheckBox.setSelected(selectedConnectionInfo.isSsl());
             authenticateCheckBox.setSelected(selectedConnectionInfo.isAuth());
             bindDnField.setText(selectedConnectionInfo.getUsername());
             passwordField.setText(selectedConnectionInfo.getPassword());
@@ -225,7 +278,7 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
     }
 
     private void handleListSelection() {
-        LdapConnectionInfo newSelection = (LdapConnectionInfo) connectionList.getSelectedValue();
+        LdapConnectionInfo newSelection = connectionList.getSelectedValue();
         if (newSelection != selectedConnectionInfo) {
             selectedConnectionInfo = newSelection;
             detailPanel.removeAll();
@@ -314,7 +367,7 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
         ValidationInfo validationInfo = null;
         String host = connectionInfo.getHost();
         if (host == null || host.trim().isEmpty()) {
-            validationInfo = new ValidationInfo("Hostname must be definied", hostnameField);
+            validationInfo = new ValidationInfo("Hostname must be defined", hostnameField);
             selectConnectionAndFocusField(connectionInfo, hostnameField);
         }
         return validationInfo;
@@ -350,7 +403,7 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
     }
 
     private void selectConnectionAndFocusField(LdapConnectionInfo connectionInfo, JComponent field) {
-        connectionList.setSelectedIndex(connectionListModel.getElementIndex(connectionInfo));
+        selectIndex(connectionListModel.getElementIndex(connectionInfo));
         field.requestFocusInWindow();
     }
 
