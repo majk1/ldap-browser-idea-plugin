@@ -22,12 +22,6 @@ import java.text.SimpleDateFormat;
 public class LdapConnectionInfo implements Serializable {
 
     private static final Logger LOGGER = IdeaLogger.getInstance(LdapConnectionInfo.class);
-
-    private static class UntrustedCertificate {
-        private String fingerprint;
-        private X509Certificate certificate;
-    }
-
     private String name = "<unnamed ldap connection>";
     private String host = "localhost";
     private int port = 636;
@@ -114,7 +108,7 @@ public class LdapConnectionInfo implements Serializable {
 
     @Override
     public String toString() {
-        return name;
+        return name + " (" + asUrl() + ")";
     }
 
     public LdapConnectionInfo getCopy() {
@@ -135,6 +129,10 @@ public class LdapConnectionInfo implements Serializable {
     LdapConnection getLdapConnection() {
         connect();
         return ldapConnection;
+    }
+
+    public String asUrl() {
+        return (ssl ? "ldaps" : "ldap") + "://" + (host == null ? LdapConnectionConfig.DEFAULT_LDAP_HOST : host) + ":" + port;
     }
 
     private LdapConnectionConfig createLdapConnectionConfiguration() {
@@ -245,5 +243,10 @@ public class LdapConnectionInfo implements Serializable {
         untrustedCertificate = new UntrustedCertificate();
         untrustedCertificate.fingerprint = fingerprint;
         untrustedCertificate.certificate = certificate;
+    }
+
+    private static class UntrustedCertificate {
+        private String fingerprint;
+        private X509Certificate certificate;
     }
 }

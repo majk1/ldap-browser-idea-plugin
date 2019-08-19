@@ -1,5 +1,6 @@
 package org.majki.intellij.ldapbrowser.dialog;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
@@ -29,24 +30,12 @@ import java.util.stream.Collectors;
 
 public class LdapConnectionInfosDialog extends DialogWrapper {
 
-    @FunctionalInterface
-    private interface TextChangedFunction {
-        void changed(String text);
-    }
-
-    @FunctionalInterface
-    private interface TextChangedToIntFunction {
-        void changed(Integer number);
-    }
-
     private CollectionListModel<LdapConnectionInfo> connectionListModel;
     private boolean initialized;
     private LdapConnectionInfo selectedConnectionInfo;
-
     private JBSplitter splitter;
     private JBList<LdapConnectionInfo> connectionList;
     private JBPanel detailPanel;
-
     private JPanel detailContent;
     private JTextField nameField;
     private JTextField hostnameField;
@@ -182,15 +171,14 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
             sslCheckBox.addActionListener(e -> updatePortAccordingToSSL());
 
             connectionList = new JBList<>(connectionListModel);
-            DefaultListCellRenderer cellRenderer = new DefaultListCellRenderer() {
+            connectionList.setCellRenderer(new ColoredListCellRenderer<LdapConnectionInfo>() {
                 @Override
-                public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                    DefaultListCellRenderer listCellRendererComponent = (DefaultListCellRenderer) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    listCellRendererComponent.setBorder(JBUI.Borders.empty(2, 8));
-                    return listCellRendererComponent;
+                protected void customizeCellRenderer(@NotNull JList<? extends LdapConnectionInfo> list, LdapConnectionInfo value, int index, boolean selected, boolean hasFocus) {
+                    append(value.isSsl() ? "\uD83D\uDD12" : "\uD83D\uDD13");
+                    append(value.getName(), SimpleTextAttributes.REGULAR_ATTRIBUTES, true);
+                    append("  (" + value.asUrl() + ")", SimpleTextAttributes.GRAYED_SMALL_ATTRIBUTES);
                 }
-            };
-            connectionList.setCellRenderer(cellRenderer);
+            });
             connectionList.addListSelectionListener(e -> handleListSelection());
             ToolbarDecorator toolbarDecorator = ToolbarDecorator.createDecorator(connectionList);
             toolbarDecorator.setAddAction(anActionButton -> {
@@ -220,13 +208,21 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
     }
 
     private void testConnection() {
-        if (selectedConnectionInfo.testConnection()) {
-            connectionTestResultLabel.setForeground(JBColor.GREEN);
-            connectionTestResultLabel.setText("Connection successful");
-        } else {
-            connectionTestResultLabel.setForeground(JBColor.RED);
-            connectionTestResultLabel.setText("Connection failed");
-        }
+        testConnectionButton.setIcon(AllIcons.Process.Step_passive);
+        testConnectionButton.setText("Testing...");
+        testConnectionButton.setEnabled(false);
+        SwingUtilities.invokeLater(() -> {
+            if (selectedConnectionInfo.testConnection()) {
+                connectionTestResultLabel.setForeground(JBColor.GREEN);
+                connectionTestResultLabel.setText("Connection successful");
+            } else {
+                connectionTestResultLabel.setForeground(JBColor.RED);
+                connectionTestResultLabel.setText("Connection failed");
+            }
+            testConnectionButton.setEnabled(true);
+            testConnectionButton.setText("Test connection");
+            testConnectionButton.setIcon(null);
+        });
     }
 
     private void updateAuthenticationPanelByCheckboxValue() {
@@ -409,5 +405,15 @@ public class LdapConnectionInfosDialog extends DialogWrapper {
 
     public List<LdapConnectionInfo> getConnectionInfos() {
         return new ArrayList<>(connectionListModel.getItems());
+    }
+
+    @FunctionalInterface
+    private interface TextChangedFunction {
+        void changed(String text);
+    }
+
+    @FunctionalInterface
+    private interface TextChangedToIntFunction {
+        void changed(Integer number);
     }
 }

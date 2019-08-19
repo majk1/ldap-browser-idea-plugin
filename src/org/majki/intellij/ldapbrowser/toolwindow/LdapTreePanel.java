@@ -12,8 +12,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.JBMenuItem;
 import com.intellij.openapi.ui.JBPopupMenu;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
+import com.intellij.ui.ColoredTreeCellRenderer;
+import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.TreeSpeedSearch;
-import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.PlatformIcons;
@@ -118,12 +119,20 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         tree.getEmptyText().setText(TextBundle.message("ldapbrowser.no-connections"));
         tree.setRootVisible(false);
 
-        tree.setCellRenderer((tree1, value, selected, expanded, leaf, row, hasFocus) -> {
-            JBLabel label = new JBLabel(value.toString());
-            if (value instanceof LdapIconProviderTreeNode) {
-                label.setIcon(((LdapIconProviderTreeNode) value).getIcon());
+        tree.setCellRenderer(new ColoredTreeCellRenderer() {
+            @Override
+            public void customizeCellRenderer(@NotNull JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+                append(value.toString());
+                if (value instanceof LdapServerTreeNode) {
+                    String baseDn = ((LdapServerTreeNode) value).getConnectionInfo().getBaseDn();
+                    if (!baseDn.trim().isEmpty()) {
+                        append("  (" + baseDn + ")", SimpleTextAttributes.GRAYED_SMALL_ATTRIBUTES);
+                    }
+                }
+                if (value instanceof LdapIconProviderTreeNode) {
+                    setIcon(((LdapIconProviderTreeNode) value).getIcon());
+                }
             }
-            return label;
         });
 
         tree.addKeyListener(new KeyAdapter() {
@@ -171,7 +180,12 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
     }
 
     private void connectToLdapServer(LdapServerTreeNode node) {
-        node.getConnectionInfo().connect();
+        tree.setPaintBusy(true);
+        try {
+            node.getConnectionInfo().connect();
+        } finally {
+            tree.setPaintBusy(false);
+        }
         ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(node);
         TreePath path = new TreePath(node.getPath());
         tree.expandPath(path);

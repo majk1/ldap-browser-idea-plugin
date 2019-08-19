@@ -16,20 +16,7 @@ import java.util.List;
 })
 public class LdapConnectionsService implements PersistentStateComponent<LdapConnectionsService.State>, ApplicationComponent {
 
-    public static final String COMPONENT_NAME = "ldapbrowser.ldapConnectionsService";
-
-    public static class State {
-        private List<LdapConnectionInfo> ldapConnectionInfos = new ArrayList<>();
-
-        public List<LdapConnectionInfo> getLdapConnectionInfos() {
-            return ldapConnectionInfos;
-        }
-
-        public void setLdapConnectionInfos(List<LdapConnectionInfo> ldapConnectionInfos) {
-            this.ldapConnectionInfos = ldapConnectionInfos;
-        }
-    }
-
+    private static final String COMPONENT_NAME = "ldapbrowser.ldapConnectionsService";
     private State state;
 
     @Nullable
@@ -39,7 +26,7 @@ public class LdapConnectionsService implements PersistentStateComponent<LdapConn
     }
 
     @Override
-    public void loadState(State state) {
+    public void loadState(@NotNull State state) {
         this.state = state;
     }
 
@@ -67,5 +54,18 @@ public class LdapConnectionsService implements PersistentStateComponent<LdapConn
 
     public void setLdapConnectionInfos(List<LdapConnectionInfo> connectionInfos) {
         state.setLdapConnectionInfos(connectionInfos);
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public static class State {
+        private List<LdapConnectionInfo> ldapConnectionInfos = new ArrayList<>();
+
+        public List<LdapConnectionInfo> getLdapConnectionInfos() {
+            return ldapConnectionInfos;
+        }
+
+        public void setLdapConnectionInfos(List<LdapConnectionInfo> ldapConnectionInfos) {
+            this.ldapConnectionInfos = ldapConnectionInfos;
+        }
     }
 }
