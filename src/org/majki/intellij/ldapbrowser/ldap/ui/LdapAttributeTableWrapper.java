@@ -8,6 +8,7 @@ import org.apache.directory.api.ldap.model.entry.DefaultModification;
 import org.apache.directory.api.ldap.model.entry.Modification;
 import org.apache.directory.api.ldap.model.entry.ModificationOperation;
 import org.apache.directory.api.ldap.model.exception.LdapException;
+import org.apache.directory.ldap.client.template.exception.LdapRuntimeException;
 import org.majki.intellij.ldapbrowser.ldap.LdapAttribute;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 
@@ -114,7 +115,8 @@ public class LdapAttributeTableWrapper {
                     if (!oldValue.equals(newValue)) {
 
                         String attributeName = selectedItem.getAttribute().name();
-                        LdapAttribute attribute = ldapNode.getAttributeByName(attributeName);
+                        LdapAttribute attribute = ldapNode.getAttributeByName(attributeName)
+                            .orElseThrow(() -> new LdapRuntimeException(new LdapException("Could not get attribute by name: " + attributeName)));
                         Set<String> values = attribute.values().stream().map(LdapAttribute.Value::asString).collect(Collectors.toSet());
                         values.remove(oldValue);
                         values.add(newValue);

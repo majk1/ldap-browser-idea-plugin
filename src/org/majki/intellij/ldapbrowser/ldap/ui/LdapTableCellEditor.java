@@ -22,10 +22,8 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EventObject;
 import java.util.List;
+import java.util.*;
 
 
 public class LdapTableCellEditor implements TableCellEditor {
@@ -49,8 +47,10 @@ public class LdapTableCellEditor implements TableCellEditor {
             if (isCellUserPassword()) {
                 LdapUserPasswordDialog userPasswordDialog = new LdapUserPasswordDialog(table, selectedItem.getValue().asByteArray());
                 if (userPasswordDialog.showAndGet()) {
-                    byte[] newPassword = PasswordUtil.createStoragePassword(userPasswordDialog.getNewPassword(), userPasswordDialog.getAlgorithm());
-                    Modification modification = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, selectedItem.getAttribute().upName(), newPassword);
+                    byte[] newPassword = userPasswordDialog.getNewPassword();
+                    byte[] newPasswordHash = PasswordUtil.createStoragePassword(newPassword, userPasswordDialog.getAlgorithm());
+                    Arrays.fill(newPassword, (byte) 0);
+                    Modification modification = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, selectedItem.getAttribute().upName(), newPasswordHash);
                     try {
                         ldapNode.getConnection().modify(ldapNode.getDn(), modification);
 

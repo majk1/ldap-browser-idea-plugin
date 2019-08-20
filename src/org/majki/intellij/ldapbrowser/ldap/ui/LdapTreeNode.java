@@ -9,6 +9,7 @@ import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 
 import javax.swing.*;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -19,11 +20,13 @@ public class LdapTreeNode extends LdapConnectionInfoTreeNode {
 
     private LdapNode node;
     private LdapNodeVirtualFile file;
+    private boolean leaf;
 
-    public LdapTreeNode(LdapConnectionInfo info, TreeNode parent, LdapNode node) {
+    LdapTreeNode(LdapConnectionInfo info, MutableTreeNode parent, LdapNode node) {
         super(info, parent);
         this.node = node;
         this.file = new LdapNodeVirtualFile(this);
+        this.leaf = false;
     }
 
     private TreeNode createChildNode(LdapNode node) {
@@ -34,7 +37,6 @@ public class LdapTreeNode extends LdapConnectionInfoTreeNode {
     public TreeNode getChildAt(int childIndex) {
         try {
             return createChildNode(node.getChildren().get(childIndex));
-            // TODO: cache?
         } catch (LdapException e) {
             LdapErrorHandler.handleError(e, "Could not get child node at index " + childIndex);
             return null;
@@ -43,12 +45,15 @@ public class LdapTreeNode extends LdapConnectionInfoTreeNode {
 
     @Override
     public int getChildCount() {
+        int childCount;
         try {
-            return node.getChildCount();
+            childCount = node.getChildCount();
         } catch (LdapException e) {
             LdapErrorHandler.handleError(e, "Could not get child count");
-            return 0;
+            childCount = 0;
         }
+        leaf = childCount == 0;
+        return childCount;
     }
 
     @Override
@@ -67,23 +72,8 @@ public class LdapTreeNode extends LdapConnectionInfoTreeNode {
     }
 
     @Override
-    public boolean getAllowsChildren() {
-        try {
-            return node.hasChildrent();
-        } catch (LdapException e) {
-            LdapErrorHandler.handleError(e, "Could not guess the present of children");
-            return false;
-        }
-    }
-
-    @Override
     public boolean isLeaf() {
-        try {
-            return !node.hasChildrent();
-        } catch (LdapException e) {
-            LdapErrorHandler.handleError(e, "Could not guess the present of children");
-            return true;
-        }
+        return leaf;
     }
 
     public List<TreeNode> childrenList() {
@@ -97,6 +87,7 @@ public class LdapTreeNode extends LdapConnectionInfoTreeNode {
         if (children != null) {
             childLdapTreeNodes.addAll(children.stream().map(this::createChildNode).collect(Collectors.toList()));
         }
+        leaf = childLdapTreeNodes.isEmpty();
         return childLdapTreeNodes;
     }
 

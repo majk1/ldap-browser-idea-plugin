@@ -31,7 +31,7 @@ public class LdapAddAttributeDialog extends DialogWrapper {
         this.attributeValuePanels = new ArrayList<>();
 
         setTitle("Add Attributes to Entry");
-        getContentPane().setPreferredSize(new Dimension(600, 300));
+        getContentPane().setPreferredSize(new Dimension(600, 400));
         init();
         validate();
     }

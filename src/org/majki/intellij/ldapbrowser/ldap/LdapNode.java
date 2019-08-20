@@ -9,6 +9,7 @@ import org.apache.directory.api.ldap.model.entry.Value;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.api.ldap.model.message.SearchScope;
 import org.apache.directory.ldap.client.api.LdapConnection;
+import org.apache.directory.ldap.client.template.exception.LdapRuntimeException;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -40,10 +41,6 @@ public class LdapNode implements Serializable {
     private static final String DEFAULT_FILTER = "(objectclass=*)";
     private static final String DEFAULT_SEARCH_ATTRIBUTE = "*";
 
-    public LdapConnectionInfo getLdapConnectionInfo() {
-        return ldapConnectionInfo;
-    }
-
     @Transient
     private final LdapConnectionInfo ldapConnectionInfo;
 
@@ -52,12 +49,10 @@ public class LdapNode implements Serializable {
     private LdapNode parent;
     private List<LdapNode> children;
     private List<LdapAttribute> attributes;
-
     private List<String> objectClassValues;
-
     private LdapObjectClass topObjectClass;
 
-    private LdapNode(LdapConnectionInfo ldapConnectionInfo  , LdapNode parent, LdapObjectClass topObjectClass, String dn, String rdn, List<LdapAttribute> attributes) {
+    private LdapNode(LdapConnectionInfo ldapConnectionInfo, LdapNode parent, LdapObjectClass topObjectClass, String dn, String rdn, List<LdapAttribute> attributes) {
         this.ldapConnectionInfo = ldapConnectionInfo;
         this.dn = dn;
         this.rdn = rdn;
@@ -68,25 +63,49 @@ public class LdapNode implements Serializable {
         this.objectClassValues = null;
     }
 
-    public LdapAttribute getAttributeByName(String name) {
-        for (LdapAttribute attribute : attributes) {
-            if (attribute.name().equalsIgnoreCase(name)) {
-                return attribute;
-            }
-        }
-        return null;
+    public static LdapNode createRoot(LdapConnectionInfo ldapConnectionInfo) throws LdapException {
+        return createRoot(ldapConnectionInfo, "");
+    }
+
+    public static LdapNode createRoot(LdapConnectionInfo ldapConnectionInfo, String baseDn) throws LdapException {
+        LdapObjectClass topObjectClass = LdapObjectClass.getTop(ldapConnectionInfo);
+        return new LdapNode(ldapConnectionInfo, null, topObjectClass, baseDn, LdapUtil.getTopDn(baseDn), Collections.emptyList());
+    }
+
+    public static LdapNode createNew(LdapConnectionInfo ldapConnectionInfo, LdapNode parent) throws LdapException {
+        LdapObjectClass topObjectClass = LdapObjectClass.getTop(ldapConnectionInfo);
+        return new LdapNode(null, parent, topObjectClass, "", "", new ArrayList<>());
+    }
+
+    public static void valueModifier(LdapAttribute.Value value, String newValue) {
+        value.setValue(newValue);
+    }
+
+    public static void valueModifier(LdapAttribute.Value value, byte[] newValue) {
+        value.setValue(newValue);
+    }
+
+    public LdapConnectionInfo getLdapConnectionInfo() {
+        return ldapConnectionInfo;
+    }
+
+    public Optional<LdapAttribute> getAttributeByName(String name) {
+        return attributes.stream()
+            .filter(attribute -> attribute.name().equalsIgnoreCase(name))
+            .findFirst();
     }
 
     public void refresh() throws LdapException {
-        Set<LdapAttribute> removedAttributes = new HashSet<>(attributes);
+        Set<LdapAttribute> notSeenAttributes = new HashSet<>(attributes);
         objectClassValues = null;
-        try(EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.OBJECT, DEFAULT_SEARCH_ATTRIBUTE)) {
+        try (EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.OBJECT, DEFAULT_SEARCH_ATTRIBUTE)) {
             if (cursor.next()) {
                 Entry entry = cursor.get();
                 for (Attribute attribute : entry.getAttributes()) {
-                    LdapAttribute ldapAttribute = getAttributeByName(attribute.getId());
-                    removedAttributes.remove(ldapAttribute);
-                    if (ldapAttribute != null) {
+                    Optional<LdapAttribute> foundLdapAttribute = getAttributeByName(attribute.getId());
+                    if (foundLdapAttribute.isPresent()) {
+                        LdapAttribute ldapAttribute = foundLdapAttribute.get();
+                        notSeenAttributes.remove(ldapAttribute);
                         List<LdapAttribute.Value> values = ldapAttribute.values();
                         values.clear();
                         addValuesFromAttribute(attribute, values);
@@ -95,16 +114,14 @@ public class LdapNode implements Serializable {
                     }
                 }
             }
-            attributes.removeAll(removedAttributes);
+            attributes.removeAll(notSeenAttributes);
         } catch (CursorException | IOException e) {
             throw new LdapException("Cursor error", e);
         }
     }
 
     private void addValuesFromAttribute(Attribute attribute, List<LdapAttribute.Value> values) {
-        for (Value value : attribute) {
-            values.add(new LdapAttribute.Value(value.isNull(), value.isHumanReadable(), value.getString(), value.getBytes()));
-        }
+        attribute.forEach(value -> values.add(new LdapAttribute.Value(value.isNull(), value.isHumanReadable(), value.getString(), value.getBytes())));
     }
 
     private void readRootDSN() throws LdapException {
@@ -129,7 +146,7 @@ public class LdapNode implements Serializable {
         if (dn == null || dn.trim().isEmpty()) {
             readRootDSN();
         } else {
-            try( EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, DEFAULT_SEARCH_ATTRIBUTE)) {
+            try (EntryCursor cursor = getConnection().search(dn, DEFAULT_FILTER, SearchScope.ONELEVEL, DEFAULT_SEARCH_ATTRIBUTE)) {
                 while (cursor.next()) {
                     Entry entry = cursor.get();
                     List<LdapAttribute> attributes = new ArrayList<>();
@@ -181,10 +198,6 @@ public class LdapNode implements Serializable {
 
     public LdapObjectClass getTopObjectClass() {
         return topObjectClass;
-    }
-
-    public boolean hasChildrent() throws LdapException {
-        return !getChildren().isEmpty();
     }
 
     public List<LdapNode> getChildren() throws LdapException {
@@ -251,20 +264,14 @@ public class LdapNode implements Serializable {
     }
 
     public boolean containsAttributeWithValue(String attributeName, String value) {
-        for (LdapAttribute attribute : attributes) {
-            if (attribute.name().equalsIgnoreCase(attributeName)) {
-                for (LdapAttribute.Value attributeValue : attribute.values()) {
-                    if (attributeValue.asString().equals(value)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return attributes.stream()
+            .filter(attribute -> attribute.name().equalsIgnoreCase(attributeName))
+            .flatMap(attribute -> attribute.values().stream())
+            .anyMatch(attributeValue -> attributeValue.asString().equals(value));
     }
 
     public boolean containsAttribute(String attributeName) {
-        return getAttributeByName(attributeName) != null;
+        return getAttributeByName(attributeName).isPresent();
     }
 
     // TODO: data structure modification only
@@ -276,24 +283,22 @@ public class LdapNode implements Serializable {
 
         for (LdapObjectClass oc : allObjectClasses) {
             if (!containsAttributeWithValue(OBJECTCLASS_ATTRIBUTE_NAME, oc.getName())) {
-                LdapAttribute objectClassAttribute = getAttributeByName(OBJECTCLASS_ATTRIBUTE_NAME);
-                if (objectClassAttribute == null) {
-                    objectClassAttribute = new LdapAttribute(OBJECTCLASS_ATTRIBUTE_NAME, OBJECTCLASS_ATTRIBUTE_NAME_UP, true, new ArrayList<>());
-                    attributes.add(objectClassAttribute);
-                }
-                objectClassAttribute.values().add(new LdapAttribute.Value(false, true, oc.getName(), oc.getName().getBytes()));
+                getAttributeByName(OBJECTCLASS_ATTRIBUTE_NAME).orElseGet(() -> {
+                    LdapAttribute ldapAttribute = new LdapAttribute(OBJECTCLASS_ATTRIBUTE_NAME, OBJECTCLASS_ATTRIBUTE_NAME_UP, true, new ArrayList<>());
+                    attributes.add(ldapAttribute);
+                    return ldapAttribute;
+                }).values().add(new LdapAttribute.Value(false, true, oc.getName(), oc.getName().getBytes()));
             }
         }
 
-        attributes.addAll(requiredAttributes.
-                stream().
-                filter(requiredAttribute -> !containsAttribute(requiredAttribute.getName())).
-                map(requiredAttribute -> new LdapAttribute(
-                        requiredAttribute.getName().toLowerCase(),
-                        requiredAttribute.getName(),
-                        true, new ArrayList<>(Collections.singletonList(
-                        new LdapAttribute.Value(false, true, "", "".getBytes()))))).
-                collect(Collectors.toList()));
+        requiredAttributes.stream()
+            .filter(requiredAttribute -> !containsAttribute(requiredAttribute.getName()))
+            .map(requiredAttribute -> new LdapAttribute(
+                requiredAttribute.getName().toLowerCase(),
+                requiredAttribute.getName(),
+                true, new ArrayList<>(Collections.singletonList(
+                new LdapAttribute.Value(false, true, "", "".getBytes())))))
+            .forEach(attributes::add);
 
         extractObjectClassValues();
 
@@ -303,7 +308,9 @@ public class LdapNode implements Serializable {
     // TODO: data structure modification only
     public Set<LdapObjectClass> removeObjectClass(LdapObjectClass objectClass) {
         Set<LdapObjectClass> removedObjectClasses = new HashSet<>();
-        LdapAttribute objectClassAttribute = getAttributeByName(OBJECTCLASS_ATTRIBUTE_NAME);
+        LdapAttribute objectClassAttribute = getAttributeByName(OBJECTCLASS_ATTRIBUTE_NAME)
+            .orElseThrow(() -> new LdapRuntimeException(new LdapException("Could not find attribute " + OBJECTCLASS_ATTRIBUTE_NAME)));
+
         List<String> objectClassNames = new ArrayList<>();
         for (LdapAttribute.Value value : objectClassAttribute.values()) {
             objectClassNames.add(value.asString());
@@ -325,28 +332,6 @@ public class LdapNode implements Serializable {
         extractObjectClassValues();
 
         return removedObjectClasses;
-    }
-
-    public static LdapNode createRoot(LdapConnectionInfo ldapConnectionInfo) throws LdapException {
-        return createRoot(ldapConnectionInfo, "");
-    }
-
-    public static LdapNode createRoot(LdapConnectionInfo ldapConnectionInfo, String baseDn) throws LdapException {
-        LdapObjectClass topObjectClass = LdapObjectClass.getTop(ldapConnectionInfo);
-        return new LdapNode(ldapConnectionInfo, null, topObjectClass, baseDn, LdapUtil.getTopDn(baseDn), Collections.emptyList());
-    }
-
-    public static LdapNode createNew(LdapConnectionInfo ldapConnectionInfo, LdapNode parent) throws LdapException {
-        LdapObjectClass topObjectClass = LdapObjectClass.getTop(ldapConnectionInfo);
-        return new LdapNode(null, parent, topObjectClass, "", "", new ArrayList<>());
-    }
-
-    public static void valueModifier(LdapAttribute.Value value, String newValue) {
-        value.setValue(newValue);
-    }
-
-    public static void valueModifier(LdapAttribute.Value value, byte[] newValue) {
-        value.setValue(newValue);
     }
 
 }

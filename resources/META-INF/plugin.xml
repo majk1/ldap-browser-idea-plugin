@@ -94,19 +94,19 @@
   </extensions>
 
   <actions>
-    <group id="ldapbrowser.actionGroup" text="LDAP actions" popup="true"/>
-    <group id="ldapbrowser.editorActionGroup" text="LDAP editor actions" popup="true"/>
+    <group id="ldapbrowser.actionGroup" text="LDAP Actions" popup="true"/>
+    <group id="ldapbrowser.editorActionGroup" text="LDAP Editor Actions" popup="true"/>
 
     <action id="ldapbrowser.openConnections" class="org.majki.intellij.ldapbrowser.actions.OpenConnectionsAction" text="Open Connections">
       <add-to-group group-id="ldapbrowser.actionGroup"/>
     </action>
-    <action id="ldapbrowser.closeConnection" class="org.majki.intellij.ldapbrowser.actions.CloseConnectionAction" text="Close connection">
+    <action id="ldapbrowser.closeConnection" class="org.majki.intellij.ldapbrowser.actions.CloseConnectionAction" text="Close Connection">
       <add-to-group group-id="ldapbrowser.actionGroup"/>
     </action>
     <action id="ldapbrowser.refresh" class="org.majki.intellij.ldapbrowser.actions.RefreshAction" text="Refresh" description="Refresh selected node">
       <add-to-group group-id="ldapbrowser.actionGroup"/>
     </action>
-    <action id="ldapbrowser.addEntry" class="org.majki.intellij.ldapbrowser.actions.AddEntryAction" text="Add entry" description="Add a new entry">
+    <action id="ldapbrowser.addEntry" class="org.majki.intellij.ldapbrowser.actions.AddEntryAction" text="Add Entry" description="Add a new entry">
       <add-to-group group-id="ldapbrowser.actionGroup"/>
     </action>
     <action id="ldapbrowser.deleteEntry" class="org.majki.intellij.ldapbrowser.actions.DeleteEntryAction" text="Delete Entry"
@@ -114,15 +114,15 @@
       <add-to-group group-id="ldapbrowser.actionGroup"/>
     </action>
 
-    <action id="ldapbrowser.refreshEditor" class="org.majki.intellij.ldapbrowser.actions.editor.RefreshEditorAction" text="Refresh editor"
+    <action id="ldapbrowser.refreshEditor" class="org.majki.intellij.ldapbrowser.actions.editor.RefreshEditorAction" text="Refresh Editor"
             description="Refresh the attributes in editor">
       <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>
-    <action id="ldapbrowser.addAttribute" class="org.majki.intellij.ldapbrowser.actions.editor.AddAttributeAction" text="Add attribute"
+    <action id="ldapbrowser.addAttribute" class="org.majki.intellij.ldapbrowser.actions.editor.AddAttributeAction" text="Add Attribute"
             description="Adds an attribute to the entry">
       <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>
-    <action id="ldapbrowser.removeValue" class="org.majki.intellij.ldapbrowser.actions.editor.RemoveValueAction" text="Remove value"
+    <action id="ldapbrowser.removeValue" class="org.majki.intellij.ldapbrowser.actions.editor.RemoveValueAction" text="Remove Value"
             description="Remove value from Entry" use-shortcut-of="$Delete">
       <add-to-group group-id="ldapbrowser.editorActionGroup"/>
     </action>

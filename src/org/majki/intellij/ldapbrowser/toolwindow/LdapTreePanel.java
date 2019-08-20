@@ -43,7 +43,6 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
     private static final String COMPONENT_NAME = "ldapbrowser.treePanel";
 
     private Tree tree;
-    private TreeNode root;
     private Project project;
 
     public LdapTreePanel() {
@@ -114,8 +113,9 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
     public void initComponent() {
         addToolbar();
 
-        root = generateTree();
-        tree = new Tree(root);
+
+
+        tree = new Tree(createTreeModel());
         tree.getEmptyText().setText(TextBundle.message("ldapbrowser.no-connections"));
         tree.setRootVisible(false);
 
@@ -208,7 +208,6 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
     }
 
     private void addToolbar() {
-
         ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("ldapbrowser.actionGroup");
         ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar("qwe", actionGroup, false);
         actionToolbar.setTargetComponent(this);
@@ -216,18 +215,20 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         Box toolbarBox = Box.createHorizontalBox();
         toolbarBox.add(actionToolbar.getComponent());
 
-        super.setToolbar(toolbarBox);
-
+        setToolbar(toolbarBox);
         actionToolbar.getComponent().setVisible(true);
-
     }
 
     public Tree getTree() {
         return tree;
     }
 
+    private DefaultTreeModel createTreeModel() {
+        return new DefaultTreeModel(generateTree());
+    }
+
     public void reloadTree() {
-        tree.setModel(new DefaultTreeModel(generateTree()));
+        tree.setModel(createTreeModel());
     }
 
 }

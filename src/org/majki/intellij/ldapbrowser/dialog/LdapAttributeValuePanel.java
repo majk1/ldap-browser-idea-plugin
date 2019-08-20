@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -50,8 +51,9 @@ public class LdapAttributeValuePanel {
         LdapUserPasswordDialog userPasswordDialog = new LdapUserPasswordDialog(content, passwordBytes);
         if (userPasswordDialog.showAndGet()) {
             LdapSecurityConstants algorithm = userPasswordDialog.getAlgorithm();
-            String newPassword = userPasswordDialog.getNewPassword();
+            byte[] newPassword = userPasswordDialog.getNewPassword();
             passwordBytes = PasswordUtil.createStoragePassword(newPassword, algorithm);
+            Arrays.fill(newPassword, (byte) 0);
             passwordTextField.setText("Password set (" + algorithm.getName() + ")");
         }
     }

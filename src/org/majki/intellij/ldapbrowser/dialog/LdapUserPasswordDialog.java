@@ -13,9 +13,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 public class LdapUserPasswordDialog extends DialogWrapper {
@@ -26,12 +30,13 @@ public class LdapUserPasswordDialog extends DialogWrapper {
     private JPanel content;
     private JTextField currentAlgorithmTextField;
     private JButton verifyPasswordButton;
-    private JPasswordField verifyPasswordField;
-    private JComboBox newAlgorithmComboBox;
+    private JIconPasswordField verifyPasswordField;
+    private JComboBox<LdapSecurityConstants> newAlgorithmComboBox;
     private JPasswordField newPasswordField;
     private JPasswordField newConfirmPasswordField;
+    private JCheckBox showTestPasswordCheckbox;
 
-    public LdapUserPasswordDialog(@NotNull Component parent,  @Nullable byte[] currentPassword) {
+    public LdapUserPasswordDialog(@NotNull Component parent, @Nullable byte[] currentPassword) {
         super(parent, true);
         this.currentPassword = currentPassword;
         this.initialized = false;
@@ -43,20 +48,49 @@ public class LdapUserPasswordDialog extends DialogWrapper {
         validate();
     }
 
-    private void createAlogirithmComboBoxModel(JComboBox comboBox) {
-        //noinspection unchecked
-        comboBox.setModel(new MutableCollectionComboBoxModel<>(new ArrayList<>(Arrays.asList(LdapSecurityConstants.values()))));
+    private void createAlgorithmComboBoxModel(JComboBox<LdapSecurityConstants> comboBox) {
+        comboBox.setModel(new MutableCollectionComboBoxModel<>(Arrays.asList(LdapSecurityConstants.values())));
     }
 
-    private boolean verifyPassword(String password) {
-        return PasswordUtil.compareCredentials(password.getBytes(), currentPassword);
+    private boolean verifyPassword(char[] password) {
+        byte[] passwordBytes = toSecureBytes(password);
+        Arrays.fill(password, (char) 0);
+        boolean result = PasswordUtil.compareCredentials(passwordBytes, currentPassword);
+        Arrays.fill(passwordBytes, (byte) 0);
+        return result;
+    }
+
+    private byte[] toSecureBytes(char[] chars) {
+        CharBuffer charBuffer = CharBuffer.wrap(chars);
+        ByteBuffer byteBuffer = Charset.defaultCharset().encode(charBuffer);
+        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit());
+        Arrays.fill(byteBuffer.array(), (byte) 0);
+        Arrays.fill(charBuffer.array(), (char) 0);
+        return bytes;
     }
 
     private void initialize() {
         if (!initialized) {
-            createAlogirithmComboBoxModel(newAlgorithmComboBox);
+            createAlgorithmComboBoxModel(newAlgorithmComboBox);
             new ComboboxSpeedSearch(newAlgorithmComboBox);
-            verifyPasswordButton.setIcon(AllIcons.Actions.Checked);
+            char echoChar = verifyPasswordField.getEchoChar();
+            showTestPasswordCheckbox.addActionListener(e -> verifyPasswordField.setEchoChar(showTestPasswordCheckbox.isSelected() ? 0 : echoChar));
+            verifyPasswordField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    verifyPasswordField.setIcon(null);
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    verifyPasswordField.setIcon(null);
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    verifyPasswordField.setIcon(null);
+                }
+            });
 
             if (currentPassword == null || currentPassword.length == 0) {
                 currentAlgorithmTextField.setText("No password set");
@@ -65,16 +99,23 @@ public class LdapUserPasswordDialog extends DialogWrapper {
             } else {
                 PasswordDetails passwordDetails = PasswordUtil.splitCredentials(currentPassword);
                 // handle plaintext passwords
-                if(passwordDetails.getAlgorithm()!=null) {
+                if (passwordDetails.getAlgorithm() != null) {
                     newAlgorithmComboBox.setSelectedItem(passwordDetails.getAlgorithm());
                     currentAlgorithmTextField.setText(passwordDetails.getAlgorithm().getName());
                 }
                 ActionListener verifyPasswordAction = e -> {
-                    if (verifyPassword(new String(verifyPasswordField.getPassword()))) {
-                        Messages.showInfoMessage(LdapUserPasswordDialog.this.getContentPane(), "Password Match", "Password Match");
-                    } else {
-                        Messages.showErrorDialog(LdapUserPasswordDialog.this.getContentPane(), "Password Mismatch", "Password Mismatch");
-                    }
+                    verifyPasswordField.setEnabled(false);
+                    verifyPasswordButton.setEnabled(false);
+                    SwingUtilities.invokeLater(() -> {
+                        if (verifyPassword(verifyPasswordField.getPassword())) {
+                            verifyPasswordField.setIcon(AllIcons.Actions.CheckedBlack);
+                        } else {
+                            verifyPasswordField.setIcon(AllIcons.Actions.Cross);
+                            Messages.showErrorDialog(LdapUserPasswordDialog.this.getContentPane(), "Password Mismatch", "Password Mismatch");
+                        }
+                        verifyPasswordField.setEnabled(true);
+                        verifyPasswordButton.setEnabled(true);
+                    });
                 };
                 verifyPasswordField.addActionListener(verifyPasswordAction);
                 verifyPasswordButton.addActionListener(verifyPasswordAction);
@@ -124,8 +165,8 @@ public class LdapUserPasswordDialog extends DialogWrapper {
         return (LdapSecurityConstants) newAlgorithmComboBox.getSelectedItem();
     }
 
-    public String getNewPassword() {
-        return new String(newPasswordField.getPassword());
+    public byte[] getNewPassword() {
+        return toSecureBytes(newPasswordField.getPassword());
     }
 
 }

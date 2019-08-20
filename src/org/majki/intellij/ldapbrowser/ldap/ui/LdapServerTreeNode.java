@@ -8,6 +8,7 @@ import org.majki.intellij.ldapbrowser.ldap.LdapConnectionInfo;
 import org.majki.intellij.ldapbrowser.ldap.LdapNode;
 
 import javax.swing.*;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,7 +19,7 @@ public class LdapServerTreeNode extends LdapConnectionInfoTreeNode {
 
     private List<LdapTreeNode> children;
 
-    public LdapServerTreeNode(LdapConnectionInfo info, TreeNode parent) {
+    LdapServerTreeNode(LdapConnectionInfo info, MutableTreeNode parent) {
         super(info, parent);
         this.children = null;
     }
