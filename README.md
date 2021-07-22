@@ -3,6 +3,8 @@
 This is an LDAP browser plugin for [IntelliJ IDEA](https://www.jetbrains.com/idea) and other Jetbrains products.  
 Releases are available from the [Jetbrains plugin repository](https://plugins.jetbrains.com/plugin/8513-ldap-browser).
 
+![](.readme/intellij-ldap-plugin.png)
+
 ### Building the plugin
 
 To compile the plugin simply run the following command in the root of the project:
