@@ -4,6 +4,7 @@ import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,10 +13,11 @@ import java.util.List;
 
 
 @State(name = "ldapConnections", storages = {
-    @Storage("ldapConnections.xml")
+    @Storage(value = "ldapConnections.xml", exportable = true)
 })
 public class LdapConnectionsService implements PersistentStateComponent<LdapConnectionsService.State>, ApplicationComponent {
 
+    private static final Logger log = Logger.getInstance(LdapConnectionsService.class);
     private static final String COMPONENT_NAME = "ldapbrowser.ldapConnectionsService";
     private State state;
 
@@ -27,6 +29,7 @@ public class LdapConnectionsService implements PersistentStateComponent<LdapConn
 
     @Override
     public void loadState(@NotNull State state) {
+        log.debug("loading ldap connections from xml");
         this.state = state;
     }
 

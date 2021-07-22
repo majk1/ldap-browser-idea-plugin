@@ -4,6 +4,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.ui.treeStructure.Tree;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.tree.DefaultTreeModel;
 import java.util.Optional;
@@ -14,7 +15,7 @@ public class CloseConnectionAction extends LdapTreeAction {
     public static final String ID = "ldapbrowser.closeConnection";
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(@NotNull AnActionEvent e) {
         Tree tree = getTreePanel().getTree();
         getSelectedNodes(tree)
             .map(this::findLdapServerNode)
@@ -28,7 +29,7 @@ public class CloseConnectionAction extends LdapTreeAction {
     }
 
     @Override
-    public void update(AnActionEvent e) {
+    public void update(@NotNull AnActionEvent e) {
         Tree tree = getTreePanel().getTree();
         Boolean closeable = getSelectedNodes(tree)
             .findFirst()

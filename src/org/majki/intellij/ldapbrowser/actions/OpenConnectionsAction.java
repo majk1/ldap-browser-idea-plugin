@@ -2,6 +2,7 @@ package org.majki.intellij.ldapbrowser.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.util.PlatformIcons;
+import org.jetbrains.annotations.NotNull;
 import org.majki.intellij.ldapbrowser.dialog.LdapConnectionInfosDialog;
 import org.majki.intellij.ldapbrowser.ldap.LdapConnectionsService;
 import org.majki.intellij.ldapbrowser.toolwindow.LdapTreePanel;
@@ -12,7 +13,7 @@ public class OpenConnectionsAction extends LdapTreeAction {
     public static final String ID = "ldapbrowser.openConnections";
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(@NotNull AnActionEvent e) {
         LdapConnectionsService connectionsService = getConnectionsService();
         LdapTreePanel treePanel = getTreePanel();
         LdapConnectionInfosDialog ldapConnectionInfosDialog = new LdapConnectionInfosDialog(treePanel.getTree(), e.getProject(), connectionsService.getLdapConnectionInfos());
@@ -23,7 +24,7 @@ public class OpenConnectionsAction extends LdapTreeAction {
     }
 
     @Override
-    public void update(AnActionEvent e) {
+    public void update(@NotNull AnActionEvent e) {
         e.getPresentation().setIcon(PlatformIcons.SHOW_SETTINGS_ICON);
     }
 }

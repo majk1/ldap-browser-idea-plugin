@@ -8,6 +8,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.PlatformIcons;
 import org.apache.directory.api.ldap.model.exception.LdapException;
+import org.jetbrains.annotations.NotNull;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapErrorHandler;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapTreeNode;
 
@@ -19,7 +20,7 @@ public class DeleteEntryAction extends LdapTreeAction {
     public static final String ID = "ldapbrowser.deleteEntry";
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(@NotNull AnActionEvent e) {
 
         Tree tree = getTreePanel().getTree();
         getSelectedNodes()
@@ -52,7 +53,7 @@ public class DeleteEntryAction extends LdapTreeAction {
     }
 
     @Override
-    public void update(AnActionEvent e) {
+    public void update(@NotNull AnActionEvent e) {
         boolean canDeleteEntry = getSelectedNodes()
             .filter(LdapTreeNode.class::isInstance)
             .map(LdapTreeNode.class::cast)

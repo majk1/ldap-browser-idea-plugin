@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.JBMenuItem;
@@ -53,9 +54,6 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
 
     public LdapTreePanel() {
         super(true, true);
-
-        //
-        this.initialise();
     }
 
     public Project getProject() {
@@ -121,16 +119,13 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         return null;
     }
 
+    /*
+    * todo: this class really shouldn't be an application component, even if they weren't deprecated.
+    *  This file is going to need some unpicking
+    */
     @Override
     public void initComponent() {
-        // do nothing here, see below. Now call initialise() from constructor. This class needs an overhaul
-    }
-
-    // no longer overriding initComponent() as it's deprecated. Now call this code directly from constructor
-    private void initialise() {
         addToolbar();
-
-
 
         tree = new Tree(createTreeModel());
         tree.getEmptyText().setText(TextBundle.message("ldapbrowser.no-connections"));

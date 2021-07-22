@@ -8,6 +8,7 @@ import com.intellij.util.PlatformIcons;
 import org.apache.directory.api.ldap.model.entry.DefaultEntry;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.ldap.client.api.LdapConnection;
+import org.jetbrains.annotations.NotNull;
 import org.majki.intellij.ldapbrowser.dialog.LdapAddEntryDialog;
 import org.majki.intellij.ldapbrowser.ldap.*;
 import org.majki.intellij.ldapbrowser.ldap.ui.LdapConnectionInfoTreeNode;
@@ -20,7 +21,7 @@ public class AddEntryAction extends LdapTreeAction {
     public static final String ID = "ldapbrowser.addEntry";
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(@NotNull AnActionEvent e) {
         Tree tree = getTreePanel().getTree();
         getSelectedNodes()
             .filter(LdapTreeNode.class::isInstance)
