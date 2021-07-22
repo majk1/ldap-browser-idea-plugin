@@ -38,6 +38,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Using the ApplicationComponent interface is no good as Components are now deprecated.
+ * See <a href="http://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_components.html">SDK Docs</a> for guidelines on migrating to other APIs.
+ *
+ * todo: to support Intellij 2021 and above this class needs updating
+ */
 public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationComponent {
 
     private static final String COMPONENT_NAME = "ldapbrowser.treePanel";
@@ -47,6 +53,9 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
 
     public LdapTreePanel() {
         super(true, true);
+
+        //
+        this.initialise();
     }
 
     public Project getProject() {
@@ -91,7 +100,10 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             });
             menu.add(disconnectMenuItem);
         } else {
-            JBMenuItem connectMenuItem = new JBMenuItem(TextBundle.message("ldapbrowser.connect"), AllIcons.General.Run);
+            JBMenuItem connectMenuItem = new JBMenuItem(
+                TextBundle.message("ldapbrowser.connect"),
+                AllIcons.Nodes.PluginRestart
+            );
             connectMenuItem.addActionListener(e -> connectToLdapServer(ldapServerTreeNode));
             menu.add(connectMenuItem);
         }
@@ -111,6 +123,11 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
 
     @Override
     public void initComponent() {
+        // do nothing here, see below. Now call initialise() from constructor. This class needs an overhaul
+    }
+
+    // no longer overriding initComponent() as it's deprecated. Now call this code directly from constructor
+    private void initialise() {
         addToolbar();
 
 
@@ -208,11 +225,18 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
     }
 
     private void addToolbar() {
-        ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("ldapbrowser.actionGroup");
-        ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar("qwe", actionGroup, false);
+        final ActionGroup actionGroup = (ActionGroup) ActionManager
+            .getInstance()
+            .getAction("ldapbrowser.actionGroup");
+
+        final ActionToolbar actionToolbar = ActionManager
+            .getInstance()
+            .createActionToolbar("qwe", actionGroup, false);
+
         actionToolbar.setTargetComponent(this);
         actionToolbar.setOrientation(JToolBar.HORIZONTAL);
-        Box toolbarBox = Box.createHorizontalBox();
+
+        final Box toolbarBox = Box.createHorizontalBox();
         toolbarBox.add(actionToolbar.getComponent());
 
         setToolbar(toolbarBox);

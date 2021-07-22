@@ -1,7 +1,7 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-    id 'org.jetbrains.intellij' version '0.4.8'
+    id 'org.jetbrains.intellij' version '1.1.4'
 }
 
 apply plugin: 'idea'
@@ -29,14 +29,24 @@ processResources {
 }
 
 intellij {
-    pluginName 'ldap-browser-idea-plugin'
-    version ideaVersion
-    updateSinceUntilBuild false
-    sandboxDirectory "$project.buildDir/plugin-sandbox"
+    pluginName = 'ldap-browser-idea-plugin'
+    version = ideaVersion
+    updateSinceUntilBuild = false
+    // sandboxDirectory = "$project.buildDir/plugin-sandbox"
+
+    buildSearchableOptions {
+        enabled = false // workaround for https://youtrack.jetbrains.com/issue/KT-42837
+    }
+
+    runIde {
+        jvmArgs = ['--add-exports', 'java.base/jdk.internal.vm=ALL-UNNAMED']
+    }
 
     publishPlugin {
-        username System.getenv('SB_JETBRAINS_USERNAME')
-        password System.getenv('SB_JETBRAINS_PASSWORD')
+        // the publish task now requires a token rather than username/password
+        token = provider {
+            System.getenv('JETBRAINS_TOKEN')
+        }
     }
 }
 
@@ -45,7 +55,10 @@ configurations.all {
 }
 
 tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
     options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:deprecation"
 }
 
 repositories {

@@ -30,8 +30,15 @@ public class DeleteEntryAction extends LdapTreeAction {
                 TreePath treeNodePath = new TreePath(treeNode.getPath());
                 treeNodePath.getParentPath();
 
-                String dn = treeNode.getLdapNode().getDn();
-                int result = Messages.showOkCancelDialog("Do you really want to delete Entry: " + dn, "Delete Entry", "Delete", "Cancel", AllIcons.Actions.Delete);
+                final String dn = treeNode.getLdapNode().getDn();
+
+                final int result = Messages.showOkCancelDialog(
+                    "Do you really want to delete Entry: " + dn,
+                    "Delete Entry",
+                    "Delete",
+                    "Cancel",
+                    AllIcons.Actions.GC);
+
                 if (result == Messages.OK) {
                     try {
                         treeNode.getLdapNode().getConnection().delete(dn);

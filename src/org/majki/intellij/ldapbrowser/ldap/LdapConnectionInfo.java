@@ -210,18 +210,21 @@ public class LdapConnectionInfo implements Serializable {
     private boolean handleSslUntrustedCertificate(LdapException ldapException) {
         if (ldapException instanceof LdapTlsHandshakeException) {
             if (untrustedCertificate != null) {
-                X509Certificate certificate = untrustedCertificate.certificate;
-                String fingerprint = untrustedCertificate.fingerprint;
-                untrustedCertificate = null;
-                SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-                int result = Messages.showYesNoDialog(
+                final X509Certificate certificate = untrustedCertificate.certificate;
+                final String fingerprint = untrustedCertificate.fingerprint;
+                this.untrustedCertificate = null;
+
+                final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+                final int result = Messages.showYesNoDialog(
                     "Certificate subject: " + certificate.getSubjectDN()
                         + ", issuer: " + certificate.getIssuerDN() + "\n"
                         + "Valid from " + dateFormatter.format(certificate.getNotBefore())
                         + " to " + dateFormatter.format(certificate.getNotAfter()),
                     "Trust Certificate?",
                     "Trust", "Do not trust",
-                    AllIcons.General.PasswordLock);
+                    AllIcons.Nodes.Padlock);
+
                 if (result != Messages.NO) {
                     trustedCertificateFingerprint = fingerprint;
                     return true;
