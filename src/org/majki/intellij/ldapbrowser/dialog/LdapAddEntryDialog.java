@@ -184,11 +184,11 @@ public class LdapAddEntryDialog extends DialogWrapper {
                 if (isSelected) {
                     label.setOpaque(true);
                     if (cellHasFocus) {
-                        label.setBackground(UIUtil.getListSelectionBackground());
+                        label.setBackground(UIUtil.getListSelectionBackground(false));
                     } else {
-                        label.setBackground(UIUtil.getListUnfocusedSelectionBackground());
+                        label.setBackground(UIUtil.getListSelectionBackground(false));
                     }
-                    label.setForeground(UIUtil.getListSelectionForeground());
+                    label.setForeground(UIUtil.getListSelectionForeground(true));
                 }
                 return label;
             });

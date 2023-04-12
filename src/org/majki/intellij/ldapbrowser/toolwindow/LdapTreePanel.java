@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.JBMenuItem;
@@ -38,6 +39,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Using the ApplicationComponent interface is no good as Components are now deprecated.
+ * See <a href="http://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_components.html">SDK Docs</a> for guidelines on migrating to other APIs.
+ *
+ * todo: to support Intellij 2021 and above this class needs updating
+ */
 public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationComponent {
 
     private static final String COMPONENT_NAME = "ldapbrowser.treePanel";
@@ -91,7 +98,10 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
             });
             menu.add(disconnectMenuItem);
         } else {
-            JBMenuItem connectMenuItem = new JBMenuItem(TextBundle.message("ldapbrowser.connect"), AllIcons.General.Run);
+            JBMenuItem connectMenuItem = new JBMenuItem(
+                TextBundle.message("ldapbrowser.connect"),
+                AllIcons.Nodes.PluginRestart
+            );
             connectMenuItem.addActionListener(e -> connectToLdapServer(ldapServerTreeNode));
             menu.add(connectMenuItem);
         }
@@ -109,11 +119,13 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
         return null;
     }
 
+    /*
+    * todo: this class really shouldn't be an application component, even if they weren't deprecated.
+    *  This file is going to need some unpicking
+    */
     @Override
     public void initComponent() {
         addToolbar();
-
-
 
         tree = new Tree(createTreeModel());
         tree.getEmptyText().setText(TextBundle.message("ldapbrowser.no-connections"));
@@ -208,11 +220,18 @@ public class LdapTreePanel extends SimpleToolWindowPanel implements ApplicationC
     }
 
     private void addToolbar() {
-        ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("ldapbrowser.actionGroup");
-        ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar("qwe", actionGroup, false);
+        final ActionGroup actionGroup = (ActionGroup) ActionManager
+            .getInstance()
+            .getAction("ldapbrowser.actionGroup");
+
+        final ActionToolbar actionToolbar = ActionManager
+            .getInstance()
+            .createActionToolbar("qwe", actionGroup, false);
+
         actionToolbar.setTargetComponent(this);
         actionToolbar.setOrientation(JToolBar.HORIZONTAL);
-        Box toolbarBox = Box.createHorizontalBox();
+
+        final Box toolbarBox = Box.createHorizontalBox();
         toolbarBox.add(actionToolbar.getComponent());
 
         setToolbar(toolbarBox);
